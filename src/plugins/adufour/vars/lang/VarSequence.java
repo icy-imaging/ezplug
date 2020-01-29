@@ -130,32 +130,24 @@ public class VarSequence extends Var<Sequence>
     @Override
     public void setValueAsString(String newValue)
     {
-        if ((newValue == null) || newValue.equals(NO_SEQUENCE))
+        // FIX: simpler implementation (Stephane)
+        if (StringUtil.equals(newValue, ACTIVE_SEQUENCE))
         {
-            setActiveSequenceSelected(false);
-            setValue(null);
-        }
-        else if (newValue.equals(ACTIVE_SEQUENCE))
-        {
-            setActiveSequenceSelected(true);
             setValue(Icy.getMainInterface().getActiveSequence());
+            // "Active Sequence" selection
+            setActiveSequenceSelected(true);
         }
+        // "No Sequence" selection or not supported
         else
-        {
-            // not supported
-            setActiveSequenceSelected(false);
             setValue(null);
-        }
     }
 
     @Override
     public void setValue(Sequence newValue) throws IllegalAccessError
     {
-        // not the active sequence ?
-        if ((newValue == null) || (newValue != Icy.getMainInterface().getActiveSequence()))
-            setActiveSequenceSelected(false);
+        // FIX: set by value ? unset "Active Sequence" selection (Stephane)
+        setActiveSequenceSelected(false);
 
         super.setValue(newValue);
     }
-
 }

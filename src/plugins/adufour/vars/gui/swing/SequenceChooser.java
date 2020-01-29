@@ -48,9 +48,6 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
 
             Object o = jComboSequences.getSelectedItem();
 
-            if (o == variable.getValue())
-                return;
-
             // null or String special value ?
             if ((o == null) || o.equals(VarSequence.NO_SEQUENCE) || o.equals(VarSequence.ACTIVE_SEQUENCE))
                 variable.setValueAsString((String) o);
