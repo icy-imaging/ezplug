@@ -775,15 +775,15 @@ public class Var<T> implements XMLPersistent, VarListener<T>
      */
     public void setValue(T newValue) throws IllegalArgumentException
     {
+        if (this.value == null && newValue == null) return;
+        
+        if (this.value != null && this.value.equals(newValue)) return;
+        
         if (this.reference != null)
         {
             System.err.println("Warning: cannot assign a value to \"" + name + "\": it is pointing to another variable");
             return;
         }
-        
-        if (this.value == null && newValue == null) return;
-        
-        if (this.value != null && this.value.equals(newValue)) return;
         
         T oldValue = this.value;
         this.value = newValue;
