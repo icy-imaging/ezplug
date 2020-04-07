@@ -88,10 +88,12 @@ public class VarSequence extends Var<Sequence>
     {
         Sequence s = getValue();
 
+        if (isActiveSequenceSelected())
+            return ACTIVE_SEQUENCE;
         if (s == null)
             return NO_SEQUENCE;
-        if ((s == Icy.getMainInterface().getActiveSequence()) && activeSequenceSelected)
-            return ACTIVE_SEQUENCE;
+        // if ((s == Icy.getMainInterface().getActiveSequence()) && activeSequenceSelected)
+        // return ACTIVE_SEQUENCE;
 
         if (s.getFilename() != null)
             return s.getFilename();
@@ -101,6 +103,11 @@ public class VarSequence extends Var<Sequence>
 
     public boolean isActiveSequenceSelected()
     {
+        final Var<? extends Sequence> ref = getReference();
+
+        if (ref instanceof VarSequence)
+            return ((VarSequence) ref).isActiveSequenceSelected();
+
         return activeSequenceSelected;
     }
 
@@ -133,9 +140,18 @@ public class VarSequence extends Var<Sequence>
         // FIX: simpler implementation (Stephane)
         if (StringUtil.equals(newValue, ACTIVE_SEQUENCE))
         {
-            setValue(Icy.getMainInterface().getActiveSequence());
+            boolean changed = !activeSequenceSelected;
+            final Sequence oldValue = getValue();
+            final Sequence seq = Icy.getMainInterface().getActiveSequence();
+
             // "Active Sequence" selection
             setActiveSequenceSelected(true);
+            // use parent setValue to keep ActiveSequence set
+            super.setValue(seq);
+
+            // force event if activeSequenceSelected changed (for correct refresh)
+            if (changed)
+                fireVariableChanged(oldValue, seq);
         }
         // "No Sequence" selection or not supported
         else
@@ -145,9 +161,16 @@ public class VarSequence extends Var<Sequence>
     @Override
     public void setValue(Sequence newValue) throws IllegalAccessError
     {
+        boolean changed = activeSequenceSelected;
+        final Sequence oldValue = getValue();
+
         // FIX: set by value ? unset "Active Sequence" selection (Stephane)
         setActiveSequenceSelected(false);
 
         super.setValue(newValue);
+
+        // force event if activeSequenceSelected changed (for correct refresh)
+        if (changed)
+            fireVariableChanged(oldValue, newValue);
     }
 }

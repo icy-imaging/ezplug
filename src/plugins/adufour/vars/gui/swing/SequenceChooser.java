@@ -161,12 +161,13 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
             @Override
             public void sequenceActivated(Sequence sequence)
             {
+                // variable cannot be changed (linked)
                 if (variable.getReference() != null)
                     return;
 
                 // active sequence selection ? --> set current sequence
-                if ((jComboSequences.getSelectedIndex() == 1) && variable.getReference() == null)
-                    variable.setValue(sequence);
+                if (jComboSequences.getSelectedIndex() == 1)
+                    variable.setValueAsString(VarSequence.ACTIVE_SEQUENCE);
 
                 jComboSequences.repaint();
                 jComboSequences.updateUI();
@@ -216,26 +217,21 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
     protected void updateInterfaceValue()
     {
         final JComboBox<Object> editor = getEditorComponent();
+        final Var<? extends Sequence> v = ((variable.getReference() != null) ? variable.getReference() : variable);
 
-        if (variable.getReference() != null)
-        {
-            editor.setSelectedItem(variable.getValue());
-            editor.repaint();
-        }
-        else if (variable.getValue() == null)
-        {
-            editor.setSelectedIndex(0);
-            editor.repaint();
-        }
-        else if ((variable.getValue() == Icy.getMainInterface().getActiveSequence())
-                && ((VarSequence) variable).isActiveSequenceSelected())
+        if ((v instanceof VarSequence) && ((VarSequence) v).isActiveSequenceSelected())
         {
             editor.setSelectedIndex(1);
             editor.repaint();
         }
+        else if (v.getValue() == null)
+        {
+            editor.setSelectedIndex(0);
+            editor.repaint();
+        }
         else
         {
-            editor.setSelectedItem(variable.getValue());
+            editor.setSelectedItem(v.getValue());
             editor.repaint();
         }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="EzPlug SDK/ezplug.jar"/>
+    <jar path="EzPlug SDK/EzPlug.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/EzPlug SDK/export.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
