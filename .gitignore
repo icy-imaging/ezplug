@@ -1,2 +1,7 @@
-bin
+bin/
+.idea/
+target/
+build/
+*.eml
+*.iml
 pluginfile-ezplug-sdk*.jar
