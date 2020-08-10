@@ -1,59 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.bioimageanalysis.icy</groupId>
-    <artifactId>icy-ezplug</artifactId>
-    <version>3.15.13</version>
+	<groupId>org.bioimageanalysis.icy</groupId>
+	<artifactId>icy-ezplug</artifactId>
+	<version>3.15.13</version>
 
-    <name>EzPlug</name>
+	<name>EzPlug</name>
 
-    <properties>
-        <outputJar>${project.build.outputDirectory}/../plugin</outputJar>
-    </properties>
+	<properties>
+		<jdk.version>1.7</jdk.version>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<outputJar>${project.build.outputDirectory}/../plugin</outputJar>
+	</properties>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
-                <configuration>
-                    <outputDirectory>${outputJar}</outputDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<finalName>${project.artifactId}</finalName>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.bioimageanalysis.icy</groupId>
-            <artifactId>icy-kernel</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-    </dependencies>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<outputDirectory>${outputJar}</outputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-    <repositories>
-        <repository>
-            <id>icy</id>
-            <url>https://icy-nexus.pasteur.fr/repository/Icy/</url>
-        </repository>
-    </repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.bioimageanalysis.icy</groupId>
+			<artifactId>icy-kernel</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+	</dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>icy-prod</id>
-            <name>icy-prod</name>
-            <url>https://icy-nexus.pasteur.fr/repository/icy-core/</url>
-        </repository>
-        <snapshotRepository>
-            <id>icy-dev</id>
-            <name>icy-dev</name>
-            <url>https://icy-nexus-dev.pasteur.cloud/repository/icy-core/</url>
-        </snapshotRepository>
-    </distributionManagement>
+	<repositories>
+		<repository>
+			<id>icy</id>
+			<url>https://icy-nexus.pasteur.fr/repository/Icy/</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>icy-prod</id>
+			<name>icy-prod</name>
+			<url>https://icy-nexus.pasteur.fr/repository/icy-core/</url>
+		</repository>
+		<snapshotRepository>
+			<id>icy-dev</id>
+			<name>icy-dev</name>
+			<url>https://icy-nexus-dev.pasteur.cloud/repository/icy-core/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
