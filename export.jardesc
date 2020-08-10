@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="EzPlug SDK/EzPlug.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/EzPlug SDK/export.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="icy-ezplug/EzPlug.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/icy-ezplug/export.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="/Icy-Updater/META-INF/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,6 +11,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <javaElement handleIdentifier="=EzPlug SDK/src"/>
+        <javaElement handleIdentifier="=icy-ezplug/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/"/>
     </selectedElements>
 </jardesc>

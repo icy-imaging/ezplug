@@ -4,4 +4,4 @@ target/
 build/
 *.eml
 *.iml
-pluginfile-ezplug-sdk*.jar
+*.jar
