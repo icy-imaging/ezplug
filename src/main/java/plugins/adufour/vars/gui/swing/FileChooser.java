@@ -1,23 +1,20 @@
 package plugins.adufour.vars.gui.swing;
 
-import icy.system.FileDrop;
-import icy.system.FileDrop.FileDropListener;
-import icy.system.thread.ThreadUtil;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
-import java.util.Arrays;
-import java.util.function.Predicate;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
+import icy.system.FileDrop;
+import icy.system.FileDrop.FileDropListener;
+import icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -130,17 +127,9 @@ public class FileChooser extends SwingVarEditor<File>
             @Override
             public void filesDropped(File[] files)
             {
-                if (Arrays.stream(getEditorComponent().getActionListeners()).filter(new Predicate<ActionListener>()
+                if (isActionListenerActive())
                 {
-
-                    @Override
-                    public boolean test(ActionListener l)
-                    {
-                        return l == actionListener;
-                    }
-                }).findFirst().isPresent())
-                {
-                    File singleFile = Arrays.stream(files).findFirst().orElse(null);
+                    File singleFile = (files != null && files.length >= 1) ? files[0] : null;
 
                     if (singleFile != null)
                     {
@@ -162,6 +151,16 @@ public class FileChooser extends SwingVarEditor<File>
                     }
                 }
 
+            }
+
+            private boolean isActionListenerActive()
+            {
+                for (ActionListener l : getEditorComponent().getActionListeners())
+                {
+                    if (l == actionListener)
+                        return true;
+                }
+                return false;
             }
         };
     }

@@ -1,22 +1,20 @@
 package plugins.adufour.vars.gui.swing;
 
-import icy.system.FileDrop;
-import icy.system.FileDrop.FileDropListener;
-import icy.system.thread.ThreadUtil;
-
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
+import icy.system.FileDrop;
+import icy.system.FileDrop.FileDropListener;
+import icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeListModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -103,36 +101,13 @@ public class FilesChooser extends SwingVarEditor<File[]>
             @Override
             public void filesDropped(File[] files)
             {
-                if (Arrays.stream(getEditorComponent().getActionListeners()).filter(new Predicate<ActionListener>()
-                {
-
-                    @Override
-                    public boolean test(ActionListener l)
-                    {
-                        return l == actionListener;
-                    }
-                }).findFirst().isPresent())
+                if (isActionListenerActive())
                 {
                     File[] filteredFiles;
                     switch (fileMode)
                     {
                         case FILES:
-                            filteredFiles = Arrays.stream(files).filter(new Predicate<File>()
-                            {
-                                @Override
-                                public boolean test(File f)
-                                {
-                                    return f.isFile();
-                                }
-                            }).toArray(new IntFunction<File[]>()
-                            {
-
-                                @Override
-                                public File[] apply(int len)
-                                {
-                                    return new File[len];
-                                }
-                            });
+                            filteredFiles = getFiles(files);
 
                             if (filteredFiles.length > 0)
                             {
@@ -143,22 +118,7 @@ public class FilesChooser extends SwingVarEditor<File[]>
                             break;
 
                         case FOLDERS:
-                            filteredFiles = Arrays.stream(files).filter(new Predicate<File>()
-                            {
-                                @Override
-                                public boolean test(File f)
-                                {
-                                    return f.isDirectory();
-                                }
-                            }).toArray(new IntFunction<File[]>()
-                            {
-
-                                @Override
-                                public File[] apply(int len)
-                                {
-                                    return new File[len];
-                                }
-                            });
+                            filteredFiles = getFolders(files);
                             if (filteredFiles.length > 0)
                             {
                                 variable.setValue(filteredFiles);
@@ -173,6 +133,40 @@ public class FilesChooser extends SwingVarEditor<File[]>
                                     files.length + " file" + (files.length > 1 ? "s" : "") + " (click to change)");
                     }
                 }
+            }
+
+            private boolean isActionListenerActive()
+            {
+                for (ActionListener l : getEditorComponent().getActionListeners())
+                {
+                    if (l == actionListener)
+                        return true;
+                }
+                return false;
+            }
+
+            private File[] getFiles(File[] files)
+            {
+                List<File> fileList = new ArrayList<File>();
+                for (File f : files)
+                {
+                    if (f.isFile())
+                        fileList.add(f);
+                }
+
+                return fileList.toArray(new File[fileList.size()]);
+            }
+
+            private File[] getFolders(File[] files)
+            {
+                List<File> folderList = new ArrayList<File>();
+                for (File f : files)
+                {
+                    if (f.isDirectory())
+                        folderList.add(f);
+                }
+
+                return folderList.toArray(new File[folderList.size()]);
             }
         };
     }
