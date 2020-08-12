@@ -12,5 +12,7 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <javaElement handleIdentifier="=icy-ezplug/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/"/>
+        <file path="/icy-ezplug/.classpath"/>
+        <file path="/icy-ezplug/.project"/>
     </selectedElements>
 </jardesc>
