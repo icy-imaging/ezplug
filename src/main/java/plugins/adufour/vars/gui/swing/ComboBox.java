@@ -27,22 +27,22 @@ import plugins.adufour.vars.lang.Var;
 public class ComboBox<T> extends SwingVarEditor<T>
 {
     private ActionListener actionListener;
-    
+
     /**
      * Creates a new combo box component for the specified variable. Note that the specified
      * variable must have a constraint of type {@link ValueSelectionModel}
      * 
      * @param variable
-     *            the variable to attach to this component
+     *        the variable to attach to this component
      * @throws IllegalArgumentException
-     *             if the variable has no constraint, or if the constraint is not a
-     *             {@link ValueSelectionModel}
+     *         if the variable has no constraint, or if the constraint is not a
+     *         {@link ValueSelectionModel}
      */
     public ComboBox(Var<T> variable) throws IllegalArgumentException
     {
         super(variable);
     }
-    
+
     private static String arrayToString(Object array)
     {
         String s;
@@ -52,15 +52,16 @@ public class ComboBox<T> extends SwingVarEditor<T>
             s += " " + Array.get(array, i).toString();
         return s;
     }
-    
+
+    @SuppressWarnings("unchecked")
     public JComponent createEditorComponent() throws IllegalArgumentException
     {
         VarEditorModel<T> cons = variable.getDefaultEditorModel();
-        
+
         List<T> defaultValues = null;
         boolean freeInput = true;
         T defaultValue = variable.getDefaultValue();
-        
+
         if (cons != null)
         {
             if (cons instanceof ValueSelectionModel)
@@ -70,63 +71,77 @@ public class ComboBox<T> extends SwingVarEditor<T>
                 freeInput = constraint.isFreeInput();
                 defaultValue = constraint.getDefaultValue();
             }
-            else throw new IllegalArgumentException("Variable " + variable.getName() + " must have a value-type constraint");
+            else
+                throw new IllegalArgumentException(
+                        "Variable " + variable.getName() + " must have a value-type constraint");
         }
-        
-        final JComboBox jComboBox = (defaultValues == null) ? new JComboBox() : new JComboBox(defaultValues.toArray());
+        final JComboBox<T> jComboBox;
+        if (defaultValues == null)
+        {
+            jComboBox = new JComboBox<T>();
+        }
+        else
+        {
+            jComboBox = new JComboBox<T>((T[]) defaultValues.toArray());
+            //jComboBox = new JComboBox<T>(defaultValues.toArray());
+        }
         jComboBox.setEditable(freeInput);
         jComboBox.setSelectedItem(defaultValue);
-        
+
         actionListener = new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                if (variable.getReference() == null) updateVariableValue();
+                if (variable.getReference() == null)
+                    updateVariableValue();
             }
         };
-        
+
         // Override the default renderer to support array-type items
         jComboBox.setRenderer(createRenderer());
-        
+
         // if the combo box allows user input, override the editor to support array-type items
-        if (jComboBox.isEditable()) jComboBox.setEditor(createEditor());
-        
+        if (jComboBox.isEditable())
+            jComboBox.setEditor(createEditor());
+
         return jComboBox;
     }
-    
+
     protected ListCellRenderer<T> createRenderer()
     {
         return new ListCellRenderer<T>()
         {
             @Override
-            public Component getListCellRendererComponent(JList<? extends T> list, T value, int index, boolean isSelected, boolean cellHasFocus)
+            public Component getListCellRendererComponent(JList<? extends T> list, T value, int index,
+                    boolean isSelected, boolean cellHasFocus)
             {
                 String s = "";
                 if (value != null)
                 {
                     if (value.getClass().isArray())
                         s = arrayToString(value);
-                    else s = value.toString();
+                    else
+                        s = value.toString();
                 }
                 return new JLabel(s);
             }
         };
     }
-    
+
     protected ComboBoxEditor createEditor()
     {
         return new ComboBoxEditor()
         {
-            final JTextField jTextField   = new JTextField();
-            final Color      defaultColor = jTextField.getForeground();
-            final Color      errorColor   = Color.red;
-            
+            final JTextField jTextField = new JTextField();
+            final Color defaultColor = jTextField.getForeground();
+            final Color errorColor = Color.red;
+
             @Override
             public void addActionListener(ActionListener l)
             {
-                
+
             }
-            
+
             @Override
             public Component getEditorComponent()
             {
@@ -136,12 +151,12 @@ public class ComboBox<T> extends SwingVarEditor<T>
                 jTextField.setPreferredSize(dim);
                 return jTextField;
             }
-            
+
             @Override
             public T getItem()
             {
                 T item = null;
-                
+
                 try
                 {
                     item = variable.parse(jTextField.getText());
@@ -154,22 +169,22 @@ public class ComboBox<T> extends SwingVarEditor<T>
                     jTextField.setForeground(errorColor);
                     jTextField.setToolTipText("Cannot parse input into a " + getVariable().getClass().getSimpleName());
                 }
-                
+
                 return item;
             }
-            
+
             @Override
             public void removeActionListener(ActionListener l)
             {
-                
+
             }
-            
+
             @Override
             public void selectAll()
             {
                 jTextField.selectAll();
             }
-            
+
             @Override
             public void setItem(Object item)
             {
@@ -184,7 +199,7 @@ public class ComboBox<T> extends SwingVarEditor<T>
             }
         };
     }
-    
+
     /**
      * Replaces the list of values available in the combo box of this variable<br>
      * NOTE: this method will replace the current constraint on the variable
@@ -211,43 +226,43 @@ public class ComboBox<T> extends SwingVarEditor<T>
             }
         });
     }
-    
+
     @SuppressWarnings("unchecked")
     protected void updateVariableValue()
     {
         variable.setValue((T) getEditorComponent().getSelectedItem());
     }
-    
+
     @Override
     protected void updateInterfaceValue()
     {
         getEditorComponent().getModel().setSelectedItem(variable.getValue());
     }
-    
+
     @Override
     public void dispose()
     {
         super.dispose();
-        
+
         // replace custom instances by new empty ones for garbage collection
         final JComboBox<T> jComboBox = getEditorComponent();
         jComboBox.setRenderer(new DefaultListCellRenderer());
         jComboBox.setModel(new DefaultComboBoxModel<T>());
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public JComboBox<T> getEditorComponent()
     {
         return (JComboBox<T>) super.getEditorComponent();
     }
-    
+
     @Override
     protected void activateListeners()
     {
         getEditorComponent().addActionListener(actionListener);
     }
-    
+
     @Override
     protected void deactivateListeners()
     {

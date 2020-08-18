@@ -137,7 +137,7 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      *            If no value is indicated, the target component will be visible as long as the
      *            source component is both visible and enabled
      */
-    public void addVisibilityTriggerTo(EzComponent targetComponent, T... values)
+    public void addVisibilityTriggerTo(EzComponent targetComponent, @SuppressWarnings("unchecked") T... values)
     {
         visibilityTriggers.put(targetComponent, values);
         

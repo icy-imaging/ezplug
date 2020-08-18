@@ -47,8 +47,7 @@ public class Spinner<N extends Number> extends SwingVarEditor<N>
             public void setValue(Object value)
             {
                 super.setValue(value);
-                if (variable.getReference() == null)
-                    variable.setValue((N) value);
+                variable.setValue((N) value);
             }
         });
 

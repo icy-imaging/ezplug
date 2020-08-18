@@ -15,9 +15,8 @@ import plugins.adufour.vars.util.VarListener;
  * use the {@link VarArray} instead
  * 
  * @author Alexandre Dufour
- * 
  * @param <T>
- *            the inner type of the array
+ *        the inner type of the array
  */
 public class VarArray<T> extends VarGenericArray<T[]> implements Iterable<T>
 {
@@ -25,51 +24,51 @@ public class VarArray<T> extends VarGenericArray<T[]> implements Iterable<T>
      * Creates a new array variable
      * 
      * @param name
-     *            the variable name
+     *        the variable name
      * @param type
-     *            the data type of the array (including the <code>[]</code>)
+     *        the data type of the array (including the <code>[]</code>)
      * @param defaultValue
-     *            the initial array
+     *        the initial array
      */
     public VarArray(String name, Class<T[]> type, T[] defaultValue)
     {
         super(name, type, defaultValue);
     }
-    
+
     /**
      * Creates a new array variable
      * 
      * @param name
-     *            the variable name
+     *        the variable name
      * @param type
-     *            the data type of the array (including the <code>[]</code>)
+     *        the data type of the array (including the <code>[]</code>)
      * @param defaultValue
-     *            the initial array
+     *        the initial array
      * @param defaultListener
-     *            A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation
      */
     public VarArray(String name, Class<T[]> type, T[] defaultValue, VarListener<T[]> defaultListener)
     {
         super(name, type, defaultValue, defaultListener);
     }
-    
+
     /**
      * Inserts the specified elements at the end of this array. This methods acts similarly to
      * {@link ArrayList#add(Object)}: a old array is replaced by a new array where the contents of
      * the old array is copied and the specified element is added last
      * 
      * @param elements
-     *            the elements to add
+     *        the elements to add
      */
-    public void add(T... elements)
+    public void add(@SuppressWarnings("unchecked") T... elements)
     {
         T[] oldArray = getValue();
         ArrayList<T> newArray = new ArrayList<T>(size() + elements.length);
-        
+
         for (T oldElem : oldArray)
             newArray.add(oldElem);
         newArray.addAll(Arrays.asList(elements));
-        
+
         setValue(newArray.toArray(oldArray));
     }
 

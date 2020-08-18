@@ -9,7 +9,6 @@ import plugins.adufour.vars.lang.VarDoubleArray;
  * @author Alexandre Dufour
  * 
  */
-@SuppressWarnings("deprecation")
 @Deprecated
 public class EzVarDoubleArray extends EzVar<Double[]>
 {
