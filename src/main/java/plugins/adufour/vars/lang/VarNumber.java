@@ -74,4 +74,14 @@ public abstract class VarNumber<N extends Number> extends Var<N> implements Comp
         
         return super.createVarEditor();
     }
+
+    
+    @Override
+    protected boolean areValuesEqual(Number a, Object b)
+    {
+        if (b instanceof Number) {
+            return Double.compare(a.doubleValue(), ((Number)b).doubleValue()) == 0;
+        }
+        return false;
+    }
 }

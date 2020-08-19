@@ -54,4 +54,14 @@ public class VarLong extends VarNumber<Long>
 
         return result == null ? null : result;
     }
+
+    @Override
+    protected boolean areValuesEqual(Long a, Object b)
+    {
+        if (b instanceof Number)
+        {
+            return super.areValuesEqual(a, ((Number) b).longValue());
+        }
+        return false;
+    }
 }

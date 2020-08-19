@@ -808,7 +808,7 @@ public class Var<T> implements XMLPersistent, VarListener<T>
                 if (newValue == null)
                     changed = false;
             }
-            else if (referenceValue.equals(newValue))
+            else if (areValuesEqual(referenceValue, newValue))
                 changed = false;
 
             // value changed beside we are liked to a reference ?? --> shouldn't arrive
@@ -826,6 +826,11 @@ public class Var<T> implements XMLPersistent, VarListener<T>
         this.value = newValue;
 
         fireVariableChanged(oldValue, newValue);
+    }
+
+    protected boolean areValuesEqual(final T a, final Object b)
+    {
+        return a.equals(b);
     }
 
     @Override
