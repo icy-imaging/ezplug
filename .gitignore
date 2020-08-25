@@ -6,3 +6,5 @@ build/
 *.eml
 *.iml
 *.jar
+.classpath
+.project
