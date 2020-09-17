@@ -11,49 +11,54 @@ import plugins.adufour.vars.util.VarListener;
 public class VarDoubleArrayNative extends VarGenericArray<double[]>
 {
     /**
-     * 
      * @param name
+     *        the name of this variable
      * @param defaultValue
+     *        the value assigned by default for this variable. If null, a new double array of size zero is assigned as default value.
      */
     public VarDoubleArrayNative(String name, double[] defaultValue)
     {
         this(name, defaultValue, null);
     }
-    
+
     /**
-     * 
      * @param name
+     *        the name of this variable
      * @param defaultValue
+     *        the value assigned by default for this variable. If null, a new double array of size zero is assigned as default value.
      * @param defaultListener
-     *            A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation
      */
     public VarDoubleArrayNative(String name, double[] defaultValue, VarListener<double[]> defaultListener)
     {
         super(name, double[].class, defaultValue, defaultListener);
     }
-    
+
     @Override
     public Object parseComponent(String s)
     {
         return Double.parseDouble(s);
     }
-    
+
     @Override
     public double[] getValue(boolean forbidNull)
     {
         // handle the case where the reference is not an array
-        
+
         @SuppressWarnings("rawtypes")
         Var reference = getReference();
-        
-        if (reference == null) return super.getValue(forbidNull);
-        
+
+        if (reference == null)
+            return super.getValue(forbidNull);
+
         Object value = reference.getValue();
-        
-        if (value == null) return super.getValue(forbidNull);
-        
-        if (value instanceof Number) return new double[] { ((Number) value).doubleValue() };
-        
+
+        if (value == null)
+            return super.getValue(forbidNull);
+
+        if (value instanceof Number)
+            return new double[] {((Number) value).doubleValue()};
+
         return (double[]) value;
     }
 }

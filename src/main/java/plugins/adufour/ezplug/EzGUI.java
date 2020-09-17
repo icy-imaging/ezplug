@@ -160,20 +160,26 @@ public class EzGUI extends EzDialog implements ActionListener
 
     /**
      * Sets the state of the "Run" button on the interface
+     * 
+     * @param enabled
+     *        Enables (or disables) the run button.
      */
-    public void setRunButtonEnabled(final boolean runnable)
+    public void setRunButtonEnabled(final boolean enabled)
     {
         ThreadUtil.invokeLater(new Runnable()
         {
             public void run()
             {
-                jButtonRun.setEnabled(runnable);
+                jButtonRun.setEnabled(enabled);
             }
         });
     }
 
     /**
-     * Sets the text of the run button
+     * Sets the text of the run button.
+     * 
+     * @param text
+     *        Text presented on the button component.
      */
     public void setRunButtonText(final String text)
     {
@@ -187,7 +193,10 @@ public class EzGUI extends EzDialog implements ActionListener
     }
 
     /**
-     * Sets the text of the run button
+     * Sets the text of the run button when it is running.
+     * 
+     * @param text
+     *        The string used to set the text of the run button.
      */
     public void setStopButtonText(final String text)
     {
@@ -207,16 +216,17 @@ public class EzGUI extends EzDialog implements ActionListener
      * @deprecated The running state is now automatically handled via the
      *             {@link #setProgressBarValue(double)} and {@link #setProgressBarMessage(String)}
      *             methods
-     * @param running
+     * @param isRunning
+     *        Indicates the state of the plugin to be set (either running or completed).
      */
     @Deprecated
-    public void setRunningState(final boolean running)
+    public void setRunningState(final boolean isRunning)
     {
-        ezPlug.getStatus().setCompletion(running ? Double.NaN : 0.0);
+        ezPlug.getStatus().setCompletion(isRunning ? Double.NaN : 0.0);
     }
 
     /**
-     * Sets whether the action panel (buttons and progress bar) are visible or not
+     * Sets whether the action panel (buttons and progress bar) are visible or not.
      * 
      * @param visible
      *        the new visibility state of the action panel

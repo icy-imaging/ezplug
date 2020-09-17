@@ -7,35 +7,42 @@ import plugins.adufour.vars.util.VarListener;
 
 public class VarChannel extends VarInteger
 {
-    private boolean       allowAllChannels;
-    
+    private boolean allowAllChannels;
+
     private Var<Sequence> sequence;
-    
+
     /**
      * @param name
+     *        The name of this variable
      * @param sequence
+     *        The sequence referenced by this variable
      * @param allowAllChannels
+     *        If true, the default value will be all channels. Zero otherwise
      */
     public VarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels)
     {
         this(name, sequence, allowAllChannels, null);
     }
-    
+
     /**
      * @param name
+     *        The name of this variable
      * @param sequence
+     *        The sequence referenced by this variable
      * @param allowAllChannels
+     *        If true, the default value will be all channels. Zero otherwise
      * @param defaultListener
-     *            A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation
      */
-    public VarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels, VarListener<Integer> defaultListener)
+    public VarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels,
+            VarListener<Integer> defaultListener)
     {
         super(name, allowAllChannels ? -1 : 0, defaultListener);
-        
+
         this.sequence = sequence;
         this.allowAllChannels = allowAllChannels;
     }
-    
+
     @Override
     public VarEditor<Integer> createVarEditor()
     {

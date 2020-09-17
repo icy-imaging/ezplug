@@ -25,29 +25,34 @@ import plugins.adufour.vars.util.VarReferencingPolicy;
 
 /**
  * <p>
- * Top-level class defining a generic variable. A {@link Var} object embeds an inner value of
- * generic type T, and offers a number of methods to get/set this value, hide the inner value with a
- * virtual reference to another compatible {@link Var} object, and listen to value or reference
- * changes via the {@link VarListener} interface.
+ * Top-level class defining a generic variable. A {@link Var} object embeds an
+ * inner value of generic type T, and offers a number of methods to get/set this
+ * value, hide the inner value with a virtual reference to another compatible
+ * {@link Var} object, and listen to value or reference changes via the
+ * {@link VarListener} interface.
  * </p>
- * While many subclasses are available for most common data types (see the direct sub-classes in
- * this package), it is possible to create custom variable types by extending these classes. The
- * most important methods to override are the following:<br/>
+ * While many subclasses are available for most common data types (see the
+ * direct sub-classes in this package), it is possible to create custom variable
+ * types by extending these classes. The most important methods to override are
+ * the following:
  * <ul>
- * <li>The empty {@link #parse(String)} method should be overridden to provide the ability to read
- * text input (either from a graphical interface or when saving/reading data from XML files).</li>
- * <li>The {@link #getValueAsString()} method returns a pretty-printed version of the variable's
- * value, and is used to display and store the value into XML files. Overriding implementations
- * should make sure that the result of this method is compatible with the {@link #parse(String)}
- * method to ensure proper reloading from XML files.</li>
- * <li>The {@link #isAssignableFrom(Var)} indicates which types of variables can be used as
- * reference variables. The default implementation relies on the native
- * {@link Class#isAssignableFrom(Class)} method, but can be overridden to fine-tune the type of
- * supported data (see the {@link VarArray#isAssignableFrom(Var)} method for an example).</li>
- * <li>The {@link #createVarEditor()} method is responsible for generating a {@link VarEditor}
- * object that will handle user interaction in a graphical user interface. For each variable type, a
- * default {@link VarEditor} is provided, but overriding implementation can provide their own
- * component.</li>
+ * <li>The empty {@link #parse(String)} method should be overridden to provide
+ * the ability to read text input (either from a graphical interface or when
+ * saving/reading data from XML files).</li>
+ * <li>The {@link #getValueAsString()} method returns a pretty-printed version
+ * of the variable's value, and is used to display and store the value into XML
+ * files. Overriding implementations should make sure that the result of this
+ * method is compatible with the {@link #parse(String)} method to ensure proper
+ * reloading from XML files.</li>
+ * <li>The {@link #isAssignableFrom(Var)} indicates which types of variables can
+ * be used as reference variables. The default implementation relies on the
+ * native {@link Class#isAssignableFrom(Class)} method, but can be overridden to
+ * fine-tune the type of supported data (see the
+ * {@link VarArray#isAssignableFrom(Var)} method for an example).</li>
+ * <li>The {@link #createVarEditor()} method is responsible for generating a
+ * {@link VarEditor} object that will handle user interaction in a graphical
+ * user interface. For each variable type, a default {@link VarEditor} is
+ * provided, but overriding implementation can provide their own component.</li>
  * </ul>
  * 
  * @see VarEditor
@@ -58,14 +63,16 @@ import plugins.adufour.vars.util.VarReferencingPolicy;
 public class Var<T> implements XMLPersistent, VarListener<T>
 {
     /**
-     * Attribute key defining the unique identifier of a variable. This key is used by the
-     * {@link XMLPersistent} mechanism to save/load the variable value to/from XML files.
+     * Attribute key defining the unique identifier of a variable. This key is used
+     * by the {@link XMLPersistent} mechanism to save/load the variable value
+     * to/from XML files.
      */
     public static final String XML_KEY_ID = "ID";
 
     /**
-     * Attribute key defining the value of a variable. This key is used by the {@link XMLPersistent}
-     * mechanism to save/load the variable value to/from XML files.
+     * Attribute key defining the value of a variable. This key is used by the
+     * {@link XMLPersistent} mechanism to save/load the variable value to/from XML
+     * files.
      */
     static final String XML_KEY_VALUE = "value";
 
@@ -77,13 +84,14 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     private final String name;
 
     /**
-     * A flag indicating that this variable is optional, i.e., it may be flagged as "not wanted"
-     * (via code of via GUI), such as optional parameters
+     * A flag indicating that this variable is optional, i.e., it may be flagged as
+     * "not wanted" (via code of via GUI), such as optional parameters
      */
     private boolean optional = false;
 
     /**
-     * If this variable is #optional, indicates whether the option is actively selected
+     * If this variable is #optional, indicates whether the option is actively
+     * selected
      */
     private boolean enabled = true;
 
@@ -116,11 +124,11 @@ public class Var<T> implements XMLPersistent, VarListener<T>
      * Creates a new {@link Var}iable with given name and non-null default value.
      * 
      * @param name
-     *        the name of this variable
+     *        The name of this variable.
      * @param defaultValue
-     *        the non-null default value of this variable
+     *        The non-null default value of this variable.
      * @throws NullPointerException
-     *         if {@link #defaultValue} is null
+     *         If {@link #defaultValue} is null.
      */
     public Var(String name, T defaultValue) throws NullPointerException
     {
@@ -128,24 +136,25 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Convenience constructor that adds the specified listener to the variable immediately after
-     * creation. Based on the specified parameters, this constructor is equivalent to the following
-     * code:<br/>
-     * <br/>
-     * <code>
-     * Var v = new Var(name, defaultValue);<br/>
-     * v.addListener(defaultListener);<br/>
-     * </code> This allows developers to reduce boiler-plate code by adding a listener directly at
-     * construction
+     * Convenience constructor that adds the specified listener to the variable immediately after creation. Based on the specified parameters, this constructor
+     * is equivalent to the following code:
+     * <pre>
+     * {@code
+     * Var v = new Var(name, defaultValue);
+     * v.addListener(defaultListener);
+     * }
+     * </pre>
+     * This allows developers to reduce boiler-plate code by adding a
+     * listener directly at construction
      * 
      * @param name
-     *        the name of this variable
+     *        The name of this variable.
      * @param defaultValue
-     *        the non-null default value of this variable
-     * @throws NullPointerException
-     *         if {@link #defaultValue} is null
+     *        The non-null default value of this variable.
      * @param defaultListener
-     *        the default listener to add to this variable
+     *        The default listener to add to this variable.
+     * @throws NullPointerException
+     *         If {@link #defaultValue} is null
      */
     @SuppressWarnings("unchecked")
     public Var(String name, T defaultValue, VarListener<T> defaultListener) throws NullPointerException
@@ -154,13 +163,12 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Creates a new {@link Var}iable with specified name and inner value type (the default value is
-     * set to null).
+     * Creates a new {@link Var}iable with specified name and inner value type (the default value is set to null).
      * 
      * @param name
-     *        the name of this variable
+     *        The name of this variable.
      * @param type
-     *        the type of this variable
+     *        The type of this variable.
      */
     public Var(String name, Class<T> type)
     {
@@ -168,13 +176,14 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Creates a new {@link Var}iable with the specified name, and inner value type and default
-     * value (may be null).
+     * Creates a new {@link Var}iable with the specified name, and inner value type and default value (may be null).
      * 
      * @param name
-     *        the name of this variable
+     *        The name of this variable.
      * @param type
-     *        the type of this variable
+     *        The type of this variable.
+     * @param defaultValue
+     *        The value assigned by default for this variable.
      * @deprecated use {@link #Var(String, Class, Object, VarListener)} instead.
      */
     @Deprecated
@@ -184,15 +193,17 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Creates a new {@link Var}iable with the specified name, and inner value type and default
-     * value (may be null).
+     * Creates a new {@link Var}iable with the specified name, and inner value type and default value (may be null). Optionally, a listener can be added to
+     * track events on the variable.
      * 
      * @param name
-     *        the name of this variable
+     *        The name of this variable.
      * @param type
-     *        the type of this variable
+     *        The type of this variable.
+     * @param defaultValue
+     *        The value assigned by default for this variable.
      * @param defaultListener
-     *        A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation.
      */
     public Var(String name, Class<T> type, T defaultValue, VarListener<T> defaultListener)
     {
@@ -209,10 +220,9 @@ public class Var<T> implements XMLPersistent, VarListener<T>
      * Creates a new {@link Var}iable with the specified name and editor model.
      * 
      * @param name
-     *        the name of this variable
+     *        The name of this variable.
      * @param editorModel
-     *        the default editor model of this variable (can be changed later via the
-     *        {@link #setDefaultEditorModel(VarEditorModel)} method
+     *        The default editor model of this variable (can be changed later via the {@link #setDefaultEditorModel(VarEditorModel)} method.
      */
     @SuppressWarnings("unchecked")
     public Var(String name, VarEditorModel<T> editorModel)
@@ -237,7 +247,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Adds the specified referrer to the list of variables pointing to this variable
+     * Adds the specified referrer to the list of variables pointing to this
+     * variable
      * 
      * @param referrer
      *        the variable referencing this variable
@@ -248,19 +259,22 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Creates a new {@link VarEditor} object that allows the user to graphically adjust the value
-     * of this variable. By default this editor is an empty label for generic types, but this method
-     * can be overridden to provide a custom editor. <br/>
-     * <br/>
-     * NOTE: the editor returned by this method is "disabled" by default, and therefore will not
-     * respond to user events (this is to avoid memory leaks and creating useless listeners). To
-     * activate the editor, call {@link #setEnabled(boolean) setEnabled(true)}
+     * Creates a new {@link VarEditor} object that allows the user to graphically
+     * adjust the value of this variable. By default this editor is an empty label
+     * for generic types, but this method can be overridden to provide a custom
+     * editor.
+     * <p>
+     * NOTE: the editor returned by this method is "disabled" by default, and
+     * therefore will not respond to user events (this is to avoid memory leaks and
+     * creating useless listeners). To activate the editor, call
+     * {@link #setEnabled(boolean) setEnabled(true)}
      * 
-     * @return the variable editor embarking the graphical component. </br>
-     *         NOTE: the editor returned by this method is "disabled" by default, and therefore will
-     *         not respond to user events (this is to avoid memory leaks and creating useless
-     *         listeners). To activate the editor, call {@link #setEnabled(boolean)
-     *         setEnabled(true)}
+     * @return the variable editor embarking the graphical component.
+     *         <p>
+     *         NOTE: the editor returned by this method is "disabled" by default,
+     *         and therefore will not respond to user events (this is to avoid
+     *         memory leaks and creating useless listeners). To activate the editor,
+     *         call {@link #setEnabled(boolean) setEnabled(true)}
      */
     public VarEditor<T> createVarEditor()
     {
@@ -276,13 +290,14 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Convenience method that creates and potentially enables a new {@link VarEditor} object for
-     * this variable in a single call.
+     * Convenience method that creates and potentially enables a new
+     * {@link VarEditor} object for this variable in a single call.
      * 
      * @param enable
-     *        <code>true</code> if the underlying component should be enabled after creation
-     *        (will respond to user interaction), or <code>false</code> otherwise (indicating
-     *        <code>false</code> is equivalent to calling {@link #createVarEditor()})
+     *        <code>true</code> if the underlying component should be enabled
+     *        after creation (will respond to user interaction), or
+     *        <code>false</code> otherwise (indicating <code>false</code> is
+     *        equivalent to calling {@link #createVarEditor()})
      * @return the variable editor embarking the graphical component.
      */
     public VarEditor<T> createVarEditor(boolean enable)
@@ -294,9 +309,10 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Creates a new {@link VarEditor} object that allows the user to view the value of this
-     * variable (but not necessarily modify it). By default this editor is an empty label for
-     * generic types, but this method can be overridden to provide a custom viewer
+     * Creates a new {@link VarEditor} object that allows the user to view the value
+     * of this variable (but not necessarily modify it). By default this editor is
+     * an empty label for generic types, but this method can be overridden to
+     * provide a custom viewer
      * 
      * @return the variable editor embarking the graphical component
      */
@@ -352,8 +368,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return The variable referenced by the current variable (or null if no variable is
-     *         referenced)
+     * @return The variable referenced by the current variable (or null if no
+     *         variable is referenced)
      * @see #getValue()
      */
     public Var<? extends T> getReference()
@@ -370,7 +386,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return An iterable list of all the variables currently pointing to this variable
+     * @return An iterable list of all the variables currently pointing to this
+     *         variable
      */
     public Iterable<Var<? super T>> getIterableReferrers()
     {
@@ -385,8 +402,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return <code>true</code> if this variable should be used by plug-ins, or <code>false</code>
-     *         if it should not be used
+     * @return <code>true</code> if this variable should be used by plug-ins, or
+     *         <code>false</code> if it should not be used
      */
     public boolean isEnabled()
     {
@@ -394,8 +411,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return <code>true</code> if this variable has been flagged as "optional" by the user, e.g.
-     *         optional parameters
+     * @return <code>true</code> if this variable has been flagged as "optional" by
+     *         the user, e.g. optional parameters
      */
     public boolean isOptional()
     {
@@ -403,8 +420,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return <code>true</code> if at least one variable is referencing this variable,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if at least one variable is referencing this
+     *         variable, <code>false</code> otherwise
      */
     public boolean isReferenced()
     {
@@ -420,9 +437,9 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return a user-friendly text describing the type of this variable. By default the returned
-     *         string is the simple class name of this variable's value (as defined by the
-     *         {@link Class#getSimpleName()} method).
+     * @return a user-friendly text describing the type of this variable. By default
+     *         the returned string is the simple class name of this variable's value
+     *         (as defined by the {@link Class#getSimpleName()} method).
      */
     public String getTypeAsString()
     {
@@ -430,9 +447,10 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return the value stored in this variable, or the value in the referenced variable if the
-     *         reference is not null. Note that this method may return null. To forbid null values,
-     *         use the {@link #getValue(boolean)} method instead.
+     * @return the value stored in this variable, or the value in the referenced
+     *         variable if the reference is not null. Note that this method may
+     *         return null. To forbid null values, use the
+     *         {@link #getValue(boolean)} method instead.
      * @see #getReference()
      */
     public T getValue()
@@ -441,9 +459,10 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return the value stored in this variable, or the value in the referenced variable if the
-     *         reference is not null. Note that this method will throw a {@link VarException} if the
-     *         {@code forbidNull} argument is true
+     * @return the value stored in this variable, or the value in the referenced
+     *         variable if the reference is not null. Note that this method will
+     *         throw a {@link VarException} if the {@code forbidNull} argument is
+     *         true
      * @param forbidNull
      *        true to throw an exception if the underlying value is null
      * @see #getReference()
@@ -459,13 +478,15 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return a pretty-printed text representation of the variable's value. This text is used to
-     *         display the value (e.g. in a graphical interface) or store the value into XML files.
-     *         Overriding implementations should make sure that the result of this method is
-     *         compatible with the {@link #parse(String)} method to ensure proper reloading from XML
+     * @return a pretty-printed text representation of the variable's value. This
+     *         text is used to display the value (e.g. in a graphical interface) or
+     *         store the value into XML files. Overriding implementations should
+     *         make sure that the result of this method is compatible with the
+     *         {@link #parse(String)} method to ensure proper reloading from XML
      *         files.
      * @param followReference
-     *        set to true to return the String representation of the reference variable (if any)
+     *        set to true to return the String representation of the
+     *        reference variable (if any)
      */
     public String getValueAsString(boolean followReference)
     {
@@ -473,11 +494,12 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * @return a pretty-printed text representation of the variable's local value (referenced
-     *         variables are <b>not</b> followed). This text is used to display the value (e.g. in a
-     *         graphical interface) or store the value into XML files. Overriding implementations
-     *         should make sure that the result of this method is compatible with the
-     *         {@link #parse(String)} method to ensure proper reloading from XML files.
+     * @return a pretty-printed text representation of the variable's local value
+     *         (referenced variables are <b>not</b> followed). This text is used to
+     *         display the value (e.g. in a graphical interface) or store the value
+     *         into XML files. Overriding implementations should make sure that the
+     *         result of this method is compatible with the {@link #parse(String)}
+     *         method to ensure proper reloading from XML files.
      */
     public String getValueAsString()
     {
@@ -510,12 +532,16 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Checks whether the type of the given variable is equal or extends this variable's type.<br>
-     * If the result is true, then the given variable can become a link source for this variable
+     * Checks whether the type of the given variable is equal or extends this
+     * variable's type.
+     * <p>
+     * If the result is true, then the given variable can become a link source for
+     * this variable
      * 
      * @param source
-     * @return true if the source type is equal or wider than this variable's type, false otherwise
-     *         (including if source has null type)
+     *        Tested variable
+     * @return true if the source type is equal or wider than this variable's type,
+     *         false otherwise (including if source has null type)
      */
     public boolean isAssignableFrom(Var<?> source)
     {
@@ -564,9 +590,11 @@ public class Var<T> implements XMLPersistent, VarListener<T>
      * Parses the given String into the current type
      * 
      * @param text
+     *        Parsed text
      * @return The variable value corresponding to the given string
      * @throws UnsupportedOperationException
-     *         if the parser has not been implemented for the current type
+     *         if the parser has not been implemented
+     *         for the current type
      */
     public T parse(String text)
     {
@@ -629,7 +657,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Removes the specified referrer from the list of variables pointing to this variable
+     * Removes the specified referrer from the list of variables pointing to this
+     * variable
      * 
      * @param referrer
      *        the variable referencing this variable
@@ -646,7 +675,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
      * Saves the current variable to the specified node
      * 
      * @throws UnsupportedOperationException
-     *         if the functionality is not supported by the current variable type
+     *         if the functionality is not supported
+     *         by the current variable type
      */
     @Override
     public boolean saveToXML(Node node) throws UnsupportedOperationException
@@ -657,13 +687,13 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Sets a default {@link VarEditorModel} object which can be used to generate a graphical editor
-     * for this variable. This default model is used by the {@link #createVarEditor()} method is
-     * overridden to provide a custom editor
+     * Sets a default {@link VarEditorModel} object which can be used to generate a
+     * graphical editor for this variable. This default model is used by the
+     * {@link #createVarEditor()} method is overridden to provide a custom editor
      * 
      * @param model
-     *        the model used by the {@link #createVarEditor()} method to generate the
-     *        appropriate graphical component
+     *        the model used by the {@link #createVarEditor()} method to
+     *        generate the appropriate graphical component
      * @see VarEditorModel
      */
     public void setDefaultEditorModel(VarEditorModel<T> model)
@@ -674,11 +704,14 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Sets a flag indicating whether this variable should be considered "optional". This flag is
-     * typically used to mark a plug-in parameter as optional, allowing plug-ins to react
-     * accordingly and save potentially unnecessary computations. Setting a variable as optional
-     * will add a check-box next to the variable editor to provide visual feedback.<br/>
-     * It is up to the developer's responsibility to check and react to this flag accordingly
+     * Sets a flag indicating whether this variable should be considered "optional".
+     * This flag is typically used to mark a plug-in parameter as optional, allowing
+     * plug-ins to react accordingly and save potentially unnecessary computations.
+     * Setting a variable as optional will add a check-box next to the variable
+     * editor to provide visual feedback.
+     * <p>
+     * It is up to the developer's responsibility to check and react to this flag
+     * accordingly
      * 
      * @param optional
      *        <code>true</code> to indicate that this variable is optional
@@ -689,13 +722,14 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Indicates whether this variable should be used or not by plug-ins. It is up to the
-     * responsibility of plug-ins to take this flag into account. See also
+     * Indicates whether this variable should be used or not by plug-ins. It is up
+     * to the responsibility of plug-ins to take this flag into account. See also
      * {@link #setOptional(boolean)}
      * 
      * @param enabled
-     *        <code>true</code> if this variable can be used by plug-ins, and <code>false</code>
-     *        if the variable should not be used by plug-ins during computations
+     *        <code>true</code> if this variable can be used by plug-ins,
+     *        and <code>false</code> if the variable should not be used by
+     *        plug-ins during computations
      */
     public void setEnabled(boolean enabled)
     {
@@ -703,14 +737,16 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Sets the current variable to reference the specified variable (or null to release the
-     * reference). If the reference is non-null, the {@link #getValue()} method will disregard the
-     * local value and return the value of the referenced variable
+     * Sets the current variable to reference the specified variable (or null to
+     * release the reference). If the reference is non-null, the {@link #getValue()}
+     * method will disregard the local value and return the value of the referenced
+     * variable
      * 
      * @param variable
      *        the variable to reference
      * @throws ClassCastException
-     *         if the two arguments are incompatible and cannot be linked
+     *         if the two arguments are incompatible and cannot
+     *         be linked
      */
     public void setReference(Var<T> variable) throws ClassCastException
     {
@@ -750,8 +786,8 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Sets whether this variable may or may not reference another one. By default, this value is
-     * <code>true</code>
+     * Sets whether this variable may or may not reference another one. By default,
+     * this value is <code>true</code>
      * 
      * @param policy
      *        the new referencing policy
@@ -771,10 +807,11 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Parses and sets the value of this variable and notify the listeners. This method can only be
-     * called if this variable is not referencing another one.
+     * Parses and sets the value of this variable and notify the listeners. This
+     * method can only be called if this variable is not referencing another one.
      * 
      * @param newValue
+     *        Textual representation of the value
      */
     public void setValueAsString(String newValue)
     {
@@ -782,13 +819,15 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Sets the value of this variable and notify the listeners. This method can only be called if
-     * this variable is not referencing another one.
+     * Sets the value of this variable and notify the listeners. This method can
+     * only be called if this variable is not referencing another one.
      * 
      * @param newValue
+     *        Value assigned to this variable instance.
      * @throws IllegalArgumentException
-     *         if this variable has a non-null editor model and the specified value is not valid
-     *         for this model
+     *         if this variable has a non-null editor model
+     *         and the specified value is not valid for
+     *         this model
      */
     public void setValue(T newValue) throws IllegalArgumentException
     {
@@ -844,12 +883,12 @@ public class Var<T> implements XMLPersistent, VarListener<T>
     }
 
     /**
-     * Called when this variable has a non-null reference and receives a value-changed event from
-     * this reference
+     * Called when this variable has a non-null reference and receives a
+     * value-changed event from this reference
      * 
      * @param source
-     *        the variable sending the event. This should be equal to the result of
-     *        {@link #getReference()}
+     *        the variable sending the event. This should be equal to the
+     *        result of {@link #getReference()}
      * @param oldValue
      *        the old variable value
      * @param newValue

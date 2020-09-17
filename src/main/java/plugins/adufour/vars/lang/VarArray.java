@@ -7,9 +7,11 @@ import java.util.Iterator;
 import plugins.adufour.vars.util.VarListener;
 
 /**
- * Convenience class defining a generic array of elements based on the specified inner type.<br/>
+ * Convenience class defining a generic array of elements based on the specified inner type.
+ * <p>
  * The type of the underlying array cannot be changed. To creates arrays of changeable types, use
- * {@link VarMutableArray} instead.<br/>
+ * {@link VarMutableArray} instead.
+ * <p>
  * NOTE: this class provides convenience methods to add elements (similarly to the {@link ArrayList}
  * class, however performance on large arrays is not optimal. For performance-critical applications,
  * use the {@link VarArray} instead
@@ -21,14 +23,14 @@ import plugins.adufour.vars.util.VarListener;
 public class VarArray<T> extends VarGenericArray<T[]> implements Iterable<T>
 {
     /**
-     * Creates a new array variable
+     * Creates a new array {@link Var}iable with the specified name, and inner value type and default value.
      * 
      * @param name
-     *        the variable name
+     *        The name of this variable.
      * @param type
-     *        the data type of the array (including the <code>[]</code>)
+     *        The type of array of this variable (including the <code>[]</code>).
      * @param defaultValue
-     *        the initial array
+     *        The value assigned by default for this variable. If null, a new array of size zero of the given type is assigned as default value.
      */
     public VarArray(String name, Class<T[]> type, T[] defaultValue)
     {
@@ -36,16 +38,17 @@ public class VarArray<T> extends VarGenericArray<T[]> implements Iterable<T>
     }
 
     /**
-     * Creates a new array variable
+     * Creates a new array {@link Var}iable with the specified name, and inner value type and default value. Optionally, a listener can be added to track events
+     * on the variable.
      * 
      * @param name
-     *        the variable name
+     *        The name of this variable.
      * @param type
-     *        the data type of the array (including the <code>[]</code>)
+     *        The type of array of this variable (including the <code>[]</code>).
      * @param defaultValue
-     *        the initial array
+     *        The value assigned by default for this variable. If null, a new array of size zero of the given type is assigned as default value.
      * @param defaultListener
-     *        A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation.
      */
     public VarArray(String name, Class<T[]> type, T[] defaultValue, VarListener<T[]> defaultListener)
     {

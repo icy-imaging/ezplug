@@ -4,12 +4,14 @@ import plugins.adufour.vars.lang.Var;
 
 /**
  * Model usable by graphical user interfaces to build custom components for {@link Var} objects.
- * This can be used for instance to restrict the bounds of valid values. <br/>
- * <br/>
+ * This can be used for instance to restrict the bounds of valid values.
+ * <p>
+ * <p>
  * For more information and model templates, see the other classes of this package.
  * 
  * @author Alexandre Dufour
  * @param <T>
+ *        Type of the var editor model.
  * @see SwimmingObjectTypeModel
  * @see ValueSelectionModel
  * @see RangeModel
@@ -19,6 +21,6 @@ import plugins.adufour.vars.lang.Var;
 public interface VarEditorModel<T>
 {
     boolean isValid(T value);
-    
+
     T getDefaultValue();
 }

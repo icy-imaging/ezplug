@@ -15,34 +15,34 @@ public class EzStatus
      * A completion level between 0 and 1
      */
     private final VarDouble progress = new VarDouble("Progress value", 0.0);
-    
+
     /**
      * A text indicating what the task is currently doing
      */
     private final VarString message = new VarString("Progress message", "");
-    
+
     /**
      * Registers a listener to the progress value
      * 
      * @param listener
-     *            the listener to register
+     *        the listener to register
      */
     public void addProgressListener(VarListener<Double> listener)
     {
         progress.addListener(listener);
     }
-    
+
     /**
      * Registers a listener to the message value
      * 
      * @param listener
-     *            the listener to register
+     *        the listener to register
      */
     public void addMessageListener(VarListener<String> listener)
     {
         message.addListener(listener);
     }
-    
+
     /**
      * Notify this status object (and potential listeners) that the task has completed (and
      * therefore resets the completion and message)
@@ -52,7 +52,7 @@ public class EzStatus
         setCompletion(0.0);
         setMessage("");
     }
-    
+
     /**
      * @return the variable containing the completion value
      */
@@ -60,7 +60,7 @@ public class EzStatus
     {
         return progress;
     }
-    
+
     /**
      * @return The progress value (between 0 and 1)
      */
@@ -68,7 +68,7 @@ public class EzStatus
     {
         return progress.getValue();
     }
-    
+
     /**
      * @return <code>true</code> if the task is completed
      */
@@ -76,60 +76,61 @@ public class EzStatus
     {
         return getProgressValue() == 1.0;
     }
-    
+
     /**
-     * @return the variable containing the message value
+     * @return The variable containing the message value.
      */
     public VarString getMessageVariable()
     {
         return message;
     }
-    
+
     /**
-     * @return A text indicating what the task is currently doing
+     * @return A text indicating what the task is currently doing.
      */
     public String getMessageValue()
     {
         return message.getValue();
     }
-    
+
     /**
-     * Unregisters a listener of the progress value
+     * Unregisters a listener of the progress value.
      * 
      * @param listener
-     *            the listener to unregister
+     *        The listener to unregister.
      */
     public void removeProgressListener(VarListener<Double> listener)
     {
         progress.addListener(listener);
     }
-    
+
     /**
-     * Unregisters a listener of the message value
+     * Unregisters a listener of the message value.
      * 
      * @param listener
-     *            the listener to unregister
+     *        The listener to unregister.
      */
     public void removeMessageListener(VarListener<String> listener)
     {
         message.addListener(listener);
     }
-    
+
     /**
-     * Sets the status message
+     * Sets the status message.
      * 
      * @param message
+     *        Message to be presented on the status.
      */
     public void setMessage(String message)
     {
         this.message.setValue(message);
     }
-    
+
     /**
      * Sets the progression stage as a [0-1] percentage
      * 
      * @param completion
-     *            (between 0 and 1)
+     *        Progress value between 0.0 and 1.0 inclusive.
      */
     public void setCompletion(double completion)
     {

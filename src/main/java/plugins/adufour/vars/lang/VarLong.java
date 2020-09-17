@@ -4,9 +4,14 @@ import plugins.adufour.vars.util.VarListener;
 
 public class VarLong extends VarNumber<Long>
 {
+
     /**
+     * Creates a new long integer {@link Var}iable with the specified name and default value.
+     * 
      * @param name
+     *        The name of this variable.
      * @param defaultValue
+     *        The value assigned by default for this variable.
      */
     public VarLong(String name, long defaultValue)
     {
@@ -14,10 +19,15 @@ public class VarLong extends VarNumber<Long>
     }
 
     /**
+     * Creates a new long integer {@link Var}iable with the specified name and default value. Optionally, a listener can be added to track events
+     * on the variable.
+     * 
      * @param name
+     *        The name of this variable.
      * @param defaultValue
+     *        The value assigned by default for this variable.
      * @param defaultListener
-     *        A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation.
      */
     public VarLong(String name, long defaultValue, VarListener<Long> defaultListener)
     {
@@ -43,9 +53,8 @@ public class VarLong extends VarNumber<Long>
     }
 
     /**
-     * Returns an integer representing the variable value.<br>
-     * NOTE: if the current variable references a variable of different (wider) type, truncation
-     * will occur
+     * @return An integer representing the variable value. <b>Warning:</b> If the current variable references a variable of different (wider) type, truncation
+     *         will occur.
      */
     @Override
     public Long getValue(boolean forbidNull)

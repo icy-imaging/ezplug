@@ -172,9 +172,10 @@ public class FilesChooser extends SwingVarEditor<File[]>
     }
 
     /**
-     * Replaces the button text by the given string
+     * Replaces the button text by the given string.
      * 
      * @param text
+     *        The button text.
      */
     public void setButtonText(final String text)
     {

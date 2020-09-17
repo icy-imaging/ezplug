@@ -83,7 +83,7 @@ public class ComboBox<T> extends SwingVarEditor<T>
         else
         {
             jComboBox = new JComboBox<T>((T[]) defaultValues.toArray());
-            //jComboBox = new JComboBox<T>(defaultValues.toArray());
+            // jComboBox = new JComboBox<T>(defaultValues.toArray());
         }
         jComboBox.setEditable(freeInput);
         jComboBox.setSelectedItem(defaultValue);
@@ -205,8 +205,11 @@ public class ComboBox<T> extends SwingVarEditor<T>
      * NOTE: this method will replace the current constraint on the variable
      * 
      * @param values
+     *        Values to be set as default.
      * @param defaultValueIndex
+     *        Index of the value to be set as default.
      * @param allowUserInput
+     *        If true the user can change the value.
      */
     public void setDefaultValues(final T[] values, final int defaultValueIndex, final boolean allowUserInput)
     {

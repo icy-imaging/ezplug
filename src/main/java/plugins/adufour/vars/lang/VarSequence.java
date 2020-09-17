@@ -19,8 +19,12 @@ public class VarSequence extends Var<Sequence>
     private boolean activeSequenceSelected;
 
     /**
+     * Creates a new sequence {@link Var}iable with the specified name and default value (may be null).
+     * 
      * @param name
+     *        The name of this variable.
      * @param defaultValue
+     *        The sequence assigned by default for this variable. If null, the active sequence will be assigned.
      */
     public VarSequence(String name, Sequence defaultValue)
     {
@@ -28,10 +32,15 @@ public class VarSequence extends Var<Sequence>
     }
 
     /**
+     * Creates a new sequence {@link Var}iable with the specified name and default value (may be null). Optionally, a listener can be added to
+     * track events on the variable.
+     * 
      * @param name
+     *        The name of this variable.
      * @param defaultValue
+     *        The sequence assigned by default for this variable. If null, the active sequence will be assigned.
      * @param defaultListener
-     *        A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation.
      */
     public VarSequence(String name, Sequence defaultValue, VarListener<Sequence> defaultListener)
     {
@@ -40,7 +49,7 @@ public class VarSequence extends Var<Sequence>
         final Sequence seq = Icy.getMainInterface().getActiveSequence();
 
         // if we have an active Sequence then we set it by default
-        if (seq != null)
+        if (seq != null && defaultValue == null)
         {
             activeSequenceSelected = true;
             setValue(seq);

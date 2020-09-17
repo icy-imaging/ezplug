@@ -4,10 +4,14 @@ import plugins.adufour.vars.util.VarListener;
 
 public class VarFloat extends VarNumber<Float>
 {
+
     /**
-     * @deprecated use {@link #VarFloat(String, float)} instead
+     * Creates a new float {@link Var}iable with the specified name and default value.
+     * 
      * @param name
+     *        The name of this variable
      * @param defaultValue
+     *        The value assigned by default for this variable. If null, the default value is set to 0f
      */
     @Deprecated
     public VarFloat(String name, Float defaultValue)
@@ -16,8 +20,12 @@ public class VarFloat extends VarNumber<Float>
     }
 
     /**
+     * Creates a new float {@link Var}iable with the specified name and default value.
+     * 
      * @param name
+     *        The name of this variable
      * @param defaultValue
+     *        The value assigned by default for this variable
      */
     public VarFloat(String name, float defaultValue)
     {
@@ -25,8 +33,12 @@ public class VarFloat extends VarNumber<Float>
     }
 
     /**
+     * Creates a new float {@link Var}iable with the specified name and default value. Optionally, a listener can be added to track events on the variable.
+     * 
      * @param name
+     *        The name of this variable
      * @param defaultValue
+     *        The value assigned by default for this variable
      * @param defaultListener
      *        A listener to add to this variable immediately after creation
      */
@@ -54,10 +66,12 @@ public class VarFloat extends VarNumber<Float>
     }
 
     /**
-     * Returns a Float representing the variable value.<br>
-     * NOTE: if the current variable references a variable of different (wider) type, truncation
-     * will occur
+     * @return The float representing the variable value.
+     *         <p>
+     *         <b>Warning:</b> if the current variable references a variable of different (wider) type, truncation
+     *         will occur.
      */
+    @Override
     public Float getValue(boolean forbidNull)
     {
         Number number = super.getValue(forbidNull);

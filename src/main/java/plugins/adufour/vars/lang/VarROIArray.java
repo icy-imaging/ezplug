@@ -7,33 +7,36 @@ import icy.roi.ROI;
 public class VarROIArray extends VarArray<ROI>
 {
     /**
-     * Creates a new variable with an initial non-<code>null</code> array of ROI of size 0
+     * Creates a new ROI array {@link Var}iable with the specified name and default array of size 0.
      * 
      * @param name
+     *        The name of this variable.
      */
     public VarROIArray(String name)
     {
         this(name, null);
     }
-    
+
     /**
-     * Creates a new variable with an initial non-<code>null</code> array of ROI of size 0
+     * Creates a new ROI array {@link Var}iable with the specified name and default array of size 0. Optionally, a listener can be added to track events on the
+     * variable.
      * 
      * @param name
+     *        The name of this variable.
      * @param defaultListener
-     *            A listener to add to this variable immediately after creation
+     *        A listener to add to this variable immediately after creation.
      */
     public VarROIArray(String name, VarListener<ROI[]> defaultListener)
     {
         super(name, ROI[].class, new ROI[0], defaultListener);
     }
-    
+
     @Override
     public VarEditor<ROI[]> createVarEditor()
     {
         return super.createVarViewer();
     }
-    
+
     /**
      * @return a pretty-printed text representation of the variable's local value (referenced
      *         variables are <b>not</b> followed). This text is used to display the value (e.g. in a
@@ -44,12 +47,13 @@ public class VarROIArray extends VarArray<ROI>
     public String getValueAsString()
     {
         ROI[] value = getValue();
-        
-        if (value == null || value.length == 0) return "No ROI";
-        
+
+        if (value == null || value.length == 0)
+            return "No ROI";
+
         return value.length + " ROI";
     }
-    
+
     @Override
     public ROI[] parse(String input)
     {

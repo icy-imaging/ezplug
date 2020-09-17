@@ -22,41 +22,40 @@ public class EzVarFile extends EzVar<File>
      * Constructs a new input variable with given name and default file dialog path
      * 
      * @param varName
-     *            the name of the variable (as it will appear in the interface)
+     *        the name of the variable (as it will appear in the interface)
      * @param path
-     *            the default path to show in the file dialog
+     *        the default path to show in the file dialog
      */
     public EzVarFile(String varName, String path)
     {
         this(varName, path, (FileFilter) null);
     }
-    
+
     /**
-     * Constructs a new input variable with given name, file path and filter
+     * Constructs a new input variable with given name, file path and filter.
      * 
      * @param varName
-     *            the name of the variable (as it will appear in the interface)
+     *        The name of the variable (as it will appear in the interface).
      * @param path
-     *            the default path to show in the file dialog
+     *        The default path to show in the file dialog.
      * @param wildcard
-     *            a wild-card filter (e.g. "*.tif"). Warning: this parameter is *not* a regular
-     *            expression. To use regular expressions, see
-     *            {@link #EzVarFile(String, String, Pattern)}
+     *        A wild-card filter (e.g. "*.tif"). Warning: this parameter is *not* a regular expression. To use regular expressions, see
+     *        {@link #EzVarFile(String, String, Pattern)}.
      */
     public EzVarFile(String varName, String path, final String wildcard)
     {
         this(varName, null, Pattern.compile(StringUtil.wildcardToRegex(wildcard)));
     }
-    
+
     /**
-     * Constructs a new input variable with given name, file path and filter
+     * Constructs a new input variable with given name, file path and filter.
      * 
      * @param varName
-     *            the name of the variable (as it will appear in the interface)
+     *        The name of the variable (as it will appear in the interface).
      * @param path
-     *            the default path to show in the file dialog
+     *        The default path to show in the file dialog.
      * @param pattern
-     *            a regular expression pattern to filter the file list
+     *        A regular expression pattern to filter the file list.
      */
     public EzVarFile(String varName, String path, final Pattern pattern)
     {
@@ -69,26 +68,27 @@ public class EzVarFile extends EzVar<File>
             }
         });
     }
-    
+
     /**
-     * Constructs a new input variable with given name, file path and filter
+     * Constructs a new input variable with given name, file path and filter.
      * 
      * @param varName
-     *            the name of the variable (as it will appear in the interface)
+     *        The name of the variable (as it will appear in the interface).
      * @param path
-     *            the default path to show in the file dialog
+     *        The default path to show in the file dialog.
      * @param filter
-     *            the file filter
+     *        The file filter.
      */
     public EzVarFile(String varName, String path, FileFilter filter)
     {
         super(new VarFile(varName, null), new FileTypeModel(path, FileMode.FILES, filter, false));
     }
-    
+
     /**
-     * Replaces the button text by the given string
+     * Replaces the button text by the given string.
      * 
      * @param text
+     *        The button text.
      */
     public void setButtonText(String text)
     {
