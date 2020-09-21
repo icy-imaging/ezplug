@@ -1,8 +1,8 @@
-bin/
 .idea/
 .settings/
 target/
 build/
+bin/
 *.eml
 *.iml
 *.jar
