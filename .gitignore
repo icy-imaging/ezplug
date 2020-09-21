@@ -8,3 +8,4 @@ build/
 *.jar
 .classpath
 .project
+export.jardesc
