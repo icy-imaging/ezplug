@@ -10,9 +10,9 @@ import plugins.adufour.vars.util.VarListener;
 /**
  * Class bringing support for variables handling comparable types
  * 
- * @param N
- *        The numeric type handled by this instance.
  * @author Alexandre Dufour
+ * 
+ * @param <N> The numeric type handled by this instance.
  */
 public abstract class VarNumber<N extends Number> extends Var<N> implements Comparable<N>
 {

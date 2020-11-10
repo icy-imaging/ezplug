@@ -127,6 +127,7 @@ public class VarSequence extends Var<Sequence>
 
     /**
      * @deprecated Uses {@link #setActiveSequenceSelected(boolean)} instead
+     * @return true if the var has no sequence selected. false otherwise.
      */
     @Deprecated
     public boolean isNoSequenceSelected()

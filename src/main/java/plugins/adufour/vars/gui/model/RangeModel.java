@@ -93,6 +93,7 @@ public abstract class RangeModel<N extends Number> implements VarEditorModel<N>
 
     /**
      * @param index
+     *        zero-based index.
      * @return the value corresponding to the specified zero-based index, i.e.,
      *         <code>min + index * step</code>
      */
