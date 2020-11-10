@@ -78,6 +78,11 @@ public class FilesChooser extends SwingVarEditor<File[]>
         {
             public void actionPerformed(ActionEvent e)
             {
+                if (variable.getValue() != null)
+                {
+                    jFileChooser.setSelectedFiles(variable.getValue());
+                }
+                
                 if (jFileChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
                     return;
 

@@ -104,6 +104,11 @@ public class FileChooser extends SwingVarEditor<File>
         {
             public void actionPerformed(ActionEvent e)
             {
+                if (variable.getValue() != null)
+                {
+                    jFileChooser.setSelectedFile(variable.getValue());
+                }
+
                 if (jFileChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
                     return;
 
@@ -137,7 +142,10 @@ public class FileChooser extends SwingVarEditor<File>
                         {
                             case FILES:
                                 if (singleFile.isFile())
+                                {
                                     variable.setValue(singleFile);
+
+                                }
                                 break;
 
                             case FOLDERS:
