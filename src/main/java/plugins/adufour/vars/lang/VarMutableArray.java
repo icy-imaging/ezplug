@@ -51,7 +51,7 @@ public class VarMutableArray extends VarMutable implements Iterable<Object>
             throws IllegalArgumentException
     {
         super(name, initialType, defaultListener);
-        if (!initialType.isArray())
+        if ((initialType != null) && !initialType.isArray())
             throw new IllegalArgumentException("The initial type " + initialType + " is not an array type");
     }
 
@@ -94,7 +94,7 @@ public class VarMutableArray extends VarMutable implements Iterable<Object>
     @Override
     public void setType(Class<?> newType) throws IllegalArgumentException
     {
-        if (!newType.isArray())
+        if ((newType != null) && !newType.isArray())
             throw new IllegalArgumentException("The new type " + newType + " is not an array type");
         super.setType(newType);
     }
@@ -125,9 +125,7 @@ public class VarMutableArray extends VarMutable implements Iterable<Object>
     public Iterator<Object> iterator()
     {
         if (getValue() == null)
-        {
             return Collections.emptyList().iterator();
-        }
 
         return Arrays.asList(getValue()).iterator();
     }
