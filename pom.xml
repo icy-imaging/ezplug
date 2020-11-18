@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>icy-ezplug</artifactId>
-	<version>3.19.0</version>
+	<version>3.20.0</version>
 
 	<packaging>jar</packaging>
 
@@ -32,7 +32,6 @@
 		<dependency>
 			<groupId>org.bioimageanalysis.icy</groupId>
 			<artifactId>icy-kernel</artifactId>
-			<version>2.1.0</version>
 		</dependency>
 	</dependencies>
 
