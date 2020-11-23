@@ -10,7 +10,7 @@
 		<version>1.0.4</version>
 	</parent>
 
-	<artifactId>icy-ezplug</artifactId>
+	<artifactId>ezplug</artifactId>
 	<version>3.20.0</version>
 
 	<packaging>jar</packaging>
