@@ -27,4 +27,11 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
+    
+    <repositories>
+        <repository>
+            <id>icy</id>
+            <url>https://icy-nexus.pasteur.fr/repository/Icy/</url>
+        </repository>
+    </repositories>
 </project>
