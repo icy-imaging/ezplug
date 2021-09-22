@@ -16,6 +16,8 @@ import plugins.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
  */
 public class VarROIDescriptor extends VarString
 {
+    final List<ROIDescriptor> roiDescriptors;
+
     /**
      * @param name
      *        Variable name
@@ -24,7 +26,7 @@ public class VarROIDescriptor extends VarString
     {
         super(name, "");
 
-        final List<ROIDescriptor> roiDescriptors = new ArrayList<>(ROIDescriptor.getDescriptors().keySet());
+        roiDescriptors = new ArrayList<>(ROIDescriptor.getDescriptors().keySet());
         // build list of descriptor id
         final List<String> descriptorsId = new ArrayList<>();
         String sizeDescriptorId = null;
@@ -51,5 +53,10 @@ public class VarROIDescriptor extends VarString
     public VarROIDescriptor()
     {
         this("Descriptor");
+    }
+
+    public List<ROIDescriptor> getAllDescriptors()
+    {
+        return roiDescriptors;
     }
 }
