@@ -1,8 +1,5 @@
 package plugins.adufour.ezplug;
 
-import icy.resource.ResourceUtil;
-import icy.system.thread.ThreadUtil;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -23,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import icy.resource.ResourceUtil;
+import icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -384,7 +383,8 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
         jLabelName.setEnabled(enabled);
         getVarEditor().setEnabled(enabled);
         updateVisibilityChain();
-        SwingUtilities.invokeLater(getUI().fullPackingTask);
+        if (getUI() != null)
+            SwingUtilities.invokeLater(getUI().fullPackingTask);
     }
 
     /**
