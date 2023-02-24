@@ -1,15 +1,12 @@
 package plugins.adufour.vars.util;
 
-public class TypeUtil
-{
+public class TypeUtil {
     /**
-     * @param primitiveType
-     *        Primitive type to box into a class.
+     * @param primitiveType Primitive type to box into a class.
      * @return The Boxed type corresponding to the specified primitive type (or the original type if
-     *         not a primitive)
+     * not a primitive)
      */
-    public static Class<?> toBoxedType(Class<?> primitiveType)
-    {
+    public static Class<?> toBoxedType(Class<?> primitiveType) {
         if (!primitiveType.isPrimitive())
             return primitiveType;
 
@@ -38,13 +35,11 @@ public class TypeUtil
     /**
      * This method is intended to help non-programming users in differentiating and understanding
      * the various Java types by giving them more explicit names
-     * 
-     * @param type
-     *        Class of the type to convert,
+     *
+     * @param type Class of the type to convert,
      * @return A human-friendly name designating the specified type.
      */
-    public static String toFriendlyString(Class<?> type)
-    {
+    public static String toFriendlyString(Class<?> type) {
         if (type == null)
             return "no type";
 

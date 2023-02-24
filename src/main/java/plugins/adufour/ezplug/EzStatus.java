@@ -6,11 +6,10 @@ import plugins.adufour.vars.util.VarListener;
 
 /**
  * Utility class to monitor the status and progress of a task
- * 
+ *
  * @author Alexandre Dufour
  */
-public class EzStatus
-{
+public class EzStatus {
     /**
      * A completion level between 0 and 1
      */
@@ -23,23 +22,19 @@ public class EzStatus
 
     /**
      * Registers a listener to the progress value
-     * 
-     * @param listener
-     *        the listener to register
+     *
+     * @param listener the listener to register
      */
-    public void addProgressListener(VarListener<Double> listener)
-    {
+    public void addProgressListener(VarListener<Double> listener) {
         progress.addListener(listener);
     }
 
     /**
      * Registers a listener to the message value
-     * 
-     * @param listener
-     *        the listener to register
+     *
+     * @param listener the listener to register
      */
-    public void addMessageListener(VarListener<String> listener)
-    {
+    public void addMessageListener(VarListener<String> listener) {
         message.addListener(listener);
     }
 
@@ -47,8 +42,7 @@ public class EzStatus
      * Notify this status object (and potential listeners) that the task has completed (and
      * therefore resets the completion and message)
      */
-    public void done()
-    {
+    public void done() {
         setCompletion(0.0);
         setMessage("");
     }
@@ -56,84 +50,71 @@ public class EzStatus
     /**
      * @return the variable containing the completion value
      */
-    public VarDouble getProgressVariable()
-    {
+    public VarDouble getProgressVariable() {
         return progress;
     }
 
     /**
      * @return The progress value (between 0 and 1)
      */
-    public double getProgressValue()
-    {
+    public double getProgressValue() {
         return progress.getValue();
     }
 
     /**
      * @return <code>true</code> if the task is completed
      */
-    public boolean isCompleted()
-    {
+    public boolean isCompleted() {
         return getProgressValue() == 1.0;
     }
 
     /**
      * @return The variable containing the message value.
      */
-    public VarString getMessageVariable()
-    {
+    public VarString getMessageVariable() {
         return message;
     }
 
     /**
      * @return A text indicating what the task is currently doing.
      */
-    public String getMessageValue()
-    {
+    public String getMessageValue() {
         return message.getValue();
     }
 
     /**
      * Unregisters a listener of the progress value.
-     * 
-     * @param listener
-     *        The listener to unregister.
+     *
+     * @param listener The listener to unregister.
      */
-    public void removeProgressListener(VarListener<Double> listener)
-    {
+    public void removeProgressListener(VarListener<Double> listener) {
         progress.addListener(listener);
     }
 
     /**
      * Unregisters a listener of the message value.
-     * 
-     * @param listener
-     *        The listener to unregister.
+     *
+     * @param listener The listener to unregister.
      */
-    public void removeMessageListener(VarListener<String> listener)
-    {
+    public void removeMessageListener(VarListener<String> listener) {
         message.addListener(listener);
     }
 
     /**
      * Sets the status message.
-     * 
-     * @param message
-     *        Message to be presented on the status.
+     *
+     * @param message Message to be presented on the status.
      */
-    public void setMessage(String message)
-    {
+    public void setMessage(String message) {
         this.message.setValue(message);
     }
 
     /**
      * Sets the progression stage as a [0-1] percentage
-     * 
-     * @param completion
-     *        Progress value between 0.0 and 1.0 inclusive.
+     *
+     * @param completion Progress value between 0.0 and 1.0 inclusive.
      */
-    public void setCompletion(double completion)
-    {
+    public void setCompletion(double completion) {
         this.progress.setValue(completion);
     }
 }

@@ -11,122 +11,103 @@ import plugins.adufour.vars.lang.VarMutable;
 
 /**
  * Special editor that changes type according to the underlying variable
- * 
+ *
  * @author Alexandre Dufour
- * 
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public class MutableVarEditor extends SwingVarEditor<Object>
-{
-    public MutableVarEditor(VarMutable variable)
-    {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class MutableVarEditor extends SwingVarEditor<Object> {
+    public MutableVarEditor(VarMutable variable) {
         super(variable);
     }
-    
+
     /**
      * Abstract pointer to the active editor
      */
     private VarEditor varEditor;
-    
+
     @Override
-    protected JComponent createEditorComponent()
-    {
+    protected JComponent createEditorComponent() {
         // bypass accesses via getEditorComponent()
         return null;
     }
-    
+
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         varEditor = null;
-        
+
         super.dispose();
     }
-    
-    public JComponent getEditorComponent()
-    {
+
+    public JComponent getEditorComponent() {
         // deactivate the current editor (if any)
         if (varEditor != null) varEditor.setEnabled(false);
-        
+
         Var ref = variable.getReference();
-        
-        if (ref != null)
-        {
+
+        if (ref != null) {
             varEditor = ref.createVarViewer();
         }
-        else
-        {
+        else {
             varEditor = variable.createVarViewer();
             if (varEditor instanceof Label) ((Label) varEditor).getEditorComponent().setHorizontalAlignment(JLabel.CENTER);
         }
-        
+
         // activate the new listener
         varEditor.setEnabled(true);
-        
+
         return (JComponent) varEditor.getEditorComponent();
-    };
-    
+    }
+
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         return varEditor.getPreferredSize();
     }
-    
+
     @Override
-    public boolean isComponentOpaque()
-    {
+    public boolean isComponentOpaque() {
         return false;
     }
-    
+
     @Override
-    public boolean isComponentEnabled()
-    {
+    public boolean isComponentEnabled() {
         return true;
     }
-    
+
     @Override
-    public void setComponentToolTipText(String s)
-    {
+    public void setComponentToolTipText(String s) {
         varEditor.setComponentToolTipText(s);
     }
-    
+
     @Override
-    protected void activateListeners()
-    {
-        
+    protected void activateListeners() {
+
     }
-    
+
     @Override
-    protected void deactivateListeners()
-    {
-        
+    protected void deactivateListeners() {
+
     }
-    
-    public boolean isComponentResizeable()
-    {
+
+    public boolean isComponentResizeable() {
         return true;
     }
-    
-    public double getComponentVerticalResizeFactor()
-    {
+
+    public double getComponentVerticalResizeFactor() {
         return varEditor.getComponentVerticalResizeFactor();
     }
-    
+
     @Override
-    public void setEnabled(boolean enabled)
-    {
-        
+    public void setEnabled(boolean enabled) {
+
     }
-    
+
     @Override
-    protected void setEditorEnabled(boolean enabled)
-    {
-        
+    protected void setEditorEnabled(boolean enabled) {
+
     }
-    
+
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         // this is done internally by each custom editor
     }
 }

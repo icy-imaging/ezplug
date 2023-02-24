@@ -8,19 +8,16 @@ import plugins.adufour.vars.lang.VarSequence;
 /**
  * Class defining a sequence type variable which displays as a combo box where the user may choose
  * among all open sequences
- * 
+ *
  * @author Alexandre Dufour
  */
-public class EzVarSequence extends EzVar<Sequence>
-{
+public class EzVarSequence extends EzVar<Sequence> {
     /**
      * Constructs a new variable that handles image data. <br>
-     * 
-     * @param varName
-     *        the parameter name
+     *
+     * @param varName the parameter name
      */
-    public EzVarSequence(String varName)
-    {
+    public EzVarSequence(String varName) {
         super(new VarSequence(varName, null), null);
 
         // use active sequence by default
@@ -30,8 +27,7 @@ public class EzVarSequence extends EzVar<Sequence>
     /**
      * Force the sequence chooser to the "no sequence" selection
      */
-    public void setNoSequenceSelection()
-    {
+    public void setNoSequenceSelection() {
         // set the variable to null
         // NB: this line is in principle not necessary as the variable listens to the combo box
         // but if the listener is not yet activated, the variable won't change
@@ -41,8 +37,7 @@ public class EzVarSequence extends EzVar<Sequence>
         ((SequenceChooser) getVarEditor()).getEditorComponent().setSelectedIndex(0);
     }
 
-    public void setValue(final Sequence value) throws UnsupportedOperationException
-    {
+    public void setValue(final Sequence value) throws UnsupportedOperationException {
         // 1) adjust the graphical interface (will also change the variable value)
         ((SequenceChooser) getVarEditor()).getEditorComponent().setSelectedItem(value);
         // 2) if value is not in the list of opened sequences, the variable will be unchanged
@@ -52,8 +47,7 @@ public class EzVarSequence extends EzVar<Sequence>
     }
 
     @Override
-    public VarSequence getVariable()
-    {
+    public VarSequence getVariable() {
         return (VarSequence) super.getVariable();
     }
 }

@@ -26,13 +26,11 @@ import plugins.adufour.vars.util.VarListener;
  * A number of default editors are available for the most common {@link Var}iable types (see links
  * below). However, these editors can be extended or replaced by more advanced ones to support
  * custom {@link Var}iable types.
- * 
+ *
+ * @param <V> the inner type of the variable controlled by this editor
  * @author Alexandre Dufour
- * @param <V>
- *        the inner type of the variable controlled by this editor
  */
-public abstract class VarEditor<V> implements VarListener<V>
-{
+public abstract class VarEditor<V> implements VarListener<V> {
     /**
      * The {@link Var}iable handled by this editor. Note that multiple editors can handle the same
      * variable simultaneously.
@@ -55,12 +53,10 @@ public abstract class VarEditor<V> implements VarListener<V>
      * Constructs a new editor for the specified {@link Var}iable. <br>
      * Note that multiple editors be created for the same variable (see the
      * {@linkplain #createEditorComponent()} method for more details).
-     * 
-     * @param variable
-     *        {@link Var} instance referenced by the new editor.
+     *
+     * @param variable {@link Var} instance referenced by the new editor.
      */
-    public VarEditor(final Var<V> variable)
-    {
+    public VarEditor(final Var<V> variable) {
         this.variable = variable;
         this.editorComponent = createEditorComponent();
     }
@@ -80,29 +76,28 @@ public abstract class VarEditor<V> implements VarListener<V>
      * <u>WARNING</u>: this method is called within the {@link #VarEditor(Var)} constructor,
      * therefore all instance fields besides the final {@link #variable} field will be
      * <code>null</code> until this method returns.
-     * 
+     *
      * @return a graphical input component that is linked to the variable and can be used to view or
-     *         adjust the variable value
+     * adjust the variable value
      */
     protected abstract Object createEditorComponent();
 
     /**
      * @return the graphical component used to view or modify the variable's value. By default, the
-     *         returned component is the one created by the {@link #createEditorComponent()} method
-     *         during object construction. This method can be overridden to return a new component
-     *         for each call (note however that this method may be called many times, e.g. during
-     *         interface refresh)
+     * returned component is the one created by the {@link #createEditorComponent()} method
+     * during object construction. This method can be overridden to return a new component
+     * for each call (note however that this method may be called many times, e.g. during
+     * interface refresh)
      */
-    public Object getEditorComponent()
-    {
+    public Object getEditorComponent() {
         return editorComponent;
     }
 
     /**
      * @return The preferred dimension of the local {@link #editorComponent}. By default, this
-     *         method calls the component's {@link JComponent#getPreferredSize()} method. However,
-     *         this method can be overridden to provide a custom dimension, e.g. to fix the size of
-     *         the component regardless of its content
+     * method calls the component's {@link JComponent#getPreferredSize()} method. However,
+     * this method can be overridden to provide a custom dimension, e.g. to fix the size of
+     * the component regardless of its content
      */
     public abstract Dimension getPreferredSize();
 
@@ -114,11 +109,10 @@ public abstract class VarEditor<V> implements VarListener<V>
      * <p>
      * By default, this value is 1.0 (horizontal resizing is always allowed to fill up the maximum
      * amount of space)
-     * 
+     *
      * @return a value from 0 (no resize allowed) to 1 (resize as much as possible)
      */
-    public double getComponentHorizontalResizeFactor()
-    {
+    public double getComponentHorizontalResizeFactor() {
         return 1.0;
     }
 
@@ -129,11 +123,10 @@ public abstract class VarEditor<V> implements VarListener<V>
      * (from 0 for no resizing to 1 for maximum resizing).
      * <p>
      * By default, this value is 0.0 (no vertical resizing)
-     * 
+     *
      * @return a value from 0 (no resize allowed) to 1 (resize as much as possible)
      */
-    public double getComponentVerticalResizeFactor()
-    {
+    public double getComponentVerticalResizeFactor() {
         return 0.0;
     }
 
@@ -142,54 +135,48 @@ public abstract class VarEditor<V> implements VarListener<V>
     /**
      * @return The {@link Var}iable controlled by this editor
      */
-    public Var<V> getVariable()
-    {
+    public Var<V> getVariable() {
         return variable;
     }
 
     /**
      * @return true if the editor is enabled, i.e. whether the graphical component is active and may
-     *         receive user input. This method can be overridden to force the editor status to a
-     *         given state
+     * receive user input. This method can be overridden to force the editor status to a
+     * given state
      */
-    public boolean isComponentEnabled()
-    {
+    public boolean isComponentEnabled() {
         return true;
     }
 
     /**
      * @return true if the editor is opaque, or false if the component is transparent. This method
-     *         can be overridden to force the opacity to a given state
+     * can be overridden to force the opacity to a given state
      */
-    public boolean isComponentOpaque()
-    {
+    public boolean isComponentOpaque() {
         return true;
     }
 
     /**
      * @return true if the editor is focusable (i.e. the component may capture a mouse event and
-     *         become active).
+     * become active).
      */
-    public boolean isComponentFocusable()
-    {
+    public boolean isComponentFocusable() {
         return componentFocusable;
     }
 
     /**
      * @return <code>true</code> if the container panel should allow this component to be resized,
-     *         <code>false</code> otherwise
+     * <code>false</code> otherwise
      */
-    public boolean isComponentResizeable()
-    {
+    public boolean isComponentResizeable() {
         return componentResizeable;
     }
 
     /**
      * @return <code>true</code> if the name should appear alongside the editor component, false
-     *         otherwise
+     * otherwise
      */
-    public boolean isNameVisible()
-    {
+    public boolean isNameVisible() {
         return nameVisible;
     }
 
@@ -210,22 +197,18 @@ public abstract class VarEditor<V> implements VarListener<V>
     protected abstract void deactivateListeners();
 
     /**
-     * @param componentFocusable
-     *        <code>true</code> if the editor is focusable (i.e. the component may capture a
-     *        mouse event and become active), <code>false</code> otherwise
+     * @param componentFocusable <code>true</code> if the editor is focusable (i.e. the component may capture a
+     *                           mouse event and become active), <code>false</code> otherwise
      */
-    public void setComponentFocusable(boolean componentFocusable)
-    {
+    public void setComponentFocusable(boolean componentFocusable) {
         this.componentFocusable = componentFocusable;
     }
 
     /**
-     * @param componentResizeable
-     *        <code>true</code> if the container panel should allow this component to be
-     *        resized, <code>false</code> otherwise
+     * @param componentResizeable <code>true</code> if the container panel should allow this component to be
+     *                            resized, <code>false</code> otherwise
      */
-    public void setComponentResizeable(boolean componentResizeable)
-    {
+    public void setComponentResizeable(boolean componentResizeable) {
         this.componentResizeable = componentResizeable;
     }
 
@@ -234,12 +217,10 @@ public abstract class VarEditor<V> implements VarListener<V>
      * This method should be used by the enclosing graphical interface instead of the traditional
      * {@link JComponent#setEnabled(boolean)}, since listeners are automatically activated (or
      * deactivated) to avoid excessive event firing and ensure proper garbage collection.
-     * 
-     * @param enabled
-     *        Enable flag
+     *
+     * @param enabled Enable flag
      */
-    public void setEnabled(boolean enabled)
-    {
+    public void setEnabled(boolean enabled) {
         // deactivate listeners first
         variable.removeListener(this);
         deactivateListeners();
@@ -248,8 +229,7 @@ public abstract class VarEditor<V> implements VarListener<V>
         if (editorComponent != null)
             setEditorEnabled(enabled && variable.isEnabled());
 
-        if (enabled && editorComponent != null)
-        {
+        if (enabled && editorComponent != null) {
             // activate listeners if necessary
             variable.addListener(this);
             activateListeners();
@@ -261,12 +241,10 @@ public abstract class VarEditor<V> implements VarListener<V>
     protected abstract void setEditorEnabled(boolean enabled);
 
     /**
-     * @param nameVisible
-     *        <code>true</code> if the name should appear alongside the editor component,
-     *        <code>false</code> otherwise
+     * @param nameVisible <code>true</code> if the name should appear alongside the editor component,
+     *                    <code>false</code> otherwise
      */
-    public void setNameVisible(boolean nameVisible)
-    {
+    public void setNameVisible(boolean nameVisible) {
         this.nameVisible = nameVisible;
     }
 
@@ -282,30 +260,15 @@ public abstract class VarEditor<V> implements VarListener<V>
      * Dispose of resources (e.g. listeners, IO etc.) before releasing the editor. This method must
      * be called by overriding implementations to ensure proper cleaning
      */
-    public void dispose()
-    {
+    public void dispose() {
         setEnabled(false);
     }
 
-    public void valueChanged(Var<V> source, V oldValue, final V newValue)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                updateInterfaceValue();
-            }
-        });
+    public void valueChanged(Var<V> source, V oldValue, final V newValue) {
+        ThreadUtil.invokeLater(this::updateInterfaceValue);
     }
 
-    public void referenceChanged(Var<V> source, Var<? extends V> oldReference, final Var<? extends V> newReference)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                updateInterfaceValue();
-            }
-        });
+    public void referenceChanged(Var<V> source, Var<? extends V> oldReference, final Var<? extends V> newReference) {
+        ThreadUtil.invokeLater(this::updateInterfaceValue);
     }
 }

@@ -11,19 +11,16 @@ import plugins.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
 
 /**
  * EzVar representing {@link ROIDescriptor} selector
- * 
+ *
  * @author Stephane.D
  */
-public class VarROIDescriptor extends VarString
-{
+public class VarROIDescriptor extends VarString {
     final List<ROIDescriptor> roiDescriptors;
 
     /**
-     * @param name
-     *        Variable name
+     * @param name Variable name
      */
-    public VarROIDescriptor(String name)
-    {
+    public VarROIDescriptor(String name) {
         super(name, "");
 
         roiDescriptors = new ArrayList<>(ROIDescriptor.getDescriptors().keySet());
@@ -31,8 +28,7 @@ public class VarROIDescriptor extends VarString
         final List<String> descriptorsId = new ArrayList<>();
         String sizeDescriptorId = null;
 
-        for (ROIDescriptor descriptor : roiDescriptors)
-        {
+        for (ROIDescriptor descriptor : roiDescriptors) {
             final String id = descriptor.getId();
 
             // keep trace of size descriptor
@@ -50,13 +46,11 @@ public class VarROIDescriptor extends VarString
                 sizeDescriptorId, false));
     }
 
-    public VarROIDescriptor()
-    {
+    public VarROIDescriptor() {
         this("Descriptor");
     }
 
-    public List<ROIDescriptor> getAllDescriptors()
-    {
+    public List<ROIDescriptor> getAllDescriptors() {
         return roiDescriptors;
     }
 }

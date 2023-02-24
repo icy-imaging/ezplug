@@ -8,18 +8,16 @@ import plugins.adufour.vars.lang.Var;
  * <br>
  * <br>
  * For more information and model templates, see the other classes of this package.
- * 
+ *
+ * @param <T> Type of the var editor model.
  * @author Alexandre Dufour
- * @param <T>
- *        Type of the var editor model.
  * @see SwimmingObjectTypeModel
  * @see ValueSelectionModel
  * @see RangeModel
  * @see FileTypeModel
  * @see FileTypeListModel
  */
-public interface VarEditorModel<T>
-{
+public interface VarEditorModel<T> {
     boolean isValid(T value);
 
     T getDefaultValue();

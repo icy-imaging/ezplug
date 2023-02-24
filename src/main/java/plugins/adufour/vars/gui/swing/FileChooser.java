@@ -2,7 +2,6 @@ package plugins.adufour.vars.gui.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
@@ -22,27 +21,23 @@ import plugins.adufour.vars.lang.Var;
 
 /**
  * File chooser component
- * 
+ *
  * @author Alexandre Dufour
  */
-public class FileChooser extends SwingVarEditor<File>
-{
+public class FileChooser extends SwingVarEditor<File> {
     private ActionListener actionListener;
 
     /**
      * Creates a new file chooser component
-     * 
-     * @param variable
-     *        the variable to attach to this file chooser
+     *
+     * @param variable the variable to attach to this file chooser
      */
-    public FileChooser(Var<File> variable)
-    {
+    public FileChooser(Var<File> variable) {
         super(variable);
     }
 
     @Override
-    public JComponent createEditorComponent()
-    {
+    public JComponent createEditorComponent() {
         JButton jButton = new JButton();
 
         String path = null;
@@ -52,21 +47,18 @@ public class FileChooser extends SwingVarEditor<File>
 
         VarEditorModel<File> model = variable.getDefaultEditorModel();
 
-        if (model instanceof FileTypeModel)
-        {
+        if (model instanceof FileTypeModel) {
             path = ((FileTypeModel) model).getPath();
             fileMode = ((FileTypeModel) model).getMode();
             allowHidden = ((FileTypeModel) model).allowHidden();
             filter = ((FileTypeModel) model).getFilter();
         }
-        else
-        {
+        else {
             filter = null;
         }
 
         final JFileChooser jFileChooser = new JFileChooser(path);
-        switch (fileMode)
-        {
+        switch (fileMode) {
             case FILES:
                 jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 jButton.setText("Choose file name...");
@@ -85,35 +77,27 @@ public class FileChooser extends SwingVarEditor<File>
         jFileChooser.setMultiSelectionEnabled(false);
         jFileChooser.setFileHidingEnabled(!allowHidden);
         if (filter != null)
-            jFileChooser.setFileFilter(new javax.swing.filechooser.FileFilter()
-            {
+            jFileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
                 @Override
-                public String getDescription()
-                {
+                public String getDescription() {
                     return "Compatible files";
                 }
 
                 @Override
-                public boolean accept(File f)
-                {
+                public boolean accept(File f) {
                     return filter.accept(f);
                 }
             });
 
-        actionListener = new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                if (variable.getValue() != null)
-                {
-                    jFileChooser.setSelectedFile(variable.getValue());
-                }
-
-                if (jFileChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
-                    return;
-
-                variable.setValue(jFileChooser.getSelectedFile());
+        actionListener = e -> {
+            if (variable.getValue() != null) {
+                jFileChooser.setSelectedFile(variable.getValue());
             }
+
+            if (jFileChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
+                return;
+
+            variable.setValue(jFileChooser.getSelectedFile());
         };
 
         FileDropListener fileDropListener = getFileDropListener(fileMode);
@@ -124,25 +108,18 @@ public class FileChooser extends SwingVarEditor<File>
         return jButton;
     }
 
-    private FileDropListener getFileDropListener(final FileMode fileMode)
-    {
-        return new FileDropListener()
-        {
+    private FileDropListener getFileDropListener(final FileMode fileMode) {
+        return new FileDropListener() {
 
             @Override
-            public void filesDropped(File[] files)
-            {
-                if (isActionListenerActive())
-                {
+            public void filesDropped(File[] files) {
+                if (isActionListenerActive()) {
                     File singleFile = (files != null && files.length >= 1) ? files[0] : null;
 
-                    if (singleFile != null)
-                    {
-                        switch (fileMode)
-                        {
+                    if (singleFile != null) {
+                        switch (fileMode) {
                             case FILES:
-                                if (singleFile.isFile())
-                                {
+                                if (singleFile.isFile()) {
                                     variable.setValue(singleFile);
 
                                 }
@@ -161,10 +138,8 @@ public class FileChooser extends SwingVarEditor<File>
 
             }
 
-            private boolean isActionListenerActive()
-            {
-                for (ActionListener l : getEditorComponent().getActionListeners())
-                {
+            private boolean isActionListenerActive() {
+                for (ActionListener l : getEditorComponent().getActionListeners()) {
                     if (l == actionListener)
                         return true;
                 }
@@ -174,36 +149,25 @@ public class FileChooser extends SwingVarEditor<File>
     }
 
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         return new Dimension(100, 20);
     }
 
     /**
      * Replaces the button text by the given string.
-     * 
-     * @param text
-     *        The button text.
+     *
+     * @param text The button text.
      */
-    public void setButtonText(final String text)
-    {
+    public void setButtonText(final String text) {
 
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                getEditorComponent().setText(text);
-            }
-        });
+        ThreadUtil.invokeLater(() -> getEditorComponent().setText(text));
     }
 
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         File newValue = variable.getValue();
 
-        if (newValue != null)
-        {
+        if (newValue != null) {
             setButtonText(newValue.getAbsolutePath());
 
             String tooltip = "<html><pre><font size=3>";
@@ -216,20 +180,17 @@ public class FileChooser extends SwingVarEditor<File>
     }
 
     @Override
-    public JButton getEditorComponent()
-    {
+    public JButton getEditorComponent() {
         return (JButton) super.getEditorComponent();
     }
 
     @Override
-    protected void activateListeners()
-    {
+    protected void activateListeners() {
         getEditorComponent().addActionListener(actionListener);
     }
 
     @Override
-    protected void deactivateListeners()
-    {
+    protected void deactivateListeners() {
         getEditorComponent().removeActionListener(actionListener);
     }
 }

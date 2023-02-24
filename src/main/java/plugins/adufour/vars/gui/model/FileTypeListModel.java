@@ -5,18 +5,16 @@ import java.io.FileFilter;
 
 import plugins.adufour.vars.gui.FileMode;
 
-public class FileTypeListModel implements VarEditorModel<File[]>
-{
-    private final FileMode   mode;
+public class FileTypeListModel implements VarEditorModel<File[]> {
+    private final FileMode mode;
 
     private final FileFilter filter;
 
-    private final String     path;
+    private final String path;
 
-    private final boolean    allowHidden;
+    private final boolean allowHidden;
 
-    public FileTypeListModel(String initialPath, FileMode mode, FileFilter filter, boolean allowHidden)
-    {
+    public FileTypeListModel(String initialPath, FileMode mode, FileFilter filter, boolean allowHidden) {
         this.path = initialPath;
         this.filter = filter;
         this.mode = mode;
@@ -24,10 +22,8 @@ public class FileTypeListModel implements VarEditorModel<File[]>
     }
 
     @Override
-    public boolean isValid(File[] values)
-    {
-        for (File value : values)
-        {
+    public boolean isValid(File[] values) {
+        for (File value : values) {
             if (filter != null && !filter.accept(value)) return false;
 
             if (value.isFile() && mode != FileMode.FILES) return false;
@@ -40,28 +36,23 @@ public class FileTypeListModel implements VarEditorModel<File[]>
     }
 
     @Override
-    public File[] getDefaultValue()
-    {
+    public File[] getDefaultValue() {
         return null;
     }
 
-    public FileFilter getFilter()
-    {
+    public FileFilter getFilter() {
         return filter;
     }
 
-    public FileMode getMode()
-    {
+    public FileMode getMode() {
         return mode;
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public boolean allowHidden()
-    {
+    public boolean allowHidden() {
         return allowHidden;
     }
 }

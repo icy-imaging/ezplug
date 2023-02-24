@@ -1,6 +1,5 @@
 package plugins.adufour.vars.gui.swing;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +9,6 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import javax.swing.event.ListDataListener;
 
 import icy.file.FileUtil;
@@ -24,26 +21,21 @@ import icy.util.StringUtil;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarSequence;
 
-public class SequenceChooser extends SwingVarEditor<Sequence>
-{
-    private interface SequenceListener extends GlobalSequenceListener, ActiveSequenceListener
-    {
-    };
+public class SequenceChooser extends SwingVarEditor<Sequence> {
+    private interface SequenceListener extends GlobalSequenceListener, ActiveSequenceListener {
+    }
 
     private SequenceListener listener;
 
     private JComboSequenceBoxListener jComboSequenceBoxListener;
 
-    public SequenceChooser(Var<Sequence> variable)
-    {
+    public SequenceChooser(Var<Sequence> variable) {
         super(variable);
     }
 
-    private final class JComboSequenceBoxListener implements ActionListener
-    {
+    private final class JComboSequenceBoxListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             final JComboBox<Object> jComboSequences = getEditorComponent();
 
             Object o = jComboSequences.getSelectedItem();
@@ -51,8 +43,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
             // null or String special value ?
             if ((o == null) || o.equals(VarSequence.NO_SEQUENCE) || o.equals(VarSequence.ACTIVE_SEQUENCE))
                 variable.setValueAsString((String) o);
-            else
-            {
+            else {
                 final Sequence newValue = (Sequence) o;
 
                 jComboSequences.setToolTipText(newValue.getName());
@@ -62,26 +53,20 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
         }
     }
 
-    private final class SequenceChooserModel extends DefaultComboBoxModel<Object>
-    {
-        private static final long serialVersionUID = 1L;
-
-        public SequenceChooserModel()
-        {
+    private static final class SequenceChooserModel extends DefaultComboBoxModel<Object> {
+        public SequenceChooserModel() {
             setSelectedItem(VarSequence.ACTIVE_SEQUENCE);
         }
 
         @Override
-        public int getSize()
-        {
+        public int getSize() {
             // index 0: no sequence
             // index 1: active sequence
             return 2 + Icy.getMainInterface().getSequences().size();
         }
 
         @Override
-        public Object getElementAt(int index)
-        {
+        public Object getElementAt(int index) {
             if (index <= 0)
                 return VarSequence.NO_SEQUENCE;
             if (index == 1)
@@ -91,8 +76,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
         }
 
         @Override
-        public void addListDataListener(ListDataListener l)
-        {
+        public void addListDataListener(ListDataListener l) {
             // don't register anything
         }
     }
@@ -103,40 +87,29 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
      * if) the component is to be used (to avoid memory leaks due to improper cleaning)
      */
     @Override
-    public JComponent createEditorComponent()
-    {
+    public JComponent createEditorComponent() {
         jComboSequenceBoxListener = new JComboSequenceBoxListener();
 
-        final JComboBox<Object> jComboSequences = new JComboBox<Object>(new SequenceChooserModel());
+        final JComboBox<Object> jComboSequences = new JComboBox<>(new SequenceChooserModel());
 
-        jComboSequences.setRenderer(new ListCellRenderer<Object>()
-        {
-            @Override
-            public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus)
-            {
-                if ((value == null) || value.equals(VarSequence.NO_SEQUENCE))
-                    return new JLabel(VarSequence.NO_SEQUENCE);
+        jComboSequences.setRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            if ((value == null) || value.equals(VarSequence.NO_SEQUENCE))
+                return new JLabel(VarSequence.NO_SEQUENCE);
 
-                if (value.equals(VarSequence.ACTIVE_SEQUENCE))
-                    return new JLabel(VarSequence.ACTIVE_SEQUENCE);
+            if (value.equals(VarSequence.ACTIVE_SEQUENCE))
+                return new JLabel(VarSequence.ACTIVE_SEQUENCE);
 
-                if (value instanceof Sequence)
-                {
-                    String s = FileUtil.getFileName(((Sequence) value).getName());
-                    JLabel label = new JLabel(StringUtil.limit(s, 24));
-                    return label;
-                }
-
-                throw new IllegalArgumentException(value.toString());
+            if (value instanceof Sequence) {
+                String s = FileUtil.getFileName(((Sequence) value).getName());
+                return new JLabel(StringUtil.limit(s, 24));
             }
+
+            throw new IllegalArgumentException(value.toString());
         });
 
-        listener = new SequenceListener()
-        {
+        listener = new SequenceListener() {
             @Override
-            public void sequenceClosed(Sequence sequence)
-            {
+            public void sequenceClosed(Sequence sequence) {
                 if (variable.getReference() != null)
                     return;
 
@@ -152,15 +125,13 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
             }
 
             @Override
-            public void sequenceOpened(Sequence sequence)
-            {
+            public void sequenceOpened(Sequence sequence) {
                 jComboSequences.repaint();
                 jComboSequences.updateUI();
             }
 
             @Override
-            public void sequenceActivated(Sequence sequence)
-            {
+            public void sequenceActivated(Sequence sequence) {
                 // variable cannot be changed (linked)
                 if (variable.getReference() != null)
                     return;
@@ -174,14 +145,12 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
             }
 
             @Override
-            public void sequenceDeactivated(Sequence sequence)
-            {
+            public void sequenceDeactivated(Sequence sequence) {
                 //
             }
 
             @Override
-            public void activeSequenceChanged(SequenceEvent event)
-            {
+            public void activeSequenceChanged(SequenceEvent event) {
                 //
             }
         };
@@ -193,44 +162,38 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
     }
 
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         Dimension dim = super.getPreferredSize();
         dim.height = 20;
         return dim;
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         super.dispose();
 
         final JComboBox<Object> jComboSequences = getEditorComponent();
 
         // replace custom instances by new empty ones for garbage collection
         jComboSequences.setRenderer(new DefaultListCellRenderer());
-        jComboSequences.setModel(new DefaultComboBoxModel<Object>());
+        jComboSequences.setModel(new DefaultComboBoxModel<>());
 
     }
 
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         final JComboBox<Object> editor = getEditorComponent();
         final Var<? extends Sequence> v = ((variable.getReference() != null) ? variable.getReference() : variable);
 
-        if ((v instanceof VarSequence) && ((VarSequence) v).isActiveSequenceSelected())
-        {
+        if ((v instanceof VarSequence) && ((VarSequence) v).isActiveSequenceSelected()) {
             editor.setSelectedIndex(1);
             editor.repaint();
         }
-        else if (v.getValue() == null)
-        {
+        else if (v.getValue() == null) {
             editor.setSelectedIndex(0);
             editor.repaint();
         }
-        else
-        {
+        else {
             editor.setSelectedItem(v.getValue());
             editor.repaint();
         }
@@ -241,22 +204,19 @@ public class SequenceChooser extends SwingVarEditor<Sequence>
 
     @SuppressWarnings("unchecked")
     @Override
-    public JComboBox<Object> getEditorComponent()
-    {
+    public JComboBox<Object> getEditorComponent() {
         return (JComboBox<Object>) super.getEditorComponent();
     }
 
     @Override
-    protected void activateListeners()
-    {
+    protected void activateListeners() {
         Icy.getMainInterface().addGlobalSequenceListener(listener);
         Icy.getMainInterface().addActiveSequenceListener(listener);
         getEditorComponent().addActionListener(jComboSequenceBoxListener);
     }
 
     @Override
-    protected void deactivateListeners()
-    {
+    protected void deactivateListeners() {
         Icy.getMainInterface().removeGlobalSequenceListener(listener);
         Icy.getMainInterface().removeActiveSequenceListener(listener);
         getEditorComponent().removeActionListener(jComboSequenceBoxListener);

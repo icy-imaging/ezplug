@@ -6,10 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
 import icy.gui.component.button.IcyButton;
@@ -18,94 +15,73 @@ import icy.plugin.PluginDescriptor;
 import icy.plugin.PluginLauncher;
 import icy.plugin.PluginLoader;
 import icy.plugin.interface_.PluginBundled;
-import icy.resource.ResourceUtil;
-import icy.resource.icon.IcyIcon;
 import icy.system.thread.ThreadUtil;
 import icy.util.ClassUtil;
 import icy.util.StringUtil;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarDouble;
 import plugins.adufour.vars.util.VarListener;
 
-public class EzGUI extends EzDialog implements ActionListener
-{
-    public static final int LOGO_HEIGHT = 32;
-
+public class EzGUI extends EzDialog implements ActionListener {
     private EzPlug ezPlug;
 
     private Thread executionThread;
 
-    private JPanel jPanelBottom;
+    private final JPanel jPanelBottom;
 
-    private JPanel jPanelButtons;
+    private final JPanel jPanelButtons;
 
-    private JButton jButtonRun;
+    private final IcyButton jButtonRun;
 
-    private JButton jButtonStop;
+    private IcyButton jButtonStop;
 
-    private JButton jButtonSaveParameters;
+    private final IcyButton jButtonSaveParameters;
 
-    private JButton jButtonLoadParameters;
+    private final IcyButton jButtonLoadParameters;
 
-    private JButton jButtonHelp;
+    private final IcyButton jButtonHelp;
 
     private boolean jButtonsParametersVisible = true;
 
-    private JProgressBar jProgressBar;
+    private final JProgressBar jProgressBar;
 
-    private final VarListener<Double> statusProgressListener = new VarListener<Double>()
-    {
+    private final VarListener<Double> statusProgressListener = new VarListener<Double>() {
         @Override
-        public void valueChanged(Var<Double> source, Double oldValue, final Double newValue)
-        {
-            ThreadUtil.invokeLater(new Runnable()
-            {
-                public void run()
-                {
-                    jButtonRun.setEnabled(newValue == 0);
-                    if (ezPlug instanceof EzStoppable)
-                        jButtonStop.setEnabled(newValue != 0);
+        public void valueChanged(Var<Double> source, Double oldValue, final Double newValue) {
+            ThreadUtil.invokeLater(() -> {
+                jButtonRun.setEnabled(newValue == 0);
+                if (ezPlug instanceof EzStoppable)
+                    jButtonStop.setEnabled(newValue != 0);
 
-                    if (!Double.isNaN(newValue))
-                        jProgressBar.setValue((int) (Math.max(0, Math.min(1.0, newValue)) * 100));
-                    jProgressBar.setIndeterminate(Double.isNaN(newValue));
-                }
+                if (!Double.isNaN(newValue))
+                    jProgressBar.setValue((int) (Math.max(0, Math.min(1.0, newValue)) * 100));
+                jProgressBar.setIndeterminate(Double.isNaN(newValue));
             });
         }
 
         @Override
-        public void referenceChanged(Var<Double> source, Var<? extends Double> oldReference,
-                Var<? extends Double> newReference)
-        {
+        public void referenceChanged(Var<Double> source, Var<? extends Double> oldReference, Var<? extends Double> newReference) {
 
         }
     };
 
-    private final VarListener<String> statusMessageListener = new VarListener<String>()
-    {
+    private final VarListener<String> statusMessageListener = new VarListener<String>() {
         @Override
-        public void valueChanged(Var<String> source, String oldValue, final String newValue)
-        {
-            ThreadUtil.invokeLater(new Runnable()
-            {
-                public void run()
-                {
-                    jProgressBar.setString(newValue);
-                    jProgressBar.setStringPainted(!newValue.trim().isEmpty());
-                }
+        public void valueChanged(Var<String> source, String oldValue, final String newValue) {
+            ThreadUtil.invokeLater(() -> {
+                jProgressBar.setString(newValue);
+                jProgressBar.setStringPainted(!newValue.trim().isEmpty());
             });
         }
 
         @Override
-        public void referenceChanged(Var<String> source, Var<? extends String> oldReference,
-                Var<? extends String> newReference)
-        {
+        public void referenceChanged(Var<String> source, Var<? extends String> oldReference, Var<? extends String> newReference) {
 
         }
     };
 
-    public EzGUI(final EzPlug ezPlug)
-    {
+    public EzGUI(final EzPlug ezPlug) {
         super(ezPlug.getName(), false);
 
         this.ezPlug = ezPlug;
@@ -115,31 +91,30 @@ public class EzGUI extends EzDialog implements ActionListener
         jPanelButtons = new JPanel(new GridLayout(1, 5));
         jPanelBottom.add(jPanelButtons);
 
-        jButtonRun = new IcyButton(new IcyIcon(ResourceUtil.getAlphaIconAsImage("playback_play.png")));
+        jButtonRun = new IcyButton(GoogleMaterialDesignIcons.PLAY_ARROW);
         jButtonRun.setToolTipText("Start the plug-in...");
         jButtonRun.addActionListener(this);
         jPanelButtons.add(jButtonRun);
 
-        if (ezPlug instanceof EzStoppable)
-        {
-            jButtonStop = new IcyButton(new IcyIcon(ResourceUtil.getAlphaIconAsImage("playback_stop.png")));
+        if (ezPlug instanceof EzStoppable) {
+            jButtonStop = new IcyButton(GoogleMaterialDesignIcons.STOP);
             jButtonStop.setToolTipText("Stop the plug-in...");
             jButtonStop.setEnabled(false);
             jButtonStop.addActionListener(this);
             jPanelButtons.add(jButtonStop);
         }
 
-        jButtonSaveParameters = new IcyButton(new IcyIcon(ResourceUtil.ICON_SAVE));
+        jButtonSaveParameters = new IcyButton(GoogleMaterialDesignIcons.SAVE);
         jButtonSaveParameters.setToolTipText("Save the parameters to a file...");
         jButtonSaveParameters.addActionListener(this);
         jPanelButtons.add(jButtonSaveParameters);
 
-        jButtonLoadParameters = new IcyButton(new IcyIcon(ResourceUtil.ICON_LOAD));
+        jButtonLoadParameters = new IcyButton(GoogleMaterialDesignIcons.FOLDER);
         jButtonLoadParameters.setToolTipText("Load the parameters from a file...");
         jButtonLoadParameters.addActionListener(this);
         jPanelButtons.add(jButtonLoadParameters);
 
-        jButtonHelp = new IcyButton(new IcyIcon(ResourceUtil.ICON_HELP));
+        jButtonHelp = new IcyButton(GoogleMaterialDesignIcons.HELP);
         jButtonHelp.setToolTipText("Access the online help for this plug-in...");
         jButtonHelp.addActionListener(this);
         jPanelButtons.add(jButtonHelp);
@@ -160,149 +135,97 @@ public class EzGUI extends EzDialog implements ActionListener
 
     /**
      * Sets the state of the "Run" button on the interface
-     * 
-     * @param enabled
-     *        Enables (or disables) the run button.
+     *
+     * @param enabled Enables (or disables) the run button.
      */
-    public void setRunButtonEnabled(final boolean enabled)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                jButtonRun.setEnabled(enabled);
-            }
-        });
+    public void setRunButtonEnabled(final boolean enabled) {
+        ThreadUtil.invokeLater(() -> jButtonRun.setEnabled(enabled));
     }
 
     /**
      * Sets the text of the run button.
-     * 
-     * @param text
-     *        Text presented on the button component.
+     *
+     * @param text Text presented on the button component.
      */
-    public void setRunButtonText(final String text)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                jButtonRun.setText(text);
-            }
-        });
+    public void setRunButtonText(final String text) {
+        ThreadUtil.invokeLater(() -> jButtonRun.setText(text));
     }
 
     /**
      * Sets the text of the run button when it is running.
-     * 
-     * @param text
-     *        The string used to set the text of the run button.
+     *
+     * @param text The string used to set the text of the run button.
      */
-    public void setStopButtonText(final String text)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                jButtonStop.setText(text);
-            }
-        });
+    public void setStopButtonText(final String text) {
+        ThreadUtil.invokeLater(() -> jButtonStop.setText(text));
     }
 
     /**
      * Sets the running state of this plug-in. The running state is materialized by enabling or
      * disabling the "Run" (and "Stop") buttons and animating the progress bar.
-     * 
+     *
+     * @param isRunning Indicates the state of the plugin to be set (either running or completed).
      * @deprecated The running state is now automatically handled via the
-     *             {@link #setProgressBarValue(double)} and {@link #setProgressBarMessage(String)}
-     *             methods
-     * @param isRunning
-     *        Indicates the state of the plugin to be set (either running or completed).
+     * {@link #setProgressBarValue(double)} and {@link #setProgressBarMessage(String)}
+     * methods
      */
     @Deprecated
-    public void setRunningState(final boolean isRunning)
-    {
+    public void setRunningState(final boolean isRunning) {
         ezPlug.getStatus().setCompletion(isRunning ? Double.NaN : 0.0);
     }
 
     /**
      * Sets whether the action panel (buttons and progress bar) are visible or not.
-     * 
-     * @param visible
-     *        the new visibility state of the action panel
+     *
+     * @param visible the new visibility state of the action panel
      */
-    public void setActionPanelVisible(final boolean visible)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                jPanelBottom.setVisible(visible);
-            }
-        });
+    public void setActionPanelVisible(final boolean visible) {
+        ThreadUtil.invokeLater(() -> jPanelBottom.setVisible(visible));
     }
 
     /**
      * Returns the variable used by the interface's progress bar. Any change to this variable will
      * automatically affect the corresponding progress bar
-     * 
+     *
      * @return the variable controlling the progress bar
      */
-    public VarDouble getProgressBarValue()
-    {
+    public VarDouble getProgressBarValue() {
         return ezPlug.getStatus().getProgressVariable();
     }
 
-    public void setProgressBarMessage(final String string)
-    {
+    public void setProgressBarMessage(final String string) {
         ezPlug.getStatus().setMessage(string);
     }
 
     /**
      * Sets the progress indicator for this plug-in
-     * 
-     * @param value
-     *        <ul>
-     *        <li>0: no animation (default)</li>
-     *        <li>NaN: started (infinitely running)</li>
-     *        <li>from 0 to 1: a progress percentage indicator</li>
-     *        </ul>
+     *
+     * @param value <ul>
+     *                     <li>0: no animation (default)</li>
+     *                     <li>NaN: started (infinitely running)</li>
+     *                     <li>from 0 to 1: a progress percentage indicator</li>
+     *                     </ul>
      */
-    public void setProgressBarValue(final double value)
-    {
+    public void setProgressBarValue(final double value) {
         ezPlug.getStatus().setCompletion(value);
     }
 
-    public void setProgressBarVisible(final boolean visible)
-    {
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                jProgressBar.setVisible(visible);
-            }
-        });
+    public void setProgressBarVisible(final boolean visible) {
+        ThreadUtil.invokeLater(() -> jProgressBar.setVisible(visible));
     }
 
-    public void setParametersIOVisible(final boolean visible)
-    {
+    public void setParametersIOVisible(final boolean visible) {
         if (visible == jButtonsParametersVisible)
             return;
 
-        ThreadUtil.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                if (visible)
-                {
-                    jPanelButtons.add(jButtonLoadParameters);
-                    jPanelButtons.add(jButtonSaveParameters);
-                }
-                else
-                {
-                    jPanelButtons.remove(jButtonLoadParameters);
-                    jPanelButtons.remove(jButtonSaveParameters);
-                }
+        ThreadUtil.invokeLater(() -> {
+            if (visible) {
+                jPanelButtons.add(jButtonLoadParameters);
+                jPanelButtons.add(jButtonSaveParameters);
+            }
+            else {
+                jPanelButtons.remove(jButtonLoadParameters);
+                jPanelButtons.remove(jButtonSaveParameters);
             }
         });
 
@@ -313,29 +236,23 @@ public class EzGUI extends EzDialog implements ActionListener
      * Simulates a click on the run button (useful to execute the plug-in right after
      * initialization)
      */
-    public void clickRun()
-    {
+    public void clickRun() {
         executionThread = new Thread(ezPlug, ezPlug.getName());
         executionThread.start();
     }
 
     // ActionListener //
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource().equals(jButtonRun))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(jButtonRun)) {
             clickRun();
         }
-        else if (e.getSource().equals(jButtonStop))
-        {
+        else if (e.getSource().equals(jButtonStop)) {
             if (ezPlug instanceof EzStoppable)
                 ((EzStoppable) ezPlug).stopExecution();
         }
-        else if (e.getSource().equals(jButtonLoadParameters))
-        {
-            JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView())
-                    : new JFileChooser(currentParametersPath);
+        else if (e.getSource().equals(jButtonLoadParameters)) {
+            JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView()) : new JFileChooser(currentParametersPath);
 
             if (jfc.showOpenDialog(getContentPane()) != JFileChooser.APPROVE_OPTION)
                 return;
@@ -345,10 +262,8 @@ public class EzGUI extends EzDialog implements ActionListener
             ezPlug.loadParameters(jfc.getSelectedFile());
 
         }
-        else if (e.getSource().equals(jButtonSaveParameters))
-        {
-            JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView())
-                    : new JFileChooser(currentParametersPath);
+        else if (e.getSource().equals(jButtonSaveParameters)) {
+            JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView()) : new JFileChooser(currentParametersPath);
 
             if (jfc.showSaveDialog(getContentPane()) != JFileChooser.APPROVE_OPTION)
                 return;
@@ -357,36 +272,29 @@ public class EzGUI extends EzDialog implements ActionListener
 
             ezPlug.saveParameters(jfc.getSelectedFile());
         }
-        else if (e.getSource().equals(jButtonHelp))
-        {
+        else if (e.getSource().equals(jButtonHelp)) {
             NetworkUtil.openBrowser(getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation");
         }
-        else
-        {
+        else {
             throw new UnsupportedOperationException("Action event not recognized for source " + e.getSource());
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public void onClosed()
-    {
+    public void onClosed() {
         super.onClosed();
 
         if (ezPlug == null)
             return;
 
-        if (executionThread != null && executionThread.isAlive())
-        {
+        if (executionThread != null && executionThread.isAlive()) {
             ezPlug.stopExecution();
 
             // stop the execution if it was still running
-            if (!(ezPlug instanceof EzStoppable))
-            {
+            if (!(ezPlug instanceof EzStoppable)) {
                 // special case: process needs to be force-killed.
                 // => use the dedicated interruption handler
-                executionThread
-                        .setUncaughtExceptionHandler(new EzStoppable.ForcedInterruptionHandler(ezPlug.getDescriptor()));
-                executionThread.stop();
+                executionThread.setUncaughtExceptionHandler(new EzStoppable.ForcedInterruptionHandler(ezPlug.getDescriptor()));
+                executionThread.interrupt();
             }
         }
 
@@ -405,36 +313,28 @@ public class EzGUI extends EzDialog implements ActionListener
         ezPlug = null;
     }
 
-    private static PluginDescriptor getMainPlugin(PluginDescriptor bundledPlugin)
-    {
+    private static PluginDescriptor getMainPlugin(PluginDescriptor bundledPlugin) {
         if (!bundledPlugin.isBundled())
             return bundledPlugin;
 
-        try
-        {
+        try {
             // get main plugin
-            return PluginLoader
-                    .getPlugin(((PluginBundled) PluginLauncher.create(bundledPlugin)).getMainPluginClassName());
+            return PluginLoader.getPlugin(((PluginBundled) PluginLauncher.create(bundledPlugin)).getMainPluginClassName());
         }
-        catch (Throwable t)
-        {
+        catch (Throwable t) {
             // try alternate method
             final List<PluginDescriptor> allPlugins = PluginLoader.getPlugins(false);
 
             String packageName = bundledPlugin.getPackageName();
 
-            while (!StringUtil.isEmpty(packageName))
-            {
+            while (!StringUtil.isEmpty(packageName)) {
                 PluginDescriptor matchingPlugin = null;
 
-                for (PluginDescriptor p : allPlugins)
-                {
+                for (PluginDescriptor p : allPlugins) {
                     // package name matches ? --> increase
-                    if (p.getClassName().startsWith(packageName))
-                    {
+                    if (p.getClassName().startsWith(packageName)) {
                         // several results ? --> no need to go further
-                        if (matchingPlugin != null)
-                        {
+                        if (matchingPlugin != null) {
                             // we use this to know that we have several matches (no way to recover origin plugin)
                             matchingPlugin = bundledPlugin;
                             // stop here

@@ -48,31 +48,27 @@ import plugins.adufour.vars.util.VarException;
  * <p>
  * An example showing most of the features in action is available online
  * <a href="http://icy.bioimageanalysis.org/index.php?display=detailPlugin&pluginId=77">here</a>.
- * 
- * @see plugins.adufour.ezplug.EzInternalFrame
+ *
  * @author Alexandre Dufour
+ * @see plugins.adufour.ezplug.EzInternalFrame
  */
 @SuppressWarnings("deprecation")
-public abstract class EzPlug extends Plugin implements PluginImageAnalysis, PluginLibrary, Runnable
-{
+public abstract class EzPlug extends Plugin implements PluginImageAnalysis, PluginLibrary, Runnable {
     public static final String EZPLUG_MAINTAINERS = "Alexandre Dufour (adufour@pasteur.fr)";
 
-    /**
+    /*
      * This piece of code removes the Vars plug-in from Icy, since it has been merged into EzPlug
      * v.2.0
      */
-    static
-    {
+    static {
         String path = new File("").getAbsolutePath() + FileUtil.separator
                 + "plugins.adufour.vars".replace('.', FileUtil.separatorChar);
-        if (FileUtil.exists(path))
-        {
-            try
-            {
+        if (FileUtil.exists(path)) {
+            try {
                 FileUtil.delete(new File(path), true);
             }
-            catch (Throwable t)
-            {
+            catch (Throwable t) {
+                // Ignore it
             }
         }
     }
@@ -80,7 +76,7 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
     /**
      * Number of active instances of this plugin
      */
-    private static IntegerValue nbInstances = new IntegerValue(0);
+    private static final IntegerValue nbInstances = new IntegerValue(0);
 
     private EzGUI ezgui;
 
@@ -94,20 +90,16 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
     private final EzStatus status = new EzStatus();
 
-    protected EzPlug()
-    {
-        ezVars = new HashMap<String, EzVar<?>>();
+    protected EzPlug() {
+        ezVars = new HashMap<>();
 
-        synchronized (nbInstances)
-        {
+        synchronized (nbInstances) {
             nbInstances.setValue(nbInstances.getValue() + 1);
         }
     }
 
-    protected void addComponent(Component component)
-    {
-        if (component == null)
-        {
+    protected void addComponent(Component component) {
+        if (component == null) {
             // the component was not initialized inside the plug-in code
             throw new EzException(this, "null graphical component", false);
         }
@@ -120,17 +112,14 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
     /**
      * Adds a graphical component to the interface. Components are graphically ordered on the
      * interface panel in top-down fashion in the same order as they are added.
-     * 
-     * @param component
-     *        the component to add
+     *
+     * @param component the component to add
      * @see plugins.adufour.ezplug.EzVar
      * @see plugins.adufour.ezplug.EzButton
      * @see plugins.adufour.ezplug.EzGroup
      */
-    protected void addEzComponent(EzComponent component)
-    {
-        if (component == null)
-        {
+    protected void addEzComponent(EzComponent component) {
+        if (component == null) {
             // the component was not initialized inside the plug-in code
             throw new EzException(this, "A plug-in variable was not initialized properly", false);
         }
@@ -161,15 +150,12 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
      * Clean method called whenever the user interface (or ICY) is closed, in order to clean
      * internal and user-defined structures properly.
      */
-    void cleanFromUI()
-    {
+    void cleanFromUI() {
         // clean user-specific items
-        try
-        {
+        try {
             clean();
         }
-        catch (EzException eze)
-        {
+        catch (EzException eze) {
             // do not display anything as the interface is being closed
             if (!eze.catchException)
                 throw eze;
@@ -181,8 +167,7 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
         ezgui = null;
 
-        synchronized (nbInstances)
-        {
+        synchronized (nbInstances) {
             nbInstances.setValue(nbInstances.getValue() - 1);
         }
     }
@@ -193,26 +178,22 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
      */
     @Override
     @Deprecated
-    public void compute()
-    {
-        if (Icy.getMainInterface().isHeadLess())
-        {
+    public void compute() {
+        if (Icy.getMainInterface().isHeadLess()) {
             // Special scenario: The plugin is running headless (from the command line)
             // => call the execute() method right away and exit
             execute();
             return;
         }
 
-        try
-        {
+        try {
             // generate the user interface
             createUI();
 
             // show the interface to the user
             showUI();
         }
-        catch (EzException e)
-        {
+        catch (EzException e) {
             if (e.catchException)
                 JOptionPane.showMessageDialog(ezgui.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             else
@@ -224,8 +205,7 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
      * Generates the user interface of this EzPlug. Note that the window is not shown on screen
      * (this can be done by calling the {@link #showUI()} method.
      */
-    public void createUI()
-    {
+    public void createUI() {
         // generate the main interface
         ezgui = new EzGUI(this);
 
@@ -250,30 +230,25 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
     /**
      * Generates an EzPlug code fragment that is ready to use and compile
-     * 
-     * @param className
-     *        the name of the new class
+     *
+     * @param className the name of the new class
      * @return Code template for the new class.
      */
-    public static String generateEzPlugCodeFragment(String className)
-    {
+    public static String generateEzPlugCodeFragment(String className) {
         StringWriter sw = new StringWriter();
 
         sw.write("import " + EzPlug.class.getPackage().getName() + ".*;\n\n");
         sw.write("public class " + className + " extends " + EzPlug.class.getName() + "\n{\n");
 
-        for (java.lang.reflect.Method m : EzPlug.class.getDeclaredMethods())
-        {
-            if (java.lang.reflect.Modifier.isAbstract(m.getModifiers()))
-            {
+        for (java.lang.reflect.Method m : EzPlug.class.getDeclaredMethods()) {
+            if (java.lang.reflect.Modifier.isAbstract(m.getModifiers())) {
                 Class<?> returnType = m.getReturnType();
                 sw.write("  public " + (returnType == null ? "void" : returnType.getName()) + " ");
 
                 sw.write(m.getName() + "(");
 
                 Class<?>[] params = m.getParameterTypes();
-                if (params.length > 0)
-                {
+                if (params.length > 0) {
                     int cpt = 1;
 
                     sw.write(params[0].getName() + " arg" + cpt++);
@@ -295,19 +270,17 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
     /**
      * Gets the name of this EzPlug (defaults to the class name).
-     * 
+     *
      * @return The name of this EzPlug.
      */
-    public String getName()
-    {
+    public String getName() {
         return getDescriptor().getName();
     }
 
     /**
      * @return The number of active (not-destroyed) instances of this plug-in.
      */
-    public static int getNbInstances()
-    {
+    public static int getNbInstances() {
         return nbInstances.getValue();
     }
 
@@ -315,37 +288,33 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
      * Gets the starting execution time of this EzPlug (in nanoseconds). This method can be used in
      * conjunction with the {@link System#nanoTime()} method to measure elapsed time during the
      * execution process
-     * 
+     *
      * @return the starting execution time in nanoseconds (obtained from the
-     *         {@link System#nanoTime()} method)
+     * {@link System#nanoTime()} method)
      */
-    public long getStartTime()
-    {
+    public long getStartTime() {
         return startTime;
     }
 
     /**
      * Gets the graphical interface attached to this EzPlug. This interface gives access to specific
      * methods related to user interaction (e.g. progress bars, highlighting, etc.).
-     * 
+     *
      * @return the graphical interface of the EzPlug, or null if the EzPlug has been created via
-     *         code without generating the interface
+     * code without generating the interface
      */
-    public EzGUI getUI()
-    {
+    public EzGUI getUI() {
         return ezgui;
     }
 
-    protected EzStatus getStatus()
-    {
+    protected EzStatus getStatus() {
         return status;
     }
 
     /**
      * Hides the user interface (without destroying it)
      */
-    public void hideUI()
-    {
+    public void hideUI() {
         if (ezgui == null)
             return;
 
@@ -354,18 +323,17 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
     /**
      * @return true if the graphical user interface has not been initialized (e.g. when running
-     *         without screen or on a server). If this method returns true, then the
-     *         {@link #getUI()} will return null
+     * without screen or on a server). If this method returns true, then the
+     * {@link #getUI()} will return null
      */
-    public boolean isHeadLess()
-    {
+    public boolean isHeadLess() {
         return getUI() == null;
     }
 
     /**
      * This method lets the developer initialize the user interface of this EzPlug by adding
      * variables and other EzComponent objects via the {@link #addEzComponent(EzComponent)} method
-     * 
+     *
      * @see plugins.adufour.ezplug.EzVar
      * @see plugins.adufour.ezplug.EzComponent
      */
@@ -377,33 +345,26 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
      * as it is up to the implementation of {@link #execute()} to regularly monitor the thread's
      * interrupted flag
      */
-    public void stopExecution()
-    {
+    public void stopExecution() {
         if (executionThread != null)
             executionThread.interrupt();
     }
 
     /**
      * Loads the EzPlug user parameters from the specified XML file.
-     * 
-     * @param file
-     *        File to load the plugin parameters from.
+     *
+     * @param file File to load the plugin parameters from.
      * @see EzVarIO
      */
-    public void loadParameters(File file)
-    {
-        try
-        {
+    public void loadParameters(File file) {
+        try {
             EzVarIO.load(this, file, ezVars);
         }
-        catch (EzException e)
-        {
-            if (!Icy.getMainInterface().isHeadLess())
-            {
+        catch (EzException e) {
+            if (!Icy.getMainInterface().isHeadLess()) {
                 JOptionPane.showMessageDialog(ezgui.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            else
-            {
+            else {
                 System.err.println("EzVarIO: " + e.getMessage());
             }
 
@@ -412,8 +373,7 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
         }
     }
 
-    <T> void registerVariable(EzVar<T> var)
-    {
+    <T> void registerVariable(EzVar<T> var) {
         String varID = var.getID();
 
         if (ezVars.containsKey(varID))
@@ -422,16 +382,12 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
         ezVars.put(varID, var);
     }
 
-    void registerVariables(EzPanel ezPanel)
-    {
-        for (EzComponent panelComponent : ezPanel)
-        {
-            if (panelComponent instanceof EzVar<?>)
-            {
+    void registerVariables(EzPanel ezPanel) {
+        for (EzComponent panelComponent : ezPanel) {
+            if (panelComponent instanceof EzVar<?>) {
                 registerVariable((EzVar<?>) panelComponent);
             }
-            else if (panelComponent instanceof EzPanel)
-            {
+            else if (panelComponent instanceof EzPanel) {
                 // add recursively
                 registerVariables((EzPanel) panelComponent);
             }
@@ -439,14 +395,11 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
     }
 
     @Override
-    public synchronized void run()
-    {
+    public synchronized void run() {
         executionThread = Thread.currentThread();
 
-        try
-        {
-            try
-            {
+        try {
+            try {
                 startTime = System.nanoTime();
 
                 status.setCompletion(Double.NaN);
@@ -457,8 +410,7 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
                 if (timeTrial)
                     System.out.println(getName() + " executed in " + (System.nanoTime() - startTime) / 1000000 + " ms");
             }
-            catch (final VarException e)
-            {
+            catch (final VarException e) {
                 if (isHeadLess())
                     throw e;
 
@@ -468,10 +420,8 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
                 throw new EzException(this, message, true);
             }
         }
-        catch (final EzException e)
-        {
-            if (e.catchException)
-            {
+        catch (final EzException e) {
+            if (e.catchException) {
                 String message = "Plugin: " + (e.source == null ? "(unknown)" : e.source.getName()) + "\n";
                 message += e.getMessage();
 
@@ -480,29 +430,25 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
             throw e;
         }
-        finally
-        {
+        finally {
             status.done();
         }
     }
 
     /**
      * Saves the EzPlug user parameters into the specified XML file.
-     * 
-     * @param file
-     *        File to save the plugin parameters to.
+     *
+     * @param file File to save the plugin parameters to.
      * @see EzVarIO
      */
-    public void saveParameters(File file)
-    {
+    public void saveParameters(File file) {
         EzVarIO.save(this, ezVars, file);
     }
 
     /**
      * Displays the user interface on screen. If it didn't exist, the interface is first created
      */
-    public void showUI()
-    {
+    public void showUI() {
         if (ezgui == null)
             createUI();
 
@@ -512,12 +458,10 @@ public abstract class EzPlug extends Plugin implements PluginImageAnalysis, Plug
 
     /**
      * Sets whether the execution time of this EzPlug should be displayed on the console
-     * 
-     * @param displayRunningTime
-     *        If true, the execution time of this plugin is presented on the console.
+     *
+     * @param displayRunningTime If true, the execution time of this plugin is presented on the console.
      */
-    public void setTimeDisplay(boolean displayRunningTime)
-    {
+    public void setTimeDisplay(boolean displayRunningTime) {
         this.timeTrial = displayRunningTime;
     }
 }

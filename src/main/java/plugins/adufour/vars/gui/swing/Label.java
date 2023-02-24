@@ -7,58 +7,48 @@ import javax.swing.JLabel;
 
 import plugins.adufour.vars.lang.Var;
 
-public class Label<T> extends SwingVarEditor<T>
-{
+public class Label<T> extends SwingVarEditor<T> {
     public final int MAX_WIDTH = 150;
-    
-    public Label(Var<T> variable)
-    {
+
+    public Label(Var<T> variable) {
         super(variable);
     }
-    
+
     @Override
-    protected JComponent createEditorComponent()
-    {
+    protected JComponent createEditorComponent() {
         return new JLabel(variable.getValueAsString(true));
     }
-    
+
     @Override
-    protected void activateListeners()
-    {
+    protected void activateListeners() {
     }
-    
+
     @Override
-    protected void deactivateListeners()
-    {
+    protected void deactivateListeners() {
     }
-    
+
     @Override
-    public JLabel getEditorComponent()
-    {
+    public JLabel getEditorComponent() {
         return (JLabel) super.getEditorComponent();
     }
-    
+
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         Dimension dim = getEditorComponent().getPreferredSize();
         if (dim.width > MAX_WIDTH) dim.width = MAX_WIDTH;
         return dim;
     }
-    
+
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         getEditorComponent().setText(variable.getValueAsString(true));
     }
-    
-    public boolean isComponentResizeable()
-    {
+
+    public boolean isComponentResizeable() {
         return true;
     }
-    
-    public double getComponentVerticalResizeFactor()
-    {
+
+    public double getComponentVerticalResizeFactor() {
         return 0;
     }
 }

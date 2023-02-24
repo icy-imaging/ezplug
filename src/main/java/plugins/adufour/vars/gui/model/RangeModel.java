@@ -4,23 +4,20 @@ import java.util.HashMap;
 
 /**
  * Generic model used to design graphical editors for numeric variables.
- * 
+ *
+ * @param <N> Numeric type of the range model.
  * @author Alexandre Dufour
- * @param <N>
- *        Numeric type of the range model.
  * @see IntegerRangeModel
  * @see DoubleRangeModel
  * @see FloatRangeModel
  */
-public abstract class RangeModel<N extends Number> implements VarEditorModel<N>
-{
+public abstract class RangeModel<N extends Number> implements VarEditorModel<N> {
     /**
      * Default editor is a spinner, but can be changed (see {@link RangeEditorType})
      */
     private RangeEditorType editorType = RangeEditorType.SPINNER;
 
-    public enum RangeEditorType
-    {
+    public enum RangeEditorType {
         /**
          * A spinner that allows manual value editing, and browsing through the values with small
          * arrows on the side or with the mouse wheel. This is the default component
@@ -39,14 +36,11 @@ public abstract class RangeModel<N extends Number> implements VarEditorModel<N>
 
     protected HashMap<N, String> labels;
 
-    public RangeModel(N defaultValue, Comparable<N> min, Comparable<N> max, N step)
-    {
+    public RangeModel(N defaultValue, Comparable<N> min, Comparable<N> max, N step) {
         this(defaultValue, min, max, step, RangeEditorType.SPINNER, null);
     }
 
-    public RangeModel(N defaultValue, Comparable<N> min, Comparable<N> max, N step, RangeEditorType editorType,
-            HashMap<N, String> labels)
-    {
+    public RangeModel(N defaultValue, Comparable<N> min, Comparable<N> max, N step, RangeEditorType editorType, HashMap<N, String> labels) {
         this.defaultValue = defaultValue;
         this.min = min;
         this.max = max;
@@ -56,18 +50,15 @@ public abstract class RangeModel<N extends Number> implements VarEditorModel<N>
     }
 
     @Override
-    public N getDefaultValue()
-    {
+    public N getDefaultValue() {
         return defaultValue;
     }
 
-    public RangeEditorType getEditorType()
-    {
+    public RangeEditorType getEditorType() {
         return editorType;
     }
 
-    public HashMap<N, String> getLabels()
-    {
+    public HashMap<N, String> getLabels() {
         return labels;
     }
 
@@ -76,55 +67,46 @@ public abstract class RangeModel<N extends Number> implements VarEditorModel<N>
      */
     public abstract int getRangeSize();
 
-    public Comparable<N> getMaximum()
-    {
+    public Comparable<N> getMaximum() {
         return max;
     }
 
-    public Comparable<N> getMinimum()
-    {
+    public Comparable<N> getMinimum() {
         return min;
     }
 
-    public N getStepSize()
-    {
+    public N getStepSize() {
         return step;
     }
 
     /**
-     * @param index
-     *        zero-based index.
+     * @param index zero-based index.
      * @return the value corresponding to the specified zero-based index, i.e.,
-     *         <code>min + index * step</code>
+     * <code>min + index * step</code>
      */
     public abstract N getValueForIndex(int index);
 
     /**
      * Calculates the index of the specified value within the range, according to the current minimum value and step.
-     * 
-     * @param value
-     *        Value to search.
+     *
+     * @param value Value to search.
      * @return the number of step from the minimum to the specified value
      */
     public abstract int indexOf(N value);
 
-    public void setMaximum(Comparable<N> maximum)
-    {
+    public void setMaximum(Comparable<N> maximum) {
         this.max = maximum;
     }
 
-    public void setEditorType(RangeEditorType editorType)
-    {
+    public void setEditorType(RangeEditorType editorType) {
         this.editorType = editorType;
     }
 
-    public void setMinimum(Comparable<N> minimum)
-    {
+    public void setMinimum(Comparable<N> minimum) {
         this.min = minimum;
     }
 
-    public void setStepSize(N step)
-    {
+    public void setStepSize(N step) {
         this.step = step;
     }
 }

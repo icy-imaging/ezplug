@@ -14,38 +14,30 @@ import plugins.adufour.vars.gui.model.RangeModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
 
-public class Spinner<N extends Number> extends SwingVarEditor<N>
-{
+public class Spinner<N extends Number> extends SwingVarEditor<N> {
     private static final int MAX_SPINNER_WIDTH = 100;
 
     private NumberFormatter formatter;
 
-    public Spinner(Var<N> variable)
-    {
+    public Spinner(Var<N> variable) {
         super(variable);
     }
 
     @Override
-    public JComponent createEditorComponent()
-    {
+    public JComponent createEditorComponent() {
         VarEditorModel<N> model = variable.getDefaultEditorModel();
 
-        if (model == null || !(model instanceof RangeModel))
-        {
+        if (!(model instanceof RangeModel)) {
             throw new UnsupportedOperationException(
                     "Incorrect model for variable " + variable.getName() + ": " + model);
         }
 
         RangeModel<N> constraint = (RangeModel<N>) model;
 
-        @SuppressWarnings("serial")
-        final JSpinner jSpinner = new JSpinner(new SpinnerNumberModel(constraint.getDefaultValue(),
-                constraint.getMinimum(), constraint.getMaximum(), constraint.getStepSize())
-        {
+        final JSpinner jSpinner = new JSpinner(new SpinnerNumberModel(constraint.getDefaultValue(), constraint.getMinimum(), constraint.getMaximum(), constraint.getStepSize()) {
             @SuppressWarnings("unchecked")
             @Override
-            public void setValue(Object value)
-            {
+            public void setValue(Object value) {
                 super.setValue(value);
                 variable.setValue((N) value);
             }
@@ -56,53 +48,45 @@ public class Spinner<N extends Number> extends SwingVarEditor<N>
         formatter = (NumberFormatter) field.getFormatter();
 
         // set the preferred size the maximum possible text length
-        try
-        {
+        try {
             String min = formatter.valueToString(constraint.getMinimum());
             String max = formatter.valueToString(constraint.getMaximum());
             String step = formatter.valueToString(constraint.getStepSize());
 
             field.setColumns(Math.max(min.length(), Math.max(max.length(), step.length())));
         }
-        catch (ParseException e)
-        {
+        catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
         return jSpinner;
     }
 
-    public void setMaximum(Comparable<N> maxValue)
-    {
+    public void setMaximum(Comparable<N> maxValue) {
         ((SpinnerNumberModel) getEditorComponent().getModel()).setMaximum(maxValue);
         ((RangeModel<N>) variable.getDefaultEditorModel()).setMaximum(maxValue);
     }
 
-    public void setMinimum(Comparable<N> minValue)
-    {
+    public void setMinimum(Comparable<N> minValue) {
         ((SpinnerNumberModel) getEditorComponent().getModel()).setMinimum(minValue);
         ((RangeModel<N>) variable.getDefaultEditorModel()).setMinimum(minValue);
     }
 
-    public void setStepSize(N stepSize)
-    {
+    public void setStepSize(N stepSize) {
         ((SpinnerNumberModel) getEditorComponent().getModel()).setStepSize(stepSize);
         ((RangeModel<N>) variable.getDefaultEditorModel()).setStepSize(stepSize);
     }
 
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         N value = variable.getValue();
 
         if (value == null)
             return;
 
         // adjust the text format (if not in scientific notation)
-        if (!value.toString().contains("E"))
-        {
-            if (formatter != null && formatter.getFormat() != null)
-            {
+        if (!value.toString().contains("E")) {
+            if (formatter != null && formatter.getFormat() != null) {
                 ((DecimalFormat) formatter.getFormat())
                         .applyPattern(value.toString().replace("-", "").replaceAll("[0-9]", "#"));
             }
@@ -112,26 +96,22 @@ public class Spinner<N extends Number> extends SwingVarEditor<N>
     }
 
     @Override
-    public JSpinner getEditorComponent()
-    {
+    public JSpinner getEditorComponent() {
         return (JSpinner) super.getEditorComponent();
     }
 
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         Dimension dim = super.getPreferredSize();
         dim.width = Math.min(MAX_SPINNER_WIDTH, dim.width);
         return dim;
     }
 
     @Override
-    protected void activateListeners()
-    {
+    protected void activateListeners() {
     }
 
     @Override
-    protected void deactivateListeners()
-    {
+    protected void deactivateListeners() {
     }
 }

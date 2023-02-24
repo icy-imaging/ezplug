@@ -4,48 +4,40 @@ import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.util.VarListener;
 import icy.roi.ROI;
 
-public class VarROIArray extends VarArray<ROI>
-{
+public class VarROIArray extends VarArray<ROI> {
     /**
      * Creates a new ROI array {@link Var}iable with the specified name and default array of size 0.
-     * 
-     * @param name
-     *        The name of this variable.
+     *
+     * @param name The name of this variable.
      */
-    public VarROIArray(String name)
-    {
+    public VarROIArray(String name) {
         this(name, null);
     }
 
     /**
      * Creates a new ROI array {@link Var}iable with the specified name and default array of size 0. Optionally, a listener can be added to track events on the
      * variable.
-     * 
-     * @param name
-     *        The name of this variable.
-     * @param defaultListener
-     *        A listener to add to this variable immediately after creation.
+     *
+     * @param name            The name of this variable.
+     * @param defaultListener A listener to add to this variable immediately after creation.
      */
-    public VarROIArray(String name, VarListener<ROI[]> defaultListener)
-    {
+    public VarROIArray(String name, VarListener<ROI[]> defaultListener) {
         super(name, ROI[].class, new ROI[0], defaultListener);
     }
 
     @Override
-    public VarEditor<ROI[]> createVarEditor()
-    {
+    public VarEditor<ROI[]> createVarEditor() {
         return super.createVarViewer();
     }
 
     /**
      * @return a pretty-printed text representation of the variable's local value (referenced
-     *         variables are <b>not</b> followed). This text is used to display the value (e.g. in a
-     *         graphical interface) or store the value into XML files. Overriding implementations
-     *         should make sure that the result of this method is compatible with the
-     *         {@link #parse(String)} method to ensure proper reloading from XML files.
+     * variables are <b>not</b> followed). This text is used to display the value (e.g. in a
+     * graphical interface) or store the value into XML files. Overriding implementations
+     * should make sure that the result of this method is compatible with the
+     * {@link #parse(String)} method to ensure proper reloading from XML files.
      */
-    public String getValueAsString()
-    {
+    public String getValueAsString() {
         ROI[] value = getValue();
 
         if (value == null || value.length == 0)
@@ -55,8 +47,7 @@ public class VarROIArray extends VarArray<ROI>
     }
 
     @Override
-    public ROI[] parse(String input)
-    {
+    public ROI[] parse(String input) {
         return null;
     }
 }

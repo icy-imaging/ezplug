@@ -1,7 +1,6 @@
 package plugins.adufour.vars.gui.swing;
 
 import icy.plugin.PluginDescriptor;
-import icy.plugin.abstract_.Plugin;
 import icy.sequence.Sequence;
 import icy.swimmingPool.SwimmingObject;
 
@@ -17,127 +16,106 @@ import plugins.adufour.vars.lang.VarMutable;
 import plugins.adufour.vars.lang.VarSlice;
 import plugins.adufour.vars.lang.VarTrigger;
 
-public class SwingFactory extends VarEditorFactory
-{
+public class SwingFactory extends VarEditorFactory {
     @Override
-    public VarEditor<Integer> createButton(VarTrigger variable)
-    {
+    public VarEditor<Integer> createButton(VarTrigger variable) {
         return new Button(variable);
     }
-    
+
     @Override
-    public VarEditor<Integer> createChannelSelector(VarChannel varChannel, Var<Sequence> sequence, boolean allowAllChannels)
-    {
+    public VarEditor<Integer> createChannelSelector(VarChannel varChannel, Var<Sequence> sequence, boolean allowAllChannels) {
         return new ChannelSelector(varChannel, sequence, allowAllChannels);
     }
-    
+
     @Override
-    public VarEditor<Boolean> createCheckBox(Var<Boolean> variable)
-    {
+    public VarEditor<Boolean> createCheckBox(Var<Boolean> variable) {
         return new CheckBox(variable);
     }
-    
+
     @Override
-    public <V> VarEditor<V> createComboBox(Var<V> variable)
-    {
-        return new ComboBox<V>(variable);
+    public <V> VarEditor<V> createComboBox(Var<V> variable) {
+        return new ComboBox<>(variable);
     }
-    
+
     @Override
-    public VarEditor<Color> createColorChooser(Var<Color> variable)
-    {
+    public VarEditor<Color> createColorChooser(Var<Color> variable) {
         return new ColorChooser(variable);
     }
-    
+
     @Override
-    public VarEditor<Integer> createFrameSelector(VarFrame varFrame, Var<Sequence> sequence, boolean allowAllFrames)
-    {
+    public VarEditor<Integer> createFrameSelector(VarFrame varFrame, Var<Sequence> sequence, boolean allowAllFrames) {
         return new FrameSelector(varFrame, sequence, allowAllFrames);
     }
-    
+
     @Override
-    public <V> VarEditor<V> createLabel(Var<V> variable)
-    {
-        return new Label<V>(variable);
+    public <V> VarEditor<V> createLabel(Var<V> variable) {
+        return new Label<>(variable);
     }
-    
+
     @SuppressWarnings("rawtypes")
     @Override
-    public VarEditor createMutableVarEditor(VarMutable varMutable)
-    {
+    public VarEditor createMutableVarEditor(VarMutable varMutable) {
         return new MutableVarEditor(varMutable);
     }
-    
+
     @Override
-    public VarEditor<String> createPasswordField(Var<String> variable)
-    {
+    public VarEditor<String> createPasswordField(Var<String> variable) {
         return new PasswordField(variable);
     }
-    
+
     @Override
-    public VarEditor<PluginDescriptor> createPluginChooser(Var<PluginDescriptor> variable)
-    {
-        return new PluginChooser<Plugin>(variable);
+    public VarEditor<PluginDescriptor> createPluginChooser(Var<PluginDescriptor> variable) {
+        return new PluginChooser<>(variable);
     }
-    
+
     @Override
-    public VarEditor<Sequence> createSequenceChooser(Var<Sequence> variable)
-    {
+    public VarEditor<Sequence> createSequenceChooser(Var<Sequence> variable) {
         return new SequenceChooser(variable);
     }
-    
+
     @Override
-    public VarEditor<Sequence[]> createSequenceList(VarGenericArray<Sequence[]> varSequenceArray)
-    {
+    public VarEditor<Sequence[]> createSequenceList(VarGenericArray<Sequence[]> varSequenceArray) {
         return new SequenceList(varSequenceArray);
     }
-    
+
     @Override
-    public VarEditor<Sequence> createSequenceViewer(Var<Sequence> variable)
-    {
+    public VarEditor<Sequence> createSequenceViewer(Var<Sequence> variable) {
         return new SequenceViewer(variable);
     }
-    
+
     @Override
-    public VarEditor<Integer> createSliceSelector(VarSlice varSlice, Var<Sequence> sequence, boolean allowAllSlices)
-    {
+    public VarEditor<Integer> createSliceSelector(VarSlice varSlice, Var<Sequence> sequence, boolean allowAllSlices) {
         return new SliceSelector(varSlice, sequence, allowAllSlices);
     }
-    
+
     @Override
-    public <N extends Number> VarEditor<N> createSlider(Var<N> variable)
-    {
-        return new Slider<N>(variable);
+    public <N extends Number> VarEditor<N> createSlider(Var<N> variable) {
+        return new Slider<>(variable);
     }
-    
+
     @Override
-    public <N extends Number> VarEditor<N> createSpinner(Var<N> variable)
-    {
-        return new Spinner<N>(variable);
+    public <N extends Number> VarEditor<N> createSpinner(Var<N> variable) {
+        return new Spinner<>(variable);
     }
-    
+
     @Override
-    public VarEditor<SwimmingObject> createSwimmingObjectChooser(Var<SwimmingObject> variable)
-    {
+    public VarEditor<SwimmingObject> createSwimmingObjectChooser(Var<SwimmingObject> variable) {
         return new SwimmingObjectChooser(variable);
     }
-    
+
     @Override
-    public <V> VarEditor<V> createTextArea(Var<V> variable, int rows)
-    {
-        return new TextArea<V>(variable, rows);
+    public <V> VarEditor<V> createTextArea(Var<V> variable, int rows) {
+        return new TextArea<>(variable, rows);
     }
-    
+
     @Override
-    public <V> VarEditor<V> createTextField(Var<V> variable)
-    {
-        return new TextField<V>(variable);
+    public <V> VarEditor<V> createTextField(Var<V> variable) {
+        return new TextField<>(variable);
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
-    public VarEditor<VarMutable> createTypeChooser(VarMutable variable)
-    {
+    public VarEditor<VarMutable> createTypeChooser(VarMutable variable) {
         return new TypeChooser(variable);
     }
 }

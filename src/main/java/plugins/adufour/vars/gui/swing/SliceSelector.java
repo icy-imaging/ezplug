@@ -5,10 +5,8 @@ import icy.sequence.Sequence;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarSlice;
 
-public class SliceSelector extends SequenceDimensionSelector
-{
-    public SliceSelector(VarSlice variable, Var<Sequence> sequence, boolean allowAllChannels)
-    {
+public class SliceSelector extends SequenceDimensionSelector {
+    public SliceSelector(VarSlice variable, Var<Sequence> sequence, boolean allowAllChannels) {
         super(variable, sequence, DimensionId.Z, allowAllChannels);
     }
 }

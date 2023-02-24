@@ -1,67 +1,50 @@
 package plugins.adufour.vars.gui.swing;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
+import icy.gui.component.button.IcyButton;
 import plugins.adufour.vars.lang.VarTrigger;
 
-public class Button extends SwingVarEditor<Integer>
-{
+public class Button extends SwingVarEditor<Integer> {
     private ActionListener listener;
-    
-    public Button(VarTrigger variable)
-    {
+
+    public Button(VarTrigger variable) {
         super(variable);
-        
+
         setNameVisible(false);
     }
-    
+
     @Override
-    protected JButton createEditorComponent()
-    {
+    protected IcyButton createEditorComponent() {
         if (getEditorComponent() != null) deactivateListeners();
-        
-        listener = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                ((VarTrigger)variable).trigger();
-            }
-        };
-        
-        return new JButton(variable.getName());
+
+        listener = e -> ((VarTrigger) variable).trigger();
+
+        return new IcyButton(variable.getName());
     }
-    
+
     @Override
-    public JButton getEditorComponent()
-    {
-        return (JButton) super.getEditorComponent();
+    public IcyButton getEditorComponent() {
+        return (IcyButton) super.getEditorComponent();
     }
-    
+
     @Override
-    public double getComponentVerticalResizeFactor()
-    {
+    public double getComponentVerticalResizeFactor() {
         return 0.0;
     }
-    
+
     @Override
-    protected void activateListeners()
-    {
+    protected void activateListeners() {
         getEditorComponent().addActionListener(listener);
     }
-    
+
     @Override
-    protected void deactivateListeners()
-    {
+    protected void deactivateListeners() {
         getEditorComponent().removeActionListener(listener);
     }
-    
+
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         // nothing to do (it's just a button with a name)
-    }    
+    }
 }

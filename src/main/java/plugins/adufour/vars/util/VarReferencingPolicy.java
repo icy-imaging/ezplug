@@ -2,12 +2,10 @@ package plugins.adufour.vars.util;
 
 /**
  * Enumeration of possible referencing policies of a Variable
- * 
- * @author Alexandre Dufour
  *
+ * @author Alexandre Dufour
  */
-public enum VarReferencingPolicy
-{
+public enum VarReferencingPolicy {
     /**
      * The variable may neither reference nor be referenced by another variable
      */

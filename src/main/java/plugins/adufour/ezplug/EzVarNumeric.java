@@ -9,37 +9,30 @@ import plugins.adufour.vars.lang.Var;
 /**
  * Superclass of all variables holding a number-type variable. This class provides generic methods
  * and graphical interface elements common to all number-type variables
- * 
+ *
+ * @param <N> the type of number to use in this variable.
  * @author Alexandre Dufour
- * @param <N>
- *        the type of number to use in this variable.
  */
-public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
-{
-    protected EzVarNumeric(Var<N> variable, VarEditorModel<N> model)
-    {
+public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
+    protected EzVarNumeric(Var<N> variable, VarEditorModel<N> model) {
         super(variable, model);
     }
 
-    protected EzVarNumeric(Var<N> variable, N[] defaultValues, int defaultValueIndex, boolean allowUserInput)
-    {
+    protected EzVarNumeric(Var<N> variable, N[] defaultValues, int defaultValueIndex, boolean allowUserInput) {
         super(variable, defaultValues, defaultValueIndex, allowUserInput);
     }
 
     /**
      * Gets the minimum value of this variable.
-     * 
+     *
      * @return The minimum value of this variable.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
     @SuppressWarnings("unchecked")
-    public N getMinValue()
-    {
+    public N getMinValue() {
         VarEditorModel<N> cons = variable.getDefaultEditorModel();
 
-        if (cons instanceof RangeModel)
-        {
+        if (cons instanceof RangeModel) {
             return (N) ((RangeModel<N>) cons).getMinimum();
         }
 
@@ -48,14 +41,11 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
 
     /**
      * Sets the minimum value for the JSpinner component.
-     * 
-     * @param minValue
-     *        The minimum value to set.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     *
+     * @param minValue The minimum value to set.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setMinValue(Comparable<N> minValue) throws UnsupportedOperationException
-    {
+    public void setMinValue(Comparable<N> minValue) throws UnsupportedOperationException {
         VarEditor<N> editor = getVarEditor();
         if (editor instanceof Spinner)
             ((Spinner<N>) editor).setMinimum(minValue);
@@ -66,13 +56,11 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
 
     /**
      * Gets the step value of this variable.
-     * 
+     *
      * @return The step between consecutive values.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public N getStep() throws UnsupportedOperationException
-    {
+    public N getStep() throws UnsupportedOperationException {
         VarEditorModel<N> cons = variable.getDefaultEditorModel();
 
         if (cons instanceof RangeModel)
@@ -83,17 +71,13 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
 
     /**
      * Sets the step between consecutive values.
-     * 
-     * @param step
-     *        The step between consecutive values.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     *
+     * @param step The step between consecutive values.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setStep(N step) throws UnsupportedOperationException
-    {
+    public void setStep(N step) throws UnsupportedOperationException {
         VarEditor<N> editor = getVarEditor();
-        if (editor instanceof Spinner)
-        {
+        if (editor instanceof Spinner) {
             ((Spinner<N>) editor).setStepSize(step);
         }
         else
@@ -102,14 +86,12 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
 
     /**
      * Gets the maximum value of this variable.
-     * 
+     *
      * @return The maximum value of this variable.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
     @SuppressWarnings("unchecked")
-    public N getMaxValue()
-    {
+    public N getMaxValue() {
         VarEditorModel<N> cons = variable.getDefaultEditorModel();
 
         if (cons instanceof RangeModel)
@@ -120,17 +102,13 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
 
     /**
      * Sets the maximum value for the JSpinner component.
-     * 
-     * @param maxValue
-     *        The maximum value to set.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     *
+     * @param maxValue The maximum value to set.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setMaxValue(Comparable<N> maxValue)
-    {
+    public void setMaxValue(Comparable<N> maxValue) {
         VarEditor<N> editor = getVarEditor();
-        if (editor instanceof Spinner)
-        {
+        if (editor instanceof Spinner) {
             ((Spinner<N>) editor).setMaximum(maxValue);
         }
         else
@@ -140,23 +118,16 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N>
     /**
      * Sets the news value of the variable. This method only works if the component is a JSpinner
      * object.
-     * 
-     * @param value
-     *        The new value.
-     * @param max
-     *        The new max bound.
-     * @param min
-     *        The new min bound.
-     * @param step
-     *        The new step.
-     * @throws UnsupportedOperationException
-     *         If the graphical component of this variable is not a JSpinner object.
+     *
+     * @param value The new value.
+     * @param max   The new max bound.
+     * @param min   The new min bound.
+     * @param step  The new step.
+     * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setValues(N value, Comparable<N> min, Comparable<N> max, N step)
-    {
+    public void setValues(N value, Comparable<N> min, Comparable<N> max, N step) {
         VarEditor<N> editor = getVarEditor();
-        if (editor instanceof Spinner)
-        {
+        if (editor instanceof Spinner) {
             ((Spinner<N>) editor).setMinimum(min);
             ((Spinner<N>) editor).setMaximum(max);
             ((Spinner<N>) editor).setStepSize(step);

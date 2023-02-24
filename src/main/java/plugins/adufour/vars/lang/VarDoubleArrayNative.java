@@ -3,46 +3,35 @@ package plugins.adufour.vars.lang;
 import plugins.adufour.vars.util.VarListener;
 
 /**
- * Class defining a variable with a native array of type <code>double[]</code>. This class should be
- * preferred to {@link VarDoubleArray} for optimized performances on large arrays
- * 
+ * Class defining a variable with a native array of type <code>double[]</code>.
+ *
  * @author Alexandre Dufour
  */
-public class VarDoubleArrayNative extends VarGenericArray<double[]>
-{
+public class VarDoubleArrayNative extends VarGenericArray<double[]> {
     /**
-     * @param name
-     *        the name of this variable
-     * @param defaultValue
-     *        the value assigned by default for this variable. If null, a new double array of size zero is assigned as default value.
+     * @param name         the name of this variable
+     * @param defaultValue the value assigned by default for this variable. If null, a new double array of size zero is assigned as default value.
      */
-    public VarDoubleArrayNative(String name, double[] defaultValue)
-    {
+    public VarDoubleArrayNative(String name, double[] defaultValue) {
         this(name, defaultValue, null);
     }
 
     /**
-     * @param name
-     *        the name of this variable
-     * @param defaultValue
-     *        the value assigned by default for this variable. If null, a new double array of size zero is assigned as default value.
-     * @param defaultListener
-     *        A listener to add to this variable immediately after creation
+     * @param name            the name of this variable
+     * @param defaultValue    the value assigned by default for this variable. If null, a new double array of size zero is assigned as default value.
+     * @param defaultListener A listener to add to this variable immediately after creation
      */
-    public VarDoubleArrayNative(String name, double[] defaultValue, VarListener<double[]> defaultListener)
-    {
+    public VarDoubleArrayNative(String name, double[] defaultValue, VarListener<double[]> defaultListener) {
         super(name, double[].class, defaultValue, defaultListener);
     }
 
     @Override
-    public Object parseComponent(String s)
-    {
+    public Object parseComponent(String s) {
         return Double.parseDouble(s);
     }
 
     @Override
-    public double[] getValue(boolean forbidNull)
-    {
+    public double[] getValue(boolean forbidNull) {
         // handle the case where the reference is not an array
 
         @SuppressWarnings("rawtypes")
@@ -57,7 +46,7 @@ public class VarDoubleArrayNative extends VarGenericArray<double[]>
             return super.getValue(forbidNull);
 
         if (value instanceof Number)
-            return new double[] {((Number) value).doubleValue()};
+            return new double[]{((Number) value).doubleValue()};
 
         return (double[]) value;
     }

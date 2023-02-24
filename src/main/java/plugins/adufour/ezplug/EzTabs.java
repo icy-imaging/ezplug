@@ -10,48 +10,40 @@ import javax.swing.JTabbedPane;
  * GUI component for EzPlug that displays a number of tab pages.
  * <p>
  * Developer note: this component is backed by a {@link JTabbedPane}
- * 
+ *
  * @author Alexandre Dufour
  */
-public class EzTabs extends EzPanel
-{
-    public enum TabPlacement
-    {
+public class EzTabs extends EzPanel {
+    public enum TabPlacement {
         TOP(JTabbedPane.TOP), BOTTOM(JTabbedPane.BOTTOM), LEFT(JTabbedPane.LEFT), RIGHT(JTabbedPane.RIGHT);
 
         final int tabPlacement;
 
-        private TabPlacement(int tabPlacement)
-        {
+        TabPlacement(int tabPlacement) {
             this.tabPlacement = tabPlacement;
         }
     }
 
     /**
      * Create a new component to store tab pages.
-     * 
-     * @param uniqueID
-     *        A unique identifier. This identifier will not be shown on screen, but is necessary
-     *        to store and load user parameters.
-     * @param tabPlacement
-     *        The placement for the tabs relative to the content.
+     *
+     * @param uniqueID     A unique identifier. This identifier will not be shown on screen, but is necessary
+     *                     to store and load user parameters.
+     * @param tabPlacement The placement for the tabs relative to the content.
      */
-    public EzTabs(String uniqueID, TabPlacement tabPlacement)
-    {
+    public EzTabs(String uniqueID, TabPlacement tabPlacement) {
         super(uniqueID);
 
         ((JTabbedPane) container).setTabPlacement(tabPlacement.tabPlacement);
     }
 
     @Override
-    protected JComponent createContainer()
-    {
+    protected JComponent createContainer() {
         return new JTabbedPane();
     }
 
     @Override
-    protected void buildPanel()
-    {
+    protected void buildPanel() {
         JTabbedPane tabs = (JTabbedPane) container;
 
         int currentTab = tabs.getSelectedIndex();
@@ -59,15 +51,13 @@ public class EzTabs extends EzPanel
         container.removeAll();
 
         for (EzComponent tab : this)
-            if (tab.isVisible())
-            {
+            if (tab.isVisible()) {
                 JPanel tabPanel = new JPanel(new GridBagLayout());
                 tab.addTo(tabPanel);
                 tabs.addTab(tab.name, tabPanel);
             }
 
-        if (currentTab >= 0 && currentTab < tabs.getTabCount())
-        {
+        if (currentTab >= 0 && currentTab < tabs.getTabCount()) {
             tabs.setSelectedIndex(currentTab);
         }
     }

@@ -7,27 +7,23 @@ import javax.swing.JOptionPane;
 /**
  * <b>WARNING:</b> Class will be removed from further updates ! Utility class providing various ways for
  * EzPlugs to send out messages to the user
- * 
- * @deprecated A simple exception mechanism is sufficient for now
+ *
  * @author Alexandre Dufour
+ * @deprecated A simple exception mechanism is sufficient for now
  */
 @Deprecated
-public class EzMessage
-{
-    private EzMessage()
-    {
-        System.err.println(
-                "WARNING: Class EzMessage will be removed from further releases ! Please contact the plug-in developer to request an update");
+public class EzMessage {
+    private EzMessage() {
+        System.err.println("WARNING: Class EzMessage will be removed from further releases ! Please contact the plug-in developer to request an update");
     }
 
     /**
      * Enumerates the different types of messages which may be sent
-     * 
-     * @deprecated
+     *
      * @author Alexandre Dufour
+     * @deprecated
      */
-    public enum MessageType
-    {
+    public enum MessageType {
         /**
          * A default message, nothing special about it.
          */
@@ -51,12 +47,11 @@ public class EzMessage
 
     /**
      * Enumerates the different ways to output the message
-     * 
-     * @deprecated
+     *
      * @author Alexandre Dufour
+     * @deprecated
      */
-    public enum OutputType
-    {
+    public enum OutputType {
         /**
          * Message will be printed in the standard system output stream (default).
          */
@@ -73,36 +68,29 @@ public class EzMessage
 
     /**
      * Sends a default message to the default standard output stream
-     * 
+     *
+     * @param message the message to display
      * @deprecated
-     * @param message
-     *        the message to display
      */
     @Deprecated
-    public static void message(String message)
-    {
+    public static void message(String message) {
         message(message, MessageType.DEFAULT, OutputType.SYSTEM_OUT);
     }
 
     /**
      * Sends a message to the user via the interface, with specified type of message and display
-     * 
+     *
+     * @param message     the message to display
+     * @param messageType the type of message
+     * @param outputType  indicates how to display the message on the interface
      * @deprecated
-     * @param message
-     *        the message to display
-     * @param messageType
-     *        the type of message
-     * @param outputType
-     *        indicates how to display the message on the interface
      */
     @Deprecated
-    public static void message(final String message, MessageType messageType, OutputType outputType)
-    {
+    public static void message(final String message, MessageType messageType, OutputType outputType) {
         final int dialogMessageType;// = JOptionPane.PLAIN_MESSAGE;
         final String dialogTitle;// = "";
 
-        switch (messageType)
-        {
+        switch (messageType) {
             case WARNING:
                 dialogMessageType = JOptionPane.WARNING_MESSAGE;
                 dialogTitle = "Warning";
@@ -124,8 +112,7 @@ public class EzMessage
                 break;
         }
 
-        switch (outputType)
-        {
+        switch (outputType) {
             case SYSTEM_OUT:
                 System.out.println(dialogTitle + ": " + message);
                 break;
@@ -133,13 +120,7 @@ public class EzMessage
                 System.err.println(dialogTitle + ": " + message);
                 break;
             case DIALOG:
-                ThreadUtil.invokeLater(new Runnable()
-                {
-                    public void run()
-                    {
-                        JOptionPane.showMessageDialog(null, message, dialogTitle, dialogMessageType);
-                    }
-                });
+                ThreadUtil.invokeLater(() -> JOptionPane.showMessageDialog(null, message, dialogTitle, dialogMessageType));
                 break;
         }
     }

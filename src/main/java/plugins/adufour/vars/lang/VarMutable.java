@@ -17,52 +17,42 @@ import plugins.adufour.vars.util.VarListener;
 
 /**
  * Variable holding a value with mutable type, i.e. its type may be changed at runtime.
- * 
+ *
  * @author Alexandre Dufour
  */
 @SuppressWarnings("rawtypes")
-public class VarMutable extends Var implements MutableType
-{
-    private final ArrayList<TypeChangeListener> listeners = new ArrayList<TypeChangeListener>();
+public class VarMutable extends Var implements MutableType {
+    private final ArrayList<TypeChangeListener> listeners = new ArrayList<>();
 
     /**
      * Creates a new mutable-type {@link Var}iable with the specified name and initial type. The default value is always set to null in order to be properly
      * reset.
-     * 
-     * @param name
-     *        The name of the new variable.
-     * @param initialType
-     *        The initial type of the new variable. The type can be changed using the {@link #setType(Class)} method. If null, the type is set {@link Object}.
+     *
+     * @param name        The name of the new variable.
+     * @param initialType The initial type of the new variable. The type can be changed using the {@link #setType(Class)} method. If null, the type is set {@link Object}.
      */
-    public VarMutable(String name, Class<?> initialType)
-    {
+    public VarMutable(String name, Class<?> initialType) {
         this(name, initialType, null);
     }
 
     /**
      * Creates a new mutable-type {@link Var}iable with the specified name and initial type. The default value is always set to null in order to be properly
      * reset. Optionally, a listener can be added to track events on the variable.
-     * 
-     * @param name
-     *        The name of the new variable.
-     * @param initialType
-     *        The initial type of the new variable. The type can be changed using the {@link #setType(Class)} method. If null, the type is set {@link Object}.
-     * @param defaultListener
-     *        A listener to add to this variable immediately after creation.
+     *
+     * @param name            The name of the new variable.
+     * @param initialType     The initial type of the new variable. The type can be changed using the {@link #setType(Class)} method. If null, the type is set {@link Object}.
+     * @param defaultListener A listener to add to this variable immediately after creation.
      */
     @SuppressWarnings("unchecked")
-    public VarMutable(String name, Class<?> initialType, VarListener<?> defaultListener)
-    {
+    public VarMutable(String name, Class<?> initialType, VarListener<?> defaultListener) {
         super(name, initialType != null ? initialType : Object.class, null, defaultListener);
     }
 
     @Override
-    public VarEditor createVarEditor()
-    {
+    public VarEditor createVarEditor() {
         VarEditorFactory factory = VarEditorFactory.getDefaultFactory();
 
-        if (getDefaultEditorModel() instanceof TypeSelectionModel)
-        {
+        if (getDefaultEditorModel() instanceof TypeSelectionModel) {
             return factory.createTypeChooser(this);
         }
 
@@ -72,10 +62,8 @@ public class VarMutable extends Var implements MutableType
 
     @SuppressWarnings("unchecked")
     @Override
-    public VarEditor createVarViewer()
-    {
-        if (Sequence.class.equals(type))
-        {
+    public VarEditor createVarViewer() {
+        if (Sequence.class.equals(type)) {
             return VarEditorFactory.getDefaultFactory().createSequenceViewer(this);
         }
 
@@ -83,20 +71,17 @@ public class VarMutable extends Var implements MutableType
         return super.createVarViewer();
     }
 
-    public void addTypeChangeListener(TypeChangeListener listener)
-    {
+    public void addTypeChangeListener(TypeChangeListener listener) {
         listeners.add(listener);
     }
 
-    public void removeTypeChangeListener(TypeChangeListener listener)
-    {
+    public void removeTypeChangeListener(TypeChangeListener listener) {
         listeners.remove(listener);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isAssignableFrom(Var source)
-    {
+    public boolean isAssignableFrom(Var source) {
         Class<?> sourceType = source.getType();
 
         // cannot point to null
@@ -121,10 +106,8 @@ public class VarMutable extends Var implements MutableType
 
     @SuppressWarnings("unchecked")
     @Override
-    public void setDefaultEditorModel(VarEditorModel model)
-    {
-        if (model instanceof TypeSelectionModel)
-        {
+    public void setDefaultEditorModel(VarEditorModel model) {
+        if (model instanceof TypeSelectionModel) {
             defaultEditorModel = model;
             setType(((TypeSelectionModel) model).getDefaultValue());
         }
@@ -132,9 +115,7 @@ public class VarMutable extends Var implements MutableType
             super.setDefaultEditorModel(model);
     }
 
-    @SuppressWarnings("unchecked")
-    public void setType(Class<?> newType)
-    {
+    public void setType(Class<?> newType) {
         Class<?> oldType = this.getType();
 
         if (oldType == newType)
@@ -154,20 +135,19 @@ public class VarMutable extends Var implements MutableType
 
     @SuppressWarnings("unchecked")
     @Override
-    public void setValue(Object newValue)
-    {
+    public void setValue(Object newValue) {
         // Since this method is loosely typed, we need to make the difference between single objects
         // and arrays of objects to prevent potential (erroneous) ClassCastException(s)
 
         // the obvious ones first
-        if (newValue == null || getType().isAssignableFrom(newValue.getClass()))
-        {
+        if (newValue == null || getType().isAssignableFrom(newValue.getClass())) {
             super.setValue(newValue);
         }
         // the easy ones next
-        else if (newValue instanceof Number && Number.class.isAssignableFrom(getType())
-                || (getType().isPrimitive() && getType() != Boolean.TYPE))
-        {
+        else if (
+                newValue instanceof Number && Number.class.isAssignableFrom(getType())
+                        || (getType().isPrimitive() && getType() != Boolean.TYPE)
+        ) {
             // put the common ones first to optimize a bit...
             if (getType() == Integer.class || getType() == Integer.TYPE)
                 super.setValue(((Number) newValue).intValue());
@@ -183,46 +163,39 @@ public class VarMutable extends Var implements MutableType
                 super.setValue(((Number) newValue).longValue());
         }
         // and now for the hard one
-        else if (getType().isArray() && newValue.getClass().isArray())
-        {
+        else if (getType().isArray() && newValue.getClass().isArray()) {
             // the easy way (both arrays match) is already covered above
             // => we need to handle the tricky case (Javascript) where newValue is *always* Object[]
             // ==> copy its elements "manually" into a valid array
 
-            try
-            {
+            try {
                 // create a new valid array
                 Class<?> localType = getType().getComponentType();
                 int nbValues = Array.getLength(newValue);
                 Object array = Array.newInstance(localType, nbValues);
 
-                if (localType.isPrimitive())
-                {
+                if (localType.isPrimitive()) {
                     DataType dataType = ArrayUtil.getDataType(array);
-                    for (int i = 0; i < nbValues; i++)
-                    {
+                    for (int i = 0; i < nbValues; i++) {
                         // assume newValue also has numbers inside...
                         Number n = (Number) Array.get(newValue, i);
                         // let Icy do the conversion
                         Array1DUtil.setValue(array, i, dataType, n.doubleValue());
                     }
                 }
-                else
-                {
+                else {
                     System.arraycopy(newValue, 0, array, 0, nbValues);
                 }
 
                 super.setValue(array);
             }
-            catch (ArrayStoreException typeError)
-            {
+            catch (ArrayStoreException typeError) {
                 String text = "[" + ArrayUtil.arrayToString(newValue).replace(":", ", ") + "]";
                 throw new ClassCastException(text + " is not of type " + getType().getSimpleName());
             }
         }
         // let's be nice and box single values into arrays
-        else if (getType().isArray() && getType().getComponentType().isAssignableFrom(newValue.getClass()))
-        {
+        else if (getType().isArray() && getType().getComponentType().isAssignableFrom(newValue.getClass())) {
             Object array = Array.newInstance(getType().getComponentType(), 1);
             Array.set(array, 0, newValue);
             super.setValue(array);
@@ -235,8 +208,7 @@ public class VarMutable extends Var implements MutableType
 
     @SuppressWarnings("unchecked")
     @Override
-    public void setReference(Var variable) throws ClassCastException
-    {
+    public void setReference(Var variable) throws ClassCastException {
         // change the type just in time before setting the reference
         if (variable != null)
             setType(variable.getType());

@@ -1,16 +1,13 @@
 package plugins.adufour.vars.gui.model;
 
-public class PasswordModel implements VarEditorModel<String>
-{
+public class PasswordModel implements VarEditorModel<String> {
     @Override
-    public boolean isValid(String value)
-    {
+    public boolean isValid(String value) {
         return true;
     }
-    
+
     @Override
-    public String getDefaultValue()
-    {
+    public String getDefaultValue() {
         return "";
     }
 }

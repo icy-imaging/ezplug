@@ -15,11 +15,10 @@ import javax.swing.SwingUtilities;
  * <p>
  * Methods in this class provide the ability to show and hide components directly from the interface
  * using triggers from other EzComponents
- * 
+ *
  * @author Alexandre Dufour
  */
-public abstract class EzComponent
-{
+public abstract class EzComponent {
     /**
      * The name of this variable (as it will appear in the interface). This field is read-only (it
      * is set once upon component creation).
@@ -35,75 +34,59 @@ public abstract class EzComponent
      */
     private EzPanel parent = null;
 
-    protected EzComponent(String name)
-    {
+    protected EzComponent(String name) {
         this.name = name;
     }
 
     /**
      * @return True if this component is visible on the user interface.
      */
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return visible;
     }
 
     /**
-     * @deprecated Use {@link #isVisible()} instead.
      * @return True if this component is visible on the user interface.
+     * @deprecated Use {@link #isVisible()} instead.
      */
     @Deprecated
-    public boolean getVisible()
-    {
+    public boolean getVisible() {
         return isVisible();
     }
 
     /**
      * Sets the component's visibility
-     * 
-     * @param state
-     *        The new visibility state
+     *
+     * @param state The new visibility state
      */
-    public void setVisible(boolean state)
-    {
+    public void setVisible(boolean state) {
         visible = state;
     }
 
-    void addToContainer(final Container container)
-    {
+    void addToContainer(final Container container) {
         if (!visible)
             return;
 
-        ThreadUtil.invoke(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                addTo(container);
-            }
-        }, !SwingUtilities.isEventDispatchThread());
+        ThreadUtil.invoke(() -> addTo(container), !SwingUtilities.isEventDispatchThread());
     }
 
     protected abstract void addTo(Container container);
 
     /**
      * Gets a reference to the graphical interface containing this variable
-     * 
+     *
      * @return
      */
-    final EzDialog getUI()
-    {
+    final EzDialog getUI() {
         return this.gui;
     }
 
     /**
      * Assign the interface which owns this component
-     * 
-     * @param ezDialog
-     *        The parent frame of this component
+     *
+     * @param ezDialog The parent frame of this component
      */
-    final void setUI(EzDialog ezDialog)
-    {
+    final void setUI(EzDialog ezDialog) {
         this.gui = ezDialog;
     }
 
@@ -112,44 +95,36 @@ public abstract class EzComponent
      * @deprecated use {@link #getParentPanel()} instead
      */
     @Deprecated
-    protected final EzGroup getGroup()
-    {
+    protected final EzGroup getGroup() {
         return (EzGroup) parent;
     }
 
     /**
      * @return the panel to which this component belongs (or null if this component is top-level)
      */
-    protected EzPanel getParentPanel()
-    {
+    protected EzPanel getParentPanel() {
         return parent;
     }
 
     /**
      * Sets the group to which this variable belongs
-     * 
-     * @param group
-     *        the parent group of this variable
-     * @throws IllegalArgumentException
-     *         if this component already belongs to a group
+     *
+     * @param group the parent group of this variable
+     * @throws IllegalArgumentException if this component already belongs to a group
      * @deprecated use {@link #setParentPanel(EzPanel)} instead
      */
     @Deprecated
-    protected void setGroup(EzGroup group) throws IllegalArgumentException
-    {
+    protected void setGroup(EzGroup group) throws IllegalArgumentException {
         setParentPanel(group);
     }
 
     /**
      * Sets the parent panel of this component
-     * 
-     * @param parent
-     *        the parent of this component
-     * @throws IllegalArgumentException
-     *         if this component already belongs to another parent
+     *
+     * @param parent the parent of this component
+     * @throws IllegalArgumentException if this component already belongs to another parent
      */
-    protected void setParentPanel(EzPanel parent)
-    {
+    protected void setParentPanel(EzPanel parent) {
         if (this.parent != null && parent != null)
             throw new IllegalArgumentException("component " + name + " already belongs to group " + parent.name);
         this.parent = parent;
@@ -157,14 +132,12 @@ public abstract class EzComponent
 
     /**
      * Assigns a tool-tip text to the variable, which pops up when the user hovers the mouse on it.
-     * 
-     * @param text
-     *        the text to display (usually no more than 20 words)
+     *
+     * @param text the text to display (usually no more than 20 words)
      */
     public abstract void setToolTipText(String text);
 
-    protected void dispose()
-    {
+    protected void dispose() {
         this.gui = null;
         this.parent = null;
     }

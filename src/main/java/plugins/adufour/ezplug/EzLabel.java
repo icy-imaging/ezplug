@@ -12,11 +12,10 @@ import icy.system.thread.ThreadUtil;
 
 /**
  * Class defining a text label for use with EzPlugs.
- * 
+ *
  * @author Alexandre Dufour
  */
-public class EzLabel extends EzComponent
-{
+public class EzLabel extends EzComponent {
     private JEditorPane label;
 
     private String text;
@@ -27,55 +26,45 @@ public class EzLabel extends EzComponent
 
     /**
      * Creates a new label with given text
-     * 
-     * @param text
-     *        the text to display. <b>Important note for HTML-formatted text:</b>
-     *        <ul>
-     *        <li>If no <code>&lt;body&gt;</code> tag is found, one is generated to account for
-     *        other formatting properties of this class (e.g. text color or label width)</li>
-     *        <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is
-     *        performed, leaving full freedom to the developer.</li>
-     *        </ul>
+     *
+     * @param text the text to display. <b>Important note for HTML-formatted text:</b>
+     *             <ul>
+     *             <li>If no <code>&lt;body&gt;</code> tag is found, one is generated to account for
+     *             other formatting properties of this class (e.g. text color or label width)</li>
+     *             <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is
+     *             performed, leaving full freedom to the developer.</li>
+     *             </ul>
      */
-    public EzLabel(String text)
-    {
+    public EzLabel(String text) {
         this(text, null);
     }
 
     /**
      * Creates a new label with given text and color
-     * 
-     * @param text
-     *        The text to display.
-     *        <b>Important note for HTML-formatted text:</b>
-     *        <ul>
-     *        <li>If no <code>&lt;body&gt;</code> tag is found, one is generated to account for
-     *        other formatting properties of this class (e.g. text color or label width)</li>
-     *        <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is
-     *        performed, leaving full freedom to the developer.</li>
-     *        </ul>
-     * @param textColor
-     *        The default text color. NB: this parameter is not used if the specified text is in
-     *        HTML format.
+     *
+     * @param text      The text to display.
+     *                  <b>Important note for HTML-formatted text:</b>
+     *                  <ul>
+     *                  <li>If no <code>&lt;body&gt;</code> tag is found, one is generated to account for
+     *                  other formatting properties of this class (e.g. text color or label width)</li>
+     *                  <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is
+     *                  performed, leaving full freedom to the developer.</li>
+     *                  </ul>
+     * @param textColor The default text color. NB: this parameter is not used if the specified text is in
+     *                  HTML format.
      */
-    public EzLabel(final String text, final Color textColor)
-    {
+    public EzLabel(final String text, final Color textColor) {
         super("label");
 
         this.text = text;
         this.textColor = textColor;
 
-        ThreadUtil.invoke(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                label = new JEditorPane("text/html", "");
-                label.setEditable(false);
-                label.setOpaque(false);
-                label.setMargin(new Insets(0, 2, 0, 2));
-                updateLabel();
-            }
+        ThreadUtil.invoke(() -> {
+            label = new JEditorPane("text/html", "");
+            label.setEditable(false);
+            label.setOpaque(false);
+            label.setMargin(new Insets(0, 2, 0, 2));
+            updateLabel();
         }, !SwingUtilities.isEventDispatchThread());
     }
 
@@ -89,32 +78,28 @@ public class EzLabel extends EzComponent
      * <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is performed,
      * leaving full freedom to the developer.</li>
      * </ul>
-     * 
-     * @param text
-     *        the text to display.
-     *        <p>
-     *        <b>Important note for HTML-formatted text:</b>
-     *        <ul>
-     *        <li>If no <code>&lt;body&gt;</code> tag is found, one is generated to account for
-     *        other formatting properties of this class (e.g. text color or label width)</li>
-     *        <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is
-     *        performed, leaving full freedom to the developer.</li>
-     *        </ul>
+     *
+     * @param text the text to display.
+     *             <p>
+     *             <b>Important note for HTML-formatted text:</b>
+     *             <ul>
+     *             <li>If no <code>&lt;body&gt;</code> tag is found, one is generated to account for
+     *             other formatting properties of this class (e.g. text color or label width)</li>
+     *             <li>If a <code>&lt;body&gt;</code> tag already exists, no extra formatting is
+     *             performed, leaving full freedom to the developer.</li>
+     *             </ul>
      */
-    public void setText(String text)
-    {
+    public void setText(String text) {
         this.text = text;
         updateLabel();
     }
 
     /**
      * Overrides the default label width (200px) with the specified value
-     * 
-     * @param width
-     *        the new label width in pixels
+     *
+     * @param width the new label width in pixels
      */
-    public void setLabelWidth(int width)
-    {
+    public void setLabelWidth(int width) {
         this.labelWidth = width;
         updateLabel();
     }
@@ -123,19 +108,16 @@ public class EzLabel extends EzComponent
      * Sets the color of the text in this label. Setting the color overrides the default color
      * computed for the current look'n'feel and skin. To revert to this default color, use
      * <code>setColor(null)</code>
-     * 
-     * @param textColor
-     *        the new text color
+     *
+     * @param textColor the new text color
      */
-    public void setColor(Color textColor)
-    {
+    public void setColor(Color textColor) {
         this.textColor = textColor;
         updateLabel();
     }
 
     @Override
-    protected void addTo(Container container)
-    {
+    protected void addTo(Container container) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(2, 10, 2, 10);
 
@@ -146,8 +128,7 @@ public class EzLabel extends EzComponent
     }
 
     @Override
-    public void setToolTipText(String text)
-    {
+    public void setToolTipText(String text) {
         label.setToolTipText(text);
     }
 
@@ -158,42 +139,35 @@ public class EzLabel extends EzComponent
      * character "<code>m</code>" as reference (assumed to be the largest possible character). It
      * does *not* indicate a limit in the number of characters per line, since the width of each
      * character is potentially different in many fonts.
-     * 
+     *
+     * @param nbCols The number of columns of this label.
      * @deprecated This method is no longer used. To specify the width of the label, use
-     *             {@link #setLabelWidth(int)} instead.
-     * @param nbCols
-     *        The number of columns of this label.
+     * {@link #setLabelWidth(int)} instead.
      */
     @Deprecated
-    public void setNumberOfColumns(final int nbCols)
-    {
+    public void setNumberOfColumns(final int nbCols) {
     }
 
     /**
      * Sets the number of rows in this label (this will affect its apparent height)
-     * 
+     *
+     * @param nbRows Number of rows.
      * @deprecated This method is no longer used, as the component's height is automatically
-     *             calculated based on its contents
-     * @param nbRows
-     *        Number of rows.
+     * calculated based on its contents
      */
     @Deprecated
-    public void setNumberOfRows(final int nbRows)
-    {
+    public void setNumberOfRows(final int nbRows) {
     }
 
-    private static String convertToHTML(String text, Color textColor, int labelWidth)
-    {
-        if (text.trim().toLowerCase().startsWith("<html>") && text.toLowerCase().contains("<body"))
-        {
+    private static String convertToHTML(String text, Color textColor, int labelWidth) {
+        if (text.trim().toLowerCase().startsWith("<html>") && text.toLowerCase().contains("<body")) {
             // A "body" tag already exists => let's assume the developer knows what he's doing
             return text;
         }
 
         // Convert the string to HTML
         String html = text.trim();
-        if (!html.toLowerCase().startsWith("<html>"))
-        {
+        if (!html.toLowerCase().startsWith("<html>")) {
             // The text seems unformatted
             // Convert it to HTML (managing potential "new line" characters)
             html = "<html>" + html.replace("\n", "<br>") + "</html>";
@@ -217,13 +191,11 @@ public class EzLabel extends EzComponent
         return html;
     }
 
-    private void updateLabel()
-    {
+    private void updateLabel() {
         // Check which color to use
         Color color = textColor;
 
-        if (color == null)
-        {
+        if (color == null) {
             // Use the default from the current look'n'feel
             color = label.getForeground();
         }

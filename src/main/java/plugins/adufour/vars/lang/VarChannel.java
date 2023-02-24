@@ -5,38 +5,28 @@ import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;
 
-public class VarChannel extends VarInteger
-{
-    private boolean allowAllChannels;
+public class VarChannel extends VarInteger {
+    private final boolean allowAllChannels;
 
-    private Var<Sequence> sequence;
+    private final Var<Sequence> sequence;
 
     /**
-     * @param name
-     *        The name of this variable
-     * @param sequence
-     *        The sequence referenced by this variable
-     * @param allowAllChannels
-     *        If true, the default value will be all channels. Zero otherwise
+     * @param name             The name of this variable
+     * @param sequence         The sequence referenced by this variable
+     * @param allowAllChannels If true, the default value will be all channels. Zero otherwise
      */
-    public VarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels)
-    {
+    public VarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels) {
         this(name, sequence, allowAllChannels, null);
     }
 
     /**
-     * @param name
-     *        The name of this variable
-     * @param sequence
-     *        The sequence referenced by this variable
-     * @param allowAllChannels
-     *        If true, the default value will be all channels. Zero otherwise
-     * @param defaultListener
-     *        A listener to add to this variable immediately after creation
+     * @param name             The name of this variable
+     * @param sequence         The sequence referenced by this variable
+     * @param allowAllChannels If true, the default value will be all channels. Zero otherwise
+     * @param defaultListener  A listener to add to this variable immediately after creation
      */
     public VarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels,
-            VarListener<Integer> defaultListener)
-    {
+                      VarListener<Integer> defaultListener) {
         super(name, allowAllChannels ? -1 : 0, defaultListener);
 
         this.sequence = sequence;
@@ -44,8 +34,7 @@ public class VarChannel extends VarInteger
     }
 
     @Override
-    public VarEditor<Integer> createVarEditor()
-    {
+    public VarEditor<Integer> createVarEditor() {
         return VarEditorFactory.getDefaultFactory().createChannelSelector(this, sequence, allowAllChannels);
     }
 }

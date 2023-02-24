@@ -13,35 +13,29 @@ import plugins.adufour.vars.lang.Var;
 
 /**
  * Class allowing EzPlug to load/save parameters from/to disk in XML format
- * 
+ *
  * @author Alexandre Dufour
- * 
  */
-class EzVarIO
-{
+class EzVarIO {
     /**
      * Legacy method that saves a set of parameters to XML file
-     * 
+     *
      * @param ezVarMap
      * @param f
      */
-    static synchronized void save(EzPlug source, HashMap<String, EzVar<?>> ezVarMap, File f)
-    {
+    static synchronized void save(EzPlug source, HashMap<String, EzVar<?>> ezVarMap, File f) {
         Document xml = XMLUtil.createDocument(false);
         Element root = XMLUtil.createRootElement(xml, "Parameters");
 
-        for (String id : ezVarMap.keySet())
-        {
+        for (String id : ezVarMap.keySet()) {
             EzVar<?> var = ezVarMap.get(id);
 
-            try
-            {
+            try {
                 Element parameterNode = XMLUtil.addElement(root, "parameter");
                 XMLUtil.setAttributeValue(parameterNode, Var.XML_KEY_ID, id);
                 var.getVariable().saveToXML(parameterNode);
             }
-            catch (UnsupportedOperationException e)
-            {
+            catch (UnsupportedOperationException e) {
                 System.err.println("Warning: variable " + id + " has not been saved (unsupported variable type)");
             }
         }
@@ -51,24 +45,21 @@ class EzVarIO
 
     /**
      * Legacy method that loads a parameter set from a XML file
-     * 
+     *
      * @param f
      * @param ezVarMap
      * @throws EzException
      */
-    static synchronized void load(EzPlug source, File f, HashMap<String, EzVar<?>> ezVarMap) throws EzException
-    {
+    static synchronized void load(EzPlug source, File f, HashMap<String, EzVar<?>> ezVarMap) throws EzException {
         Document xml = XMLUtil.loadDocument(f);
 
         if (xml == null) throw new EzException(source, "unable to load parameter file", true);
 
         Element root = XMLUtil.getRootElement(xml);
         ArrayList<Element> elements = XMLUtil.getElements(root);
-        for (Element element : elements)
-        {
+        for (Element element : elements) {
             String id = XMLUtil.getAttributeValue(element, Var.XML_KEY_ID, null);
-            if (id != null && ezVarMap.containsKey(id))
-            {
+            if (id != null && ezVarMap.containsKey(id)) {
                 ezVarMap.get(id).getVariable().loadFromXML(element);
             }
         }

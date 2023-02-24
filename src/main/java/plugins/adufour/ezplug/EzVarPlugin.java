@@ -6,21 +6,16 @@ import plugins.adufour.vars.lang.VarPlugin;
 
 /**
  * New variable displaying a list of plug-ins of a given type.
- * 
+ *
+ * @param <P> Type of plugin supported by the variable.
  * @author Alexandre Dufour
- * @param <P>
- *        Type of plugin supported by the variable.
  */
-public class EzVarPlugin<P extends Plugin> extends EzVar<PluginDescriptor>
-{
-    public EzVarPlugin(String name, Class<P> pluginType)
-    {
-        super(new VarPlugin<P>(name, pluginType), null);
+public class EzVarPlugin<P extends Plugin> extends EzVar<PluginDescriptor> {
+    public EzVarPlugin(String name, Class<P> pluginType) {
+        super(new VarPlugin<>(name, pluginType), null);
     }
 
-    @SuppressWarnings("unchecked")
-    public P newInstance()
-    {
+    public P newInstance() {
         return ((VarPlugin<P>) variable).newInstance();
     }
 }

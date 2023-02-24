@@ -8,51 +8,40 @@ import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;
 
-public class VarColor extends Var<Color>
-{
+public class VarColor extends Var<Color> {
     /**
      * Creates a new variable holding a OME-compatible {@link Color} object
-     * 
-     * @param name
-     *        the name of this variable
-     * @param defaultColor
-     *        the non-null default color value of this variable
+     *
+     * @param name         the name of this variable
+     * @param defaultColor the non-null default color value of this variable
      */
-    public VarColor(String name, Color defaultColor)
-    {
+    public VarColor(String name, Color defaultColor) {
         this(name, defaultColor, null);
     }
 
     /**
      * Creates a new variable holding {@link Color} object
-     * 
-     * @param name
-     *        the name of this variable
-     * @param defaultColor
-     *        the non-null default color value of this variable
-     * @param defaultListener
-     *        the default listener to add to this variable immediately after creation
+     *
+     * @param name            the name of this variable
+     * @param defaultColor    the non-null default color value of this variable
+     * @param defaultListener the default listener to add to this variable immediately after creation
      */
-    public VarColor(String name, Color defaultColor, VarListener<Color> defaultListener)
-    {
+    public VarColor(String name, Color defaultColor, VarListener<Color> defaultListener) {
         super(name, defaultColor, defaultListener);
     }
 
     @Override
-    public VarEditor<Color> createVarEditor()
-    {
+    public VarEditor<Color> createVarEditor() {
         return VarEditorFactory.getDefaultFactory().createColorChooser(this);
     }
 
     @Override
-    public boolean saveToXML(Node node) throws UnsupportedOperationException
-    {
+    public boolean saveToXML(Node node) throws UnsupportedOperationException {
         return super.saveToXML(node);
     }
 
     @Override
-    public Color parse(String text)
-    {
+    public Color parse(String text) {
         if (text == null)
             return Color.black;
 

@@ -14,116 +14,90 @@ import org.jdesktop.swingx.JXTextArea;
 
 import plugins.adufour.vars.lang.Var;
 
-public class TextArea<T> extends SwingVarEditor<T>
-{
+public class TextArea<T> extends SwingVarEditor<T> {
     private FocusListener focusListener;
-    
-    private KeyListener   keyListener;
-    
-    public TextArea(Var<T> variable, int rows)
-    {
+
+    private KeyListener keyListener;
+
+    public TextArea(Var<T> variable, int rows) {
         super(variable);
         getTextArea().setRows(rows);
     }
-    
+
     @Override
-    public JComponent createEditorComponent()
-    {
+    public JComponent createEditorComponent() {
         final JXTextArea jTextArea = new JXTextArea();
         jTextArea.setText(getVariable().getValueAsString());
-        
-        focusListener = new FocusAdapter()
-        {
+
+        focusListener = new FocusAdapter() {
             @Override
-            public void focusLost(FocusEvent e)
-            {
+            public void focusLost(FocusEvent e) {
                 setVariableValue(jTextArea);
             }
         };
-        
-        keyListener = new KeyListener()
-        {
+
+        keyListener = new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e)
-            {
+            public void keyTyped(KeyEvent e) {
             }
-            
+
             @Override
-            public void keyReleased(KeyEvent e)
-            {
-                try
-                {
+            public void keyReleased(KeyEvent e) {
+                try {
                     variable.parse(jTextArea.getText());
                     jTextArea.setForeground(Color.black);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     jTextArea.setForeground(Color.red);
                 }
             }
-            
+
             @Override
-            public void keyPressed(KeyEvent e)
-            {
+            public void keyPressed(KeyEvent e) {
             }
         };
-        
+
         JScrollPane scroll = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setAutoscrolls(true);
-        
+
         // return jTextArea;
         return scroll;
     }
-    
-    private void setVariableValue(JXTextArea jTextArea)
-    {
-        try
-        {
+
+    private void setVariableValue(JXTextArea jTextArea) {
+        try {
             if (variable.getReference() == null) variable.setValue(variable.parse(jTextArea.getText()));
             jTextArea.setForeground(Color.black);
             jTextArea.setToolTipText(null);
         }
-        catch (RuntimeException e)
-        {
+        catch (RuntimeException e) {
             jTextArea.setForeground(Color.red);
             jTextArea.setToolTipText("Cannot convert input into a " + getVariable().getTypeAsString());
         }
     }
-    
+
     @Override
-    protected void updateInterfaceValue()
-    {
+    protected void updateInterfaceValue() {
         getTextArea().setText(variable.getValueAsString(true));
     }
-    
+
     @Override
-    public void dispose()
-    {
-        super.dispose();
-        
-    }
-    
-    @Override
-    public JScrollPane getEditorComponent()
-    {
+    public JScrollPane getEditorComponent() {
         return (JScrollPane) super.getEditorComponent();
     }
-    
-    public JXTextArea getTextArea()
-    {
+
+    public JXTextArea getTextArea() {
         return (JXTextArea) getEditorComponent().getViewport().getView();
     }
-    
+
     @Override
-    protected void activateListeners()
-    {
+    protected void activateListeners() {
         getTextArea().addFocusListener(focusListener);
         getTextArea().addKeyListener(keyListener);
     }
-    
+
     @Override
-    protected void deactivateListeners()
-    {
+    protected void deactivateListeners() {
         getTextArea().removeFocusListener(focusListener);
         getTextArea().removeKeyListener(keyListener);
     }

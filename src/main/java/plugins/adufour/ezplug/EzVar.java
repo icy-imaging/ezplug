@@ -2,17 +2,12 @@ package plugins.adufour.ezplug;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -20,8 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import icy.resource.ResourceUtil;
+import icy.gui.component.button.IcyButton;
 import icy.system.thread.ThreadUtil;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -45,81 +41,60 @@ import plugins.adufour.vars.util.VarListener;
  * use. Once created, the variable can be added to the graphical interface of the EzPlug via the
  * {@link plugins.adufour.ezplug.EzPlug#addEzComponent(EzComponent)} method (see sample code in the
  * {@link plugins.adufour.ezplug.EzPlug} class documentation).<br>
- * 
+ *
  * @author Alexandre Dufour
  */
-public abstract class EzVar<T> extends EzComponent implements VarListener<T>
-{
+public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
     final Var<T> variable;
 
     private JLabel jLabelName;
 
     private VarEditor<T> varEditor;
 
-    private final HashMap<EzComponent, T[]> visibilityTriggers = new HashMap<EzComponent, T[]>();
+    private final HashMap<EzComponent, T[]> visibilityTriggers = new HashMap<>();
 
-    private final ArrayList<EzVarListener<T>> listeners = new ArrayList<EzVarListener<T>>();
+    private final ArrayList<EzVarListener<T>> listeners = new ArrayList<>();
 
-    private static final ImageIcon helpIcon = ResourceUtil.getColorIcon("help", 12);
-
-    private final JButton bHelp = new JButton(helpIcon);
+    private final IcyButton bHelp = new IcyButton(GoogleMaterialDesignIcons.HELP_OUTLINE);
 
     /**
      * Constructs a new variable
-     * 
-     * @param variable
-     *        The variable to attach to this object
-     * @param constraint
-     *        the constraint to apply on the variable when receiving input, or null if a default
-     *        constraint should be applied
+     *
+     * @param variable   The variable to attach to this object
+     * @param constraint the constraint to apply on the variable when receiving input, or null if a default
+     *                   constraint should be applied
      */
-    protected EzVar(final Var<T> variable, VarEditorModel<T> constraint)
-    {
+    protected EzVar(final Var<T> variable, VarEditorModel<T> constraint) {
         super(variable.getName());
         this.variable = variable;
         variable.setDefaultEditorModel(constraint);
 
-        ThreadUtil.invokeNow(new Runnable()
-        {
-            public void run()
-            {
-                bHelp.setPreferredSize(new Dimension(12, 12));
-                bHelp.setBorder(null);
-                bHelp.setContentAreaFilled(false);
-                bHelp.setBorderPainted(false);
-                bHelp.setOpaque(false);
+        ThreadUtil.invokeNow(() -> {
+            bHelp.setFlat(true);
 
-                jLabelName = new JLabel(variable.getName());
-                varEditor = variable.createVarEditor();
-            }
+            jLabelName = new JLabel(variable.getName());
+            varEditor = variable.createVarEditor();
         });
     }
 
     /**
      * Creates a new variable with a JComboBox as default graphical component
-     * 
-     * @param variable
-     *        the variable to attach to this EzVar
-     * @param defaultValues
-     *        the list of values to store in the combo box
-     * @param defaultValueIndex
-     *        the index of the default selected item
-     * @param freeInput
-     *        true to allow user manual input, false to restrict the selection to the given list
+     *
+     * @param variable          the variable to attach to this EzVar
+     * @param defaultValues     the list of values to store in the combo box
+     * @param defaultValueIndex the index of the default selected item
+     * @param freeInput         true to allow user manual input, false to restrict the selection to the given list
      */
-    protected EzVar(Var<T> variable, T[] defaultValues, int defaultValueIndex, boolean freeInput)
-    {
-        this(variable, new ValueSelectionModel<T>(defaultValues, defaultValueIndex, freeInput));
+    protected EzVar(Var<T> variable, T[] defaultValues, int defaultValueIndex, boolean freeInput) {
+        this(variable, new ValueSelectionModel<>(defaultValues, defaultValueIndex, freeInput));
     }
 
     /**
      * Adds a new listener that will be notified is this variable changes
-     * 
-     * @param listener
-     *        the listener to add
+     *
+     * @param listener the listener to add
      */
-    public void addVarChangeListener(EzVarListener<T> listener)
-    {
+    public void addVarChangeListener(EzVarListener<T> listener) {
         listeners.add(listener);
     }
 
@@ -128,31 +103,27 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      * component is set to true whenever this variable is visible, and takes any of the trigger
      * values, and false otherwise. If no trigger value is indicated, the target component will
      * always be visible as long as the source component is both visible and enabled
-     * 
-     * @param targetComponent
-     *        the component to hide or show
-     * @param values
-     *        the list of values which will set the visibility of the target component to true.
-     *        If no value is indicated, the target component will be visible as long as the
-     *        source component is both visible and enabled
+     *
+     * @param targetComponent the component to hide or show
+     * @param values          the list of values which will set the visibility of the target component to true.
+     *                        If no value is indicated, the target component will be visible as long as the
+     *                        source component is both visible and enabled
      */
-    public void addVisibilityTriggerTo(EzComponent targetComponent, @SuppressWarnings("unchecked") T... values)
-    {
+    @SafeVarargs
+    public final void addVisibilityTriggerTo(final EzComponent targetComponent, final T... values) {
         visibilityTriggers.put(targetComponent, values);
 
         updateVisibilityChain();
     }
 
     @Override
-    protected void addTo(Container container)
-    {
+    protected void addTo(Container container) {
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(2, 10, 2, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        if (variable.isOptional())
-        {
+        if (variable.isOptional()) {
             gbc.insets.left = 5;
             JPanel optionPanel = new JPanel(new BorderLayout(0, 0));
 
@@ -160,20 +131,13 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
             option.setSelected(isEnabled());
             option.setFocusable(false);
             option.setToolTipText("Click here to disable this parameter");
-            option.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent arg0)
-                {
-                    setEnabled(option.isSelected());
-                    if (option.isSelected())
-                    {
-                        option.setToolTipText("Click here to disable this parameter");
-                    }
-                    else
-                    {
-                        option.setToolTipText("Click here to enable this parameter");
-                    }
+            option.addActionListener(arg0 -> {
+                setEnabled(option.isSelected());
+                if (option.isSelected()) {
+                    option.setToolTipText("Click here to disable this parameter");
+                }
+                else {
+                    option.setToolTipText("Click here to enable this parameter");
                 }
             });
             optionPanel.add(option, BorderLayout.WEST);
@@ -199,8 +163,7 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
         container.add(bHelp, gbc);
     }
 
-    protected void dispose()
-    {
+    protected void dispose() {
         visibilityTriggers.clear();
 
         varEditor.dispose();
@@ -216,18 +179,15 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      * after the GUI was created in order to trigger listeners declared in the
      * {@link EzPlug#initialize()} method
      */
-    final void fireVariableChangedInternal()
-    {
+    final void fireVariableChangedInternal() {
         fireVariableChanged(variable.getValue());
     }
 
-    protected final void fireVariableChanged(T value)
-    {
+    protected final void fireVariableChanged(T value) {
         for (EzVarListener<T> l : listeners)
             l.variableChanged(this, value);
 
-        if (getUI() != null && varEditor != null)
-        {
+        if (getUI() != null && varEditor != null) {
             updateVisibilityChain();
             SwingUtilities.invokeLater(getUI().fullPackingTask);
         }
@@ -236,21 +196,17 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
     /**
      * Retrieves the default values into the destination array, or returns a new one if dest is not
      * big enough.
-     * 
-     * @param dest
-     *        The array to fill with the values. the array is left untouched if it is not big
-     *        enough
+     *
+     * @param dest The array to fill with the values. the array is left untouched if it is not big
+     *             enough
      * @return The dest array with the values. If it is not big enough, the array is left untouched.
-     * @throws UnsupportedOperationException
-     *         If the user input component is not a combo box
+     * @throws UnsupportedOperationException If the user input component is not a combo box
      */
-    public T[] getDefaultValues(T[] dest)
-    {
-        if (getVarEditor() instanceof ComboBox)
-        {
+    public T[] getDefaultValues(T[] dest) {
+        if (getVarEditor() instanceof ComboBox) {
             JComboBox<T> combo = ((ComboBox<T>) getVarEditor()).getEditorComponent();
 
-            ArrayList<T> items = new ArrayList<T>(combo.getItemCount());
+            ArrayList<T> items = new ArrayList<>(combo.getItemCount());
             for (int i = 0; i < combo.getItemCount(); i++)
                 items.add(combo.getItemAt(i));
             return items.toArray(dest);
@@ -259,24 +215,21 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
         throw new UnsupportedOperationException("The input component is not a list of values");
     }
 
-    protected VarEditor<T> getVarEditor()
-    {
+    protected VarEditor<T> getVarEditor() {
         return varEditor;
     }
 
     /**
      * Returns an EzPlug-wide unique identifier for this variable (used to save/load parameters)
-     * 
+     *
      * @return a String identifier that is unique within the owner plug
      */
-    String getID()
-    {
+    String getID() {
         String id = variable.getName();
 
         EzPanel panel = getParentPanel();
 
-        while (panel != null)
-        {
+        while (panel != null) {
             id = panel.name + "." + id;
             panel = panel.getParentPanel();
         }
@@ -288,34 +241,29 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      * Returns the variable value. By default, null is considered a valid value. In order to show an
      * error message (or throw an exception in head-less mode), use the {@link #getValue(boolean)}
      * method instead
-     * 
+     *
      * @return The variable value
      */
-    public T getValue()
-    {
+    public T getValue() {
         return getValue(false);
     }
 
     /**
      * Returns the variable value (or fails if the variable is null).
-     * 
-     * @param forbidNull
-     *        set to true to display an error message (or to throw an exception in head-less
-     *        mode)
+     *
+     * @param forbidNull set to true to display an error message (or to throw an exception in head-less
+     *                   mode)
      * @return the variable value
-     * @throws EzException
-     *         if the variable value is null and forbidNull is true
+     * @throws EzException if the variable value is null and forbidNull is true
      */
-    public T getValue(boolean forbidNull)
-    {
+    public T getValue(boolean forbidNull) {
         return variable.getValue(forbidNull);
     }
 
     /**
      * @return The underlying {@link Var} object that contains the value of this EzVar
      */
-    public Var<T> getVariable()
-    {
+    public Var<T> getVariable() {
         return variable;
     }
 
@@ -323,30 +271,26 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      * Indicates whether this variable is enabled, and therefore may be used by plug-ins. Note that
      * this method returns a simple flag, and it is up to the accessing plug-ins to behave
      * accordingly (i.e. it is not guaranteed that a disabled variable will not be used by plug-ins)
-     * 
+     *
      * @return <code>true</code> if this variable is enabled, <code>false</code> otherwise
      */
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return variable.isEnabled();
     }
 
     /**
      * Removes the given listener from the list
-     * 
-     * @param listener
-     *        the listener to remove
+     *
+     * @param listener the listener to remove
      */
-    public void removeVarChangeListener(EzVarListener<T> listener)
-    {
+    public void removeVarChangeListener(EzVarListener<T> listener) {
         listeners.remove(listener);
     }
 
     /**
      * Removes all change listeners for this variable
      */
-    public void removeAllVarChangeListeners()
-    {
+    public void removeAllVarChangeListeners() {
         variable.removeListeners();
     }
 
@@ -354,18 +298,13 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      * Replaces the list of values available in the combo box of this variable
      * <p>
      * NOTE: this method has no effect if the user component is not already a combo box
-     * 
-     * @param values
-     *        Default values of this instance.
-     * @param defaultValueIndex
-     *        The index of the default element in the values array.
-     * @param allowUserInput
-     *        true if the user can modify the value of this var instance.
+     *
+     * @param values            Default values of this instance.
+     * @param defaultValueIndex The index of the default element in the values array.
+     * @param allowUserInput    true if the user can modify the value of this var instance.
      */
-    public void setDefaultValues(T[] values, int defaultValueIndex, boolean allowUserInput)
-    {
-        if (getVarEditor() instanceof ComboBox)
-        {
+    public void setDefaultValues(T[] values, int defaultValueIndex, boolean allowUserInput) {
+        if (getVarEditor() instanceof ComboBox) {
             ((ComboBox<T>) getVarEditor()).setDefaultValues(values, defaultValueIndex, allowUserInput);
         }
     }
@@ -373,12 +312,10 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
     /**
      * Sets whether the variable is enabled, i.e. that it is usable by plug-ins, and accepts
      * modifications via the graphical interface
-     * 
-     * @param enabled
-     *        the enabled state
+     *
+     * @param enabled the enabled state
      */
-    public void setEnabled(boolean enabled)
-    {
+    public void setEnabled(boolean enabled) {
         variable.setEnabled(enabled);
         jLabelName.setEnabled(enabled);
         getVarEditor().setEnabled(enabled);
@@ -392,32 +329,26 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
      * typically used to mark a plug-in parameter as optional, allowing plug-ins to react
      * accordingly and save potentially unnecessary computations. Setting a variable as optional
      * will add a check-box next to the variable editor to provide visual feedback
-     * 
-     * @param optional
-     *        <code>true</code> if this parameter is optional, <code>false</code> otherwise
+     *
+     * @param optional <code>true</code> if this parameter is optional, <code>false</code> otherwise
      */
-    public void setOptional(boolean optional)
-    {
+    public void setOptional(boolean optional) {
         variable.setOptional(optional);
     }
 
     /**
      * Sets the new value of this variable
-     * 
-     * @param value
-     *        the new value
-     * @throws UnsupportedOperationException
-     *         thrown if changing the variable value from code is not supported (or not yet
-     *         implemented)
+     *
+     * @param value the new value
+     * @throws UnsupportedOperationException thrown if changing the variable value from code is not supported (or not yet
+     *                                       implemented)
      */
-    public void setValue(final T value) throws UnsupportedOperationException
-    {
+    public void setValue(final T value) throws UnsupportedOperationException {
         variable.setValue(value);
     }
 
     @Override
-    public void setToolTipText(String text)
-    {
+    public void setToolTipText(String text) {
         jLabelName.setToolTipText(text);
         bHelp.setToolTipText(text);
         getVarEditor().setComponentToolTipText(text);
@@ -426,24 +357,20 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
     /**
      * Sets the visibility state of this variable, and updates the chain of visibility states
      * (components hiding other components)
-     * 
-     * @param newVisibleState
-     *        the new visibility state
+     *
+     * @param newVisibleState the new visibility state
      */
-    public void setVisible(boolean newVisibleState)
-    {
+    public void setVisible(boolean newVisibleState) {
         super.setVisible(newVisibleState);
 
         updateVisibilityChain();
     }
 
-    public String toString()
-    {
-        return variable.getName() + " = " + variable.toString();
+    public String toString() {
+        return variable.getName() + " = " + variable;
     }
 
-    protected void updateVisibilityChain()
-    {
+    protected void updateVisibilityChain() {
         Set<EzComponent> componentsToUpdate = visibilityTriggers.keySet();
 
         // first, hide everything in the chain
@@ -455,19 +382,15 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
             return;
 
         // otherwise, one by one, show the components w.r.t. the triggers
-        for (EzComponent component : componentsToUpdate)
-        {
+        for (EzComponent component : componentsToUpdate) {
             T[] componentTriggerValues = visibilityTriggers.get(component);
 
-            if (componentTriggerValues.length == 0 && isEnabled())
-            {
+            if (componentTriggerValues.length == 0 && isEnabled()) {
                 component.setVisible(true);
             }
             else
-                for (T triggerValue : componentTriggerValues)
-                {
-                    if (triggerValue == getValue())
-                    {
+                for (T triggerValue : componentTriggerValues) {
+                    if (triggerValue == getValue()) {
                         // this call will be recursive in case of a EzVar object
                         component.setVisible(true);
                         break;
@@ -477,14 +400,12 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T>
     }
 
     @Override
-    public void valueChanged(Var<T> source, T oldValue, T newValue)
-    {
+    public void valueChanged(Var<T> source, T oldValue, T newValue) {
         fireVariableChanged(newValue);
     }
 
     @Override
-    public void referenceChanged(Var<T> source, Var<? extends T> oldReference, Var<? extends T> newReference)
-    {
+    public void referenceChanged(Var<T> source, Var<? extends T> oldReference, Var<? extends T> newReference) {
 
     }
 }
