@@ -1,14 +1,27 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
-import javax.swing.JEditorPane;
-import javax.swing.SwingUtilities;
-
 import icy.system.thread.ThreadUtil;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Class defining a text label for use with EzPlugs.
@@ -35,7 +48,7 @@ public class EzLabel extends EzComponent {
      *             performed, leaving full freedom to the developer.</li>
      *             </ul>
      */
-    public EzLabel(String text) {
+    public EzLabel(final String text) {
         this(text, null);
     }
 
@@ -89,7 +102,7 @@ public class EzLabel extends EzComponent {
      *             performed, leaving full freedom to the developer.</li>
      *             </ul>
      */
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
         updateLabel();
     }
@@ -99,26 +112,26 @@ public class EzLabel extends EzComponent {
      *
      * @param width the new label width in pixels
      */
-    public void setLabelWidth(int width) {
+    public void setLabelWidth(final int width) {
         this.labelWidth = width;
         updateLabel();
     }
 
     /**
      * Sets the color of the text in this label. Setting the color overrides the default color
-     * computed for the current look'n'feel and skin. To revert to this default color, use
+     * computed for the current look&amp;feel and skin. To revert to this default color, use
      * <code>setColor(null)</code>
      *
      * @param textColor the new text color
      */
-    public void setColor(Color textColor) {
+    public void setColor(final Color textColor) {
         this.textColor = textColor;
         updateLabel();
     }
 
     @Override
-    protected void addTo(Container container) {
-        GridBagConstraints gbc = new GridBagConstraints();
+    protected void addTo(final Container container) {
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(2, 10, 2, 10);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -128,38 +141,11 @@ public class EzLabel extends EzComponent {
     }
 
     @Override
-    public void setToolTipText(String text) {
+    public void setToolTipText(final String text) {
         label.setToolTipText(text);
     }
 
-    /**
-     * Sets the number of columns in this label (this will affect its apparent width).
-     * <p>
-     * NOTE: By default, the number of columns is translated into a width measure by taking the
-     * character "<code>m</code>" as reference (assumed to be the largest possible character). It
-     * does *not* indicate a limit in the number of characters per line, since the width of each
-     * character is potentially different in many fonts.
-     *
-     * @param nbCols The number of columns of this label.
-     * @deprecated This method is no longer used. To specify the width of the label, use
-     * {@link #setLabelWidth(int)} instead.
-     */
-    @Deprecated
-    public void setNumberOfColumns(final int nbCols) {
-    }
-
-    /**
-     * Sets the number of rows in this label (this will affect its apparent height)
-     *
-     * @param nbRows Number of rows.
-     * @deprecated This method is no longer used, as the component's height is automatically
-     * calculated based on its contents
-     */
-    @Deprecated
-    public void setNumberOfRows(final int nbRows) {
-    }
-
-    private static String convertToHTML(String text, Color textColor, int labelWidth) {
+    private static String convertToHTML(final String text, final Color textColor, final int labelWidth) {
         if (text.trim().toLowerCase().startsWith("<html>") && text.toLowerCase().contains("<body")) {
             // A "body" tag already exists => let's assume the developer knows what he's doing
             return text;
@@ -176,7 +162,7 @@ public class EzLabel extends EzComponent {
         // Now that the text is HTML, adjust its style (via CSS)
         // Warning: this is ugly (should use Document.getStyleSheet() instead, etc.)
 
-        int r, g, b;
+        final int r, g, b;
         r = textColor.getRed();
         g = textColor.getGreen();
         b = textColor.getBlue();
@@ -196,11 +182,11 @@ public class EzLabel extends EzComponent {
         Color color = textColor;
 
         if (color == null) {
-            // Use the default from the current look'n'feel
+            // Use the default from the current look&feel
             color = label.getForeground();
         }
 
-        String html = convertToHTML(text, color, labelWidth);
+        final String html = convertToHTML(text, color, labelWidth);
         label.setText(html);
     }
 }

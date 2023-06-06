@@ -1,11 +1,29 @@
-package plugins.adufour.ezplug;
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-import java.io.File;
+package plugins.adufour.ezplug;
 
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeModel;
 import plugins.adufour.vars.gui.swing.FileChooser;
 import plugins.adufour.vars.lang.VarFile;
+
+import java.io.File;
 
 public class EzVarFolder extends EzVar<File> {
     /**
@@ -14,7 +32,7 @@ public class EzVarFolder extends EzVar<File> {
      * @param varName the name of the variable (as it will appear in the interface)
      * @param path    the default path to show in the file dialog
      */
-    public EzVarFolder(String varName, String path) {
+    public EzVarFolder(final String varName, final String path) {
         super(new VarFile(varName, path == null ? null : new File(path)), new FileTypeModel(path, FileMode.FOLDERS, null, false));
     }
 
@@ -23,7 +41,7 @@ public class EzVarFolder extends EzVar<File> {
      *
      * @param text The button text.
      */
-    public void setButtonText(String text) {
+    public void setButtonText(final String text) {
         ((FileChooser) getVarEditor()).setButtonText(text);
     }
 }

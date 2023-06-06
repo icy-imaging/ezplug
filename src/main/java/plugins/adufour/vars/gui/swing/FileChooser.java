@@ -1,15 +1,22 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileFilter;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 
 import icy.system.FileDrop;
 import icy.system.FileDrop.FileDropListener;
@@ -18,6 +25,12 @@ import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileFilter;
 
 /**
  * File chooser component
@@ -32,20 +45,20 @@ public class FileChooser extends SwingVarEditor<File> {
      *
      * @param variable the variable to attach to this file chooser
      */
-    public FileChooser(Var<File> variable) {
+    public FileChooser(final Var<File> variable) {
         super(variable);
     }
 
     @Override
     public JComponent createEditorComponent() {
-        JButton jButton = new JButton();
+        final JButton jButton = new JButton();
 
         String path = null;
         FileMode fileMode = FileMode.ALL;
         boolean allowHidden = false;
         final FileFilter filter;
 
-        VarEditorModel<File> model = variable.getDefaultEditorModel();
+        final VarEditorModel<File> model = variable.getDefaultEditorModel();
 
         if (model instanceof FileTypeModel) {
             path = ((FileTypeModel) model).getPath();
@@ -84,7 +97,7 @@ public class FileChooser extends SwingVarEditor<File> {
                 }
 
                 @Override
-                public boolean accept(File f) {
+                public boolean accept(final File f) {
                     return filter.accept(f);
                 }
             });
@@ -100,7 +113,7 @@ public class FileChooser extends SwingVarEditor<File> {
             variable.setValue(jFileChooser.getSelectedFile());
         };
 
-        FileDropListener fileDropListener = getFileDropListener(fileMode);
+        final FileDropListener fileDropListener = getFileDropListener(fileMode);
         new FileDrop(jButton, BorderFactory.createLineBorder(Color.blue.brighter(), 2), fileDropListener);
 
         // jButton.addActionListener(actionListener);
@@ -112,9 +125,9 @@ public class FileChooser extends SwingVarEditor<File> {
         return new FileDropListener() {
 
             @Override
-            public void filesDropped(File[] files) {
+            public void filesDropped(final File[] files) {
                 if (isActionListenerActive()) {
-                    File singleFile = (files != null && files.length >= 1) ? files[0] : null;
+                    final File singleFile = (files != null && files.length >= 1) ? files[0] : null;
 
                     if (singleFile != null) {
                         switch (fileMode) {
@@ -139,7 +152,7 @@ public class FileChooser extends SwingVarEditor<File> {
             }
 
             private boolean isActionListenerActive() {
-                for (ActionListener l : getEditorComponent().getActionListeners()) {
+                for (final ActionListener l : getEditorComponent().getActionListeners()) {
                     if (l == actionListener)
                         return true;
                 }
@@ -159,13 +172,12 @@ public class FileChooser extends SwingVarEditor<File> {
      * @param text The button text.
      */
     public void setButtonText(final String text) {
-
         ThreadUtil.invokeLater(() -> getEditorComponent().setText(text));
     }
 
     @Override
     protected void updateInterfaceValue() {
-        File newValue = variable.getValue();
+        final File newValue = variable.getValue();
 
         if (newValue != null) {
             setButtonText(newValue.getAbsolutePath());

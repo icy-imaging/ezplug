@@ -1,12 +1,29 @@
-package plugins.adufour.vars.lang;
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+package plugins.adufour.vars.lang;
 
 import icy.main.Icy;
 import icy.sequence.Sequence;
 import icy.util.StringUtil;
 import icy.util.XMLUtil;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;
@@ -18,29 +35,29 @@ public class VarSequence extends Var<Sequence> {
     private boolean activeSequenceSelected;
 
     /**
-     * Creates a new sequence {@link Var}iable with the specified name and default value (may be null).
+     * Creates a new sequence {@link Var} variable with the specified name and default value (can be null).
      *
      * @param name         The name of this variable.
      * @param defaultValue The sequence assigned by default for this variable. If null, the active sequence will be assigned.
      */
-    public VarSequence(String name, Sequence defaultValue) {
+    public VarSequence(final String name, final Sequence defaultValue) {
         this(name, defaultValue, null);
     }
 
     /**
-     * Creates a new sequence {@link Var}iable with the specified name and default value (may be null). Optionally, a listener can be added to
-     * track events on the variable.
+     * Creates a new sequence {@link Var} variable with the specified name and default value (can be null).
+     * Optionally, a listener can be added to track events on the variable.
      *
      * @param name            The name of this variable.
      * @param defaultValue    The sequence assigned by default for this variable. If null, the active sequence will be assigned.
      * @param defaultListener A listener to add to this variable immediately after creation.
      */
-    public VarSequence(String name, Sequence defaultValue, VarListener<Sequence> defaultListener) {
+    public VarSequence(final String name, final Sequence defaultValue, final VarListener<Sequence> defaultListener) {
         super(name, Sequence.class, defaultValue, defaultListener);
 
         final Sequence seq = Icy.getMainInterface().getActiveSequence();
 
-        // if we have an active Sequence then we set it by default
+        // if we have an active Sequence, then we set it by default
         if (seq != null && defaultValue == null) {
             activeSequenceSelected = true;
             setValue(seq);
@@ -55,14 +72,14 @@ public class VarSequence extends Var<Sequence> {
      * @throws UnsupportedOperationException if the functionality is not supported by the current variable type
      */
     @Override
-    public boolean saveToXML(Node node) throws UnsupportedOperationException {
+    public boolean saveToXML(final Node node) throws UnsupportedOperationException {
         XMLUtil.setAttributeValue((Element) node, Var.XML_KEY_VALUE, getValueAsString());
 
         return true;
     }
 
     @Override
-    public boolean loadFromXML(Node node) {
+    public boolean loadFromXML(final Node node) {
         setValueAsString(XMLUtil.getAttributeValue((Element) node, XML_KEY_VALUE, null));
 
         return true;
@@ -80,7 +97,7 @@ public class VarSequence extends Var<Sequence> {
 
     @Override
     public String getValueAsString() {
-        Sequence s = getValue();
+        final Sequence s = getValue();
 
         if (isActiveSequenceSelected())
             return ACTIVE_SEQUENCE;
@@ -104,32 +121,15 @@ public class VarSequence extends Var<Sequence> {
         return activeSequenceSelected;
     }
 
-    public void setActiveSequenceSelected(boolean value) {
+    public void setActiveSequenceSelected(final boolean value) {
         activeSequenceSelected = value;
     }
 
-    /**
-     * @return true if the var has no sequence selected. false otherwise.
-     * @deprecated Uses {@link #setActiveSequenceSelected(boolean)} instead
-     */
-    @Deprecated
-    public boolean isNoSequenceSelected() {
-        return StringUtil.equals(getValueAsString(), NO_SEQUENCE);
-    }
-
-    /**
-     * @deprecated Uses {@link #isActiveSequenceSelected()} instead
-     */
-    @Deprecated
-    public void setNoSequenceSelection() {
-        setValue(null);
-    }
-
     @Override
-    public void setValueAsString(String newValue) {
+    public void setValueAsString(final String newValue) {
         // FIX: simpler implementation (Stephane)
         if (StringUtil.equals(newValue, ACTIVE_SEQUENCE)) {
-            boolean changed = !activeSequenceSelected;
+            final boolean changed = !activeSequenceSelected;
             final Sequence oldValue = getValue();
             final Sequence seq = Icy.getMainInterface().getActiveSequence();
 
@@ -148,8 +148,8 @@ public class VarSequence extends Var<Sequence> {
     }
 
     @Override
-    public void setValue(Sequence newValue) throws IllegalAccessError {
-        boolean changed = activeSequenceSelected;
+    public void setValue(final Sequence newValue) throws IllegalAccessError {
+        final boolean changed = activeSequenceSelected;
         final Sequence oldValue = getValue();
 
         // FIX: set by value ? unset "Active Sequence" selection (Stephane)

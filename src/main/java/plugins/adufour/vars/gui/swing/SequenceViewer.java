@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
 
 import icy.gui.component.sequence.SequencePreviewPanel;
@@ -6,26 +24,21 @@ import icy.sequence.Sequence;
 import icy.sequence.SequenceEvent;
 import icy.sequence.SequenceListener;
 import icy.util.GraphicsUtil;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarMutable;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class SequenceViewer extends SwingVarEditor<Sequence> implements SequenceListener {
-    public SequenceViewer(Var<Sequence> variable) {
+    public SequenceViewer(final Var<Sequence> variable) {
         super(variable);
     }
 
     /**
-     * Constructs a new SequenceViewer using a mutable variable of type sequence.
+     * Constructs a new SequenceViewer using a mutable variable of the type sequence.
      *
      * @param variable the mutable variable containing the {@link Sequence} to display
      * @throws ClassCastException if the given variable is not of type {@link Sequence}
@@ -39,9 +52,9 @@ public class SequenceViewer extends SwingVarEditor<Sequence> implements Sequence
 
     @Override
     protected JComponent createEditorComponent() {
-        SequencePreviewPanel editor = new SequencePreviewPanel(true) {
+        final SequencePreviewPanel editor = new SequencePreviewPanel(true) {
             @Override
-            protected void paintChildren(Graphics g) {
+            protected void paintChildren(final Graphics g) {
                 super.paintChildren(g);
                 if (mouseOver && getVariable().getValue() != null) {
                     g.setColor(Color.white);
@@ -51,10 +64,10 @@ public class SequenceViewer extends SwingVarEditor<Sequence> implements Sequence
         };
 
         // make every component opaque
-        for (JPanel panel : new JPanel[]{editor.getMainPanel(), editor.getTPanel(), editor.getZPanel()}) {
+        for (final JPanel panel : new JPanel[]{editor.getMainPanel(), editor.getTPanel(), editor.getZPanel()}) {
             editor.setOpaque(false);
             panel.setOpaque(false);
-            for (Component c : panel.getComponents())
+            for (final Component c : panel.getComponents())
                 if (c instanceof JComponent) ((JComponent) c).setOpaque(false);
         }
 
@@ -65,19 +78,21 @@ public class SequenceViewer extends SwingVarEditor<Sequence> implements Sequence
 
     private final MouseAdapter mouseAdapter = new MouseAdapter() {
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(final MouseEvent e) {
             if (e.getClickCount() == 2) {
-                Sequence s = getVariable().getValue();
+                final Sequence s = getVariable().getValue();
                 if (s != null) Icy.getMainInterface().addSequence(s);
             }
         }
 
-        public void mouseEntered(MouseEvent e) {
+        @Override
+        public void mouseEntered(final MouseEvent e) {
             mouseOver = true;
             getEditorComponent().repaint();
         }
 
-        public void mouseExited(MouseEvent e) {
+        @Override
+        public void mouseExited(final MouseEvent e) {
             mouseOver = false;
             getEditorComponent().repaint();
         }
@@ -100,7 +115,7 @@ public class SequenceViewer extends SwingVarEditor<Sequence> implements Sequence
 
     @Override
     protected void updateInterfaceValue() {
-        Sequence s = variable.getValue();
+        final Sequence s = variable.getValue();
         getEditorComponent().setModel(s);
     }
 
@@ -115,24 +130,24 @@ public class SequenceViewer extends SwingVarEditor<Sequence> implements Sequence
     }
 
     @Override
-    public void valueChanged(Var<Sequence> source, Sequence oldValue, Sequence newValue) {
+    public void valueChanged(final Var<Sequence> source, final Sequence oldValue, final Sequence newValue) {
         if (oldValue != null) oldValue.removeListener(this);
         if (newValue != null) newValue.addListener(this);
         super.valueChanged(source, oldValue, newValue);
     }
 
     @Override
-    public void referenceChanged(Var<Sequence> source, Var<? extends Sequence> oldReference, Var<? extends Sequence> newReference) {
+    public void referenceChanged(final Var<Sequence> source, final Var<? extends Sequence> oldReference, final Var<? extends Sequence> newReference) {
         if (oldReference != null && oldReference.getValue() != null) oldReference.getValue().removeListener(this);
         super.referenceChanged(source, oldReference, newReference);
     }
 
     @Override
-    public void sequenceClosed(Sequence sequence) {
+    public void sequenceClosed(final Sequence sequence) {
     }
 
     @Override
-    public void sequenceChanged(SequenceEvent sequenceEvent) {
+    public void sequenceChanged(final SequenceEvent sequenceEvent) {
         getEditorComponent().dimensionChanged();
         getEditorComponent().imageChanged();
     }

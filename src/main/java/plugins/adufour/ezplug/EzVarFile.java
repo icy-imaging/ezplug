@@ -1,8 +1,22 @@
-package plugins.adufour.ezplug;
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.regex.Pattern;
+package plugins.adufour.ezplug;
 
 import icy.util.StringUtil;
 import plugins.adufour.vars.gui.FileMode;
@@ -10,20 +24,24 @@ import plugins.adufour.vars.gui.model.FileTypeModel;
 import plugins.adufour.vars.gui.swing.FileChooser;
 import plugins.adufour.vars.lang.VarFile;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.regex.Pattern;
+
 /**
  * Class defining a variable of type String, embarking a button triggering a file dialog as
- * graphical component
+ * a graphical component
  *
  * @author Alexandre Dufour
  */
 public class EzVarFile extends EzVar<File> {
     /**
-     * Constructs a new input variable with given name and default file dialog path
+     * Constructs a new input variable with a given name and default file dialog path
      *
      * @param varName the name of the variable (as it will appear in the interface)
      * @param path    the default path to show in the file dialog
      */
-    public EzVarFile(String varName, String path) {
+    public EzVarFile(final String varName, final String path) {
         this(varName, path, (FileFilter) null);
     }
 
@@ -35,7 +53,7 @@ public class EzVarFile extends EzVar<File> {
      * @param wildcard A wild-card filter (e.g. "*.tif"). Warning: this parameter is *not* a regular expression. To use regular expressions, see
      *                 {@link #EzVarFile(String, String, Pattern)}.
      */
-    public EzVarFile(String varName, String path, final String wildcard) {
+    public EzVarFile(final String varName, final String path, final String wildcard) {
         this(varName, null, Pattern.compile(StringUtil.wildcardToRegex(wildcard)));
     }
 
@@ -46,7 +64,7 @@ public class EzVarFile extends EzVar<File> {
      * @param path    The default path to show in the file dialog.
      * @param pattern A regular expression pattern to filter the file list.
      */
-    public EzVarFile(String varName, String path, final Pattern pattern) {
+    public EzVarFile(final String varName, final String path, final Pattern pattern) {
         this(varName, null, (pathname) -> pathname.isDirectory() || Pattern.matches(pattern.pattern(), pathname.getPath()));
     }
 
@@ -57,7 +75,7 @@ public class EzVarFile extends EzVar<File> {
      * @param path    The default path to show in the file dialog.
      * @param filter  The file filter.
      */
-    public EzVarFile(String varName, String path, FileFilter filter) {
+    public EzVarFile(final String varName, final String path, final FileFilter filter) {
         super(new VarFile(varName, null), new FileTypeModel(path, FileMode.FILES, filter, false));
     }
 
@@ -66,7 +84,7 @@ public class EzVarFile extends EzVar<File> {
      *
      * @param text The button text.
      */
-    public void setButtonText(String text) {
+    public void setButtonText(final String text) {
         ((FileChooser) getVarEditor()).setButtonText(text);
     }
 }

@@ -1,13 +1,29 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Dimension;
-
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.text.JTextComponent;
 
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
 
 /**
  * Swing implementation of the VarEditor
@@ -16,7 +32,7 @@ import plugins.adufour.vars.lang.Var;
  * @author Alexandre Dufour
  */
 public abstract class SwingVarEditor<V> extends VarEditor<V> {
-    public SwingVarEditor(Var<V> variable) {
+    public SwingVarEditor(final Var<V> variable) {
         super(variable);
     }
 
@@ -44,12 +60,12 @@ public abstract class SwingVarEditor<V> extends VarEditor<V> {
     }
 
     @Override
-    protected void setEditorEnabled(boolean enabled) {
+    protected void setEditorEnabled(final boolean enabled) {
         getEditorComponent().setEnabled(enabled);
     }
 
     @Override
-    public void setComponentToolTipText(String s) {
+    public void setComponentToolTipText(final String s) {
         getEditorComponent().setToolTipText(s);
     }
 }

@@ -1,18 +1,30 @@
-package plugins.adufour.vars.gui;
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-import java.awt.Color;
+package plugins.adufour.vars.gui;
 
 import icy.plugin.PluginDescriptor;
 import icy.sequence.Sequence;
 import icy.swimmingPool.SwimmingObject;
 import plugins.adufour.vars.gui.swing.SwingFactory;
-import plugins.adufour.vars.lang.Var;
-import plugins.adufour.vars.lang.VarChannel;
-import plugins.adufour.vars.lang.VarFrame;
-import plugins.adufour.vars.lang.VarGenericArray;
-import plugins.adufour.vars.lang.VarMutable;
-import plugins.adufour.vars.lang.VarSlice;
-import plugins.adufour.vars.lang.VarTrigger;
+import plugins.adufour.vars.lang.*;
+
+import java.awt.*;
 
 public abstract class VarEditorFactory {
     static {
@@ -38,7 +50,7 @@ public abstract class VarEditorFactory {
         return defaultFactory;
     }
 
-    public static VarEditorFactory setDefaultFactory(VarEditorFactoryType factoryType) {
+    public static VarEditorFactory setDefaultFactory(final VarEditorFactoryType factoryType) {
         switch (factoryType) {
             case SWING:
                 return defaultFactory = new SwingFactory();
@@ -64,8 +76,7 @@ public abstract class VarEditorFactory {
 
     public abstract <V> VarEditor<V> createLabel(Var<V> variable);
 
-    @SuppressWarnings("rawtypes")
-    public abstract VarEditor createMutableVarEditor(VarMutable varMutable);
+    public abstract VarEditor<?> createMutableVarEditor(VarMutable varMutable);
 
     public abstract VarEditor<PluginDescriptor> createPluginChooser(Var<PluginDescriptor> variable);
 

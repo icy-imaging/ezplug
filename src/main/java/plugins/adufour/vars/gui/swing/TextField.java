@@ -1,17 +1,28 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
 
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class TextField<T> extends SwingVarEditor<T> {
     protected ActionListener actionListener;
@@ -20,7 +31,7 @@ public class TextField<T> extends SwingVarEditor<T> {
 
     protected KeyListener keyListener;
 
-    public TextField(Var<T> variable) {
+    public TextField(final Var<T> variable) {
         super(variable);
     }
 
@@ -39,40 +50,40 @@ public class TextField<T> extends SwingVarEditor<T> {
 
         focusListener = new FocusAdapter() {
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(final FocusEvent e) {
                 setVariableValue(jTextField);
             }
         };
 
         keyListener = new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(final KeyEvent e) {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(final KeyEvent e) {
                 try {
                     variable.parse(jTextField.getText());
                     jTextField.setForeground(Color.black);
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     jTextField.setForeground(Color.red);
                 }
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(final KeyEvent e) {
             }
         };
     }
 
-    protected void setVariableValue(JTextField jTextField) {
+    protected void setVariableValue(final JTextField jTextField) {
         try {
             if (variable.getReference() == null) variable.setValue(variable.parse(jTextField.getText()));
             jTextField.setForeground(Color.black);
             jTextField.setToolTipText(null);
         }
-        catch (RuntimeException e) {
+        catch (final RuntimeException e) {
             jTextField.setForeground(Color.red);
             jTextField.setToolTipText("Cannot convert input into a " + getVariable().getTypeAsString());
         }

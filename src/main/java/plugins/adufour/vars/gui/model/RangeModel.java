@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.model;
 
 import java.util.HashMap;
@@ -36,11 +54,11 @@ public abstract class RangeModel<N extends Number> implements VarEditorModel<N> 
 
     protected HashMap<N, String> labels;
 
-    public RangeModel(N defaultValue, Comparable<N> min, Comparable<N> max, N step) {
+    public RangeModel(final N defaultValue, final Comparable<N> min, final Comparable<N> max, final N step) {
         this(defaultValue, min, max, step, RangeEditorType.SPINNER, null);
     }
 
-    public RangeModel(N defaultValue, Comparable<N> min, Comparable<N> max, N step, RangeEditorType editorType, HashMap<N, String> labels) {
+    public RangeModel(final N defaultValue, final Comparable<N> min, final Comparable<N> max, final N step, final RangeEditorType editorType, final HashMap<N, String> labels) {
         this.defaultValue = defaultValue;
         this.min = min;
         this.max = max;
@@ -90,23 +108,23 @@ public abstract class RangeModel<N extends Number> implements VarEditorModel<N> 
      * Calculates the index of the specified value within the range, according to the current minimum value and step.
      *
      * @param value Value to search.
-     * @return the number of step from the minimum to the specified value
+     * @return the number of steps from the minimum to the specified value
      */
     public abstract int indexOf(N value);
 
-    public void setMaximum(Comparable<N> maximum) {
+    public void setMaximum(final Comparable<N> maximum) {
         this.max = maximum;
     }
 
-    public void setEditorType(RangeEditorType editorType) {
+    public void setEditorType(final RangeEditorType editorType) {
         this.editorType = editorType;
     }
 
-    public void setMinimum(Comparable<N> minimum) {
+    public void setMinimum(final Comparable<N> minimum) {
         this.min = minimum;
     }
 
-    public void setStepSize(N step) {
+    public void setStepSize(final N step) {
         this.step = step;
     }
 }

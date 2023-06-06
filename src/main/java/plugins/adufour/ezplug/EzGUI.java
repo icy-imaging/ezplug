@@ -1,13 +1,22 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
-
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 
 import icy.gui.component.button.IcyButton;
 import icy.network.NetworkUtil;
@@ -23,6 +32,14 @@ import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarDouble;
 import plugins.adufour.vars.util.VarListener;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+// TODO: 05/06/2023 Replace interaction in the frame icon
 public class EzGUI extends EzDialog implements ActionListener {
     private EzPlug ezPlug;
 
@@ -48,7 +65,7 @@ public class EzGUI extends EzDialog implements ActionListener {
 
     private final VarListener<Double> statusProgressListener = new VarListener<Double>() {
         @Override
-        public void valueChanged(Var<Double> source, Double oldValue, final Double newValue) {
+        public void valueChanged(final Var<Double> source, final Double oldValue, final Double newValue) {
             ThreadUtil.invokeLater(() -> {
                 jButtonRun.setEnabled(newValue == 0);
                 if (ezPlug instanceof EzStoppable)
@@ -61,14 +78,14 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
 
         @Override
-        public void referenceChanged(Var<Double> source, Var<? extends Double> oldReference, Var<? extends Double> newReference) {
+        public void referenceChanged(final Var<Double> source, final Var<? extends Double> oldReference, final Var<? extends Double> newReference) {
 
         }
     };
 
     private final VarListener<String> statusMessageListener = new VarListener<String>() {
         @Override
-        public void valueChanged(Var<String> source, String oldValue, final String newValue) {
+        public void valueChanged(final Var<String> source, final String oldValue, final String newValue) {
             ThreadUtil.invokeLater(() -> {
                 jProgressBar.setString(newValue);
                 jProgressBar.setStringPainted(!newValue.trim().isEmpty());
@@ -76,7 +93,7 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
 
         @Override
-        public void referenceChanged(Var<String> source, Var<? extends String> oldReference, Var<? extends String> newReference) {
+        public void referenceChanged(final Var<String> source, final Var<? extends String> oldReference, final Var<? extends String> newReference) {
 
         }
     };
@@ -161,20 +178,6 @@ public class EzGUI extends EzDialog implements ActionListener {
     }
 
     /**
-     * Sets the running state of this plug-in. The running state is materialized by enabling or
-     * disabling the "Run" (and "Stop") buttons and animating the progress bar.
-     *
-     * @param isRunning Indicates the state of the plugin to be set (either running or completed).
-     * @deprecated The running state is now automatically handled via the
-     * {@link #setProgressBarValue(double)} and {@link #setProgressBarMessage(String)}
-     * methods
-     */
-    @Deprecated
-    public void setRunningState(final boolean isRunning) {
-        ezPlug.getStatus().setCompletion(isRunning ? Double.NaN : 0.0);
-    }
-
-    /**
      * Sets whether the action panel (buttons and progress bar) are visible or not.
      *
      * @param visible the new visibility state of the action panel
@@ -237,13 +240,14 @@ public class EzGUI extends EzDialog implements ActionListener {
      * initialization)
      */
     public void clickRun() {
-        executionThread = new Thread(ezPlug, ezPlug.getName());
+        executionThread = new Thread(ezPlug.EzPlugProcess, ezPlug.getName());
         executionThread.start();
     }
 
     // ActionListener //
 
-    public void actionPerformed(ActionEvent e) {
+    @Override
+    public void actionPerformed(final ActionEvent e) {
         if (e.getSource().equals(jButtonRun)) {
             clickRun();
         }
@@ -252,7 +256,7 @@ public class EzGUI extends EzDialog implements ActionListener {
                 ((EzStoppable) ezPlug).stopExecution();
         }
         else if (e.getSource().equals(jButtonLoadParameters)) {
-            JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView()) : new JFileChooser(currentParametersPath);
+            final JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView()) : new JFileChooser(currentParametersPath);
 
             if (jfc.showOpenDialog(getContentPane()) != JFileChooser.APPROVE_OPTION)
                 return;
@@ -263,7 +267,7 @@ public class EzGUI extends EzDialog implements ActionListener {
 
         }
         else if (e.getSource().equals(jButtonSaveParameters)) {
-            JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView()) : new JFileChooser(currentParametersPath);
+            final JFileChooser jfc = currentParametersPath == null ? new JFileChooser(FileSystemView.getFileSystemView()) : new JFileChooser(currentParametersPath);
 
             if (jfc.showSaveDialog(getContentPane()) != JFileChooser.APPROVE_OPTION)
                 return;
@@ -280,6 +284,7 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
     }
 
+    @Override
     public void onClosed() {
         super.onClosed();
 
@@ -291,7 +296,7 @@ public class EzGUI extends EzDialog implements ActionListener {
 
             // stop the execution if it was still running
             if (!(ezPlug instanceof EzStoppable)) {
-                // special case: process needs to be force-killed.
+                // special case: the process needs to be force-killed.
                 // => use the dedicated interruption handler
                 executionThread.setUncaughtExceptionHandler(new EzStoppable.ForcedInterruptionHandler(ezPlug.getDescriptor()));
                 executionThread.interrupt();
@@ -313,15 +318,15 @@ public class EzGUI extends EzDialog implements ActionListener {
         ezPlug = null;
     }
 
-    private static PluginDescriptor getMainPlugin(PluginDescriptor bundledPlugin) {
+    private static PluginDescriptor getMainPlugin(final PluginDescriptor bundledPlugin) {
         if (!bundledPlugin.isBundled())
             return bundledPlugin;
 
         try {
-            // get main plugin
+            // get the main plugin
             return PluginLoader.getPlugin(((PluginBundled) PluginLauncher.create(bundledPlugin)).getMainPluginClassName());
         }
-        catch (Throwable t) {
+        catch (final Throwable t) {
             // try alternate method
             final List<PluginDescriptor> allPlugins = PluginLoader.getPlugins(false);
 
@@ -330,7 +335,7 @@ public class EzGUI extends EzDialog implements ActionListener {
             while (!StringUtil.isEmpty(packageName)) {
                 PluginDescriptor matchingPlugin = null;
 
-                for (PluginDescriptor p : allPlugins) {
+                for (final PluginDescriptor p : allPlugins) {
                     // package name matches ? --> increase
                     if (p.getClassName().startsWith(packageName)) {
                         // several results ? --> no need to go further

@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.util;
 
 public class TypeUtil {
@@ -6,7 +24,7 @@ public class TypeUtil {
      * @return The Boxed type corresponding to the specified primitive type (or the original type if
      * not a primitive)
      */
-    public static Class<?> toBoxedType(Class<?> primitiveType) {
+    public static Class<?> toBoxedType(final Class<?> primitiveType) {
         if (!primitiveType.isPrimitive())
             return primitiveType;
 
@@ -39,7 +57,7 @@ public class TypeUtil {
      * @param type Class of the type to convert,
      * @return A human-friendly name designating the specified type.
      */
-    public static String toFriendlyString(Class<?> type) {
+    public static String toFriendlyString(final Class<?> type) {
         if (type == null)
             return "no type";
 

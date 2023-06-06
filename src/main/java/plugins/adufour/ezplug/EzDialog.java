@@ -1,26 +1,22 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog.ModalityType;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Point;
-import java.io.File;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
 
 import icy.gui.frame.IcyExternalFrame;
 import icy.gui.frame.IcyFrame;
@@ -29,6 +25,15 @@ import icy.main.Icy;
 import icy.system.IcyHandledException;
 import icy.system.thread.ThreadUtil;
 import plugins.adufour.ezplug.EzGroup.FoldListener;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Dialog.ModalityType;
+import java.io.File;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class EzDialog extends IcyFrame implements FoldListener {
     protected static File currentParametersPath = null;
@@ -48,11 +53,11 @@ public class EzDialog extends IcyFrame implements FoldListener {
      */
     public final Runnable fullPackingTask = () -> repack(true);
 
-    public EzDialog(String title) {
+    public EzDialog(final String title) {
         this(title, true);
     }
 
-    protected EzDialog(String title, final boolean isDialog) {
+    protected EzDialog(final String title, final boolean isDialog) {
         super(title, true, true, false, true);
 
         this.isDialog = isDialog;
@@ -90,11 +95,11 @@ public class EzDialog extends IcyFrame implements FoldListener {
 
         boolean validLocation = false;
 
-        Dimension screenDim = getToolkit().getScreenSize();
+        final Dimension screenDim = getToolkit().getScreenSize();
 
         loop:
         while (!validLocation) {
-            AbstractList<? extends Component> comps;
+            final AbstractList<? extends Component> comps;
 
             if (isInternalized()) {
                 comps = new ArrayList<>(Arrays.asList(Icy.getMainInterface().getDesktopPane().getAllFrames()));
@@ -103,7 +108,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
                 comps = Icy.getMainInterface().getExternalFrames();
             }
 
-            for (Component gui : comps) {
+            for (final Component gui : comps) {
                 if (this.getFrame() == gui || !gui.isShowing())
                     continue;
 
@@ -112,7 +117,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
                 final Point wLoc = isInternalized() ? gui.getLocation() : gui.getLocationOnScreen();
 
                 if (wLoc.distanceSq(location) < 400) {
-                    Dimension dim = gui.getPreferredSize();
+                    final Dimension dim = gui.getPreferredSize();
                     location.x += dim.width;
                     if (location.x > screenDim.width - dim.width) {
                         // no more space in x, move along y
@@ -121,12 +126,12 @@ public class EzDialog extends IcyFrame implements FoldListener {
 
                         if (location.y > screenDim.height - dim.height) {
                             // no more space on screen, break
-                            location.x = 0;
+                            //location.x = 0; // Already assigned to this value
                             location.y = 0;
                             break;
                         }
                     }
-                    validLocation = false;
+                    //validLocation = false; // Already assigned to this value
                     continue loop;
                 }
             }
@@ -136,33 +141,33 @@ public class EzDialog extends IcyFrame implements FoldListener {
     }
 
     @Override
-    protected IcyInternalFrame createInternalFrame(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconifiable) {
+    protected IcyInternalFrame createInternalFrame(final String title, final boolean resizable, final boolean closable, final boolean maximizable, final boolean iconifiable) {
         return new EzInternalFrame(title, resizable, closable, maximizable, iconifiable);
     }
 
     @Override
-    protected IcyExternalFrame createExternalFrame(String title) {
+    protected IcyExternalFrame createExternalFrame(final String title) {
         return new EzExternalFrame(title);
     }
 
-    public void addComponent(Component component) {
+    public void addComponent(final Component component) {
         components.add(component);
     }
 
-    public void addEzComponent(EzComponent component) {
+    public void addEzComponent(final EzComponent component) {
         addEzComponent(component, true);
     }
 
     @SuppressWarnings("unchecked")
-    protected void addEzComponent(EzComponent component, boolean isSingle) {
+    protected void addEzComponent(final EzComponent component, final boolean isSingle) {
         // if the component is a group, add its internal components recursively
         if (component instanceof EzPanel) {
-            EzPanel panel = (EzPanel) component;
+            final EzPanel panel = (EzPanel) component;
 
             if (panel instanceof EzGroup)
                 ((EzGroup) panel).addFoldListener(this);
 
-            for (EzComponent groupComponent : panel)
+            for (final EzComponent groupComponent : panel)
                 addEzComponent(groupComponent, false);
         }
 
@@ -172,8 +177,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
         // if the component is an EzVar, activate the internal listener
         // => this will cause the UI to refresh if a var gets shown/hidden
         if (component instanceof EzVar) {
-            @SuppressWarnings("rawtypes")
-            EzVar var = (EzVar) component;
+            @SuppressWarnings("rawtypes") final EzVar var = (EzVar) component;
             var.variable.addListener(var);
         }
 
@@ -182,7 +186,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
     }
 
     @Override
-    public void foldStateChanged(boolean newState) {
+    public void foldStateChanged(final boolean newState) {
         repack(true);
     }
 
@@ -193,13 +197,13 @@ public class EzDialog extends IcyFrame implements FoldListener {
      * @param updateParametersPanel Set to true if the visibility of some parameters has been changed and the panel
      *                              should be redrawn before re-packing the frame
      */
-    public void repack(boolean updateParametersPanel) {
+    public void repack(final boolean updateParametersPanel) {
         // int width = getWidth();
 
         if (updateParametersPanel) {
             jPanelParameters.removeAll();
 
-            GridBagConstraints gbc = new GridBagConstraints();
+            final GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(2, 5, 2, 5);
             gbc.fill = GridBagConstraints.BOTH;
             gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -208,10 +212,10 @@ public class EzDialog extends IcyFrame implements FoldListener {
             gbc.weighty = 1;
 
             // split components by columns
-            ArrayList<List<Object>> columns = new ArrayList<>();
+            final ArrayList<List<Object>> columns = new ArrayList<>();
             ArrayList<Object> currentColumn = new ArrayList<>();
             columns.add(currentColumn);
-            for (Object component : components) {
+            for (final Object component : components) {
                 if (component instanceof JSeparator && ((JSeparator) component).getOrientation() == JSeparator.VERTICAL) {
                     currentColumn = new ArrayList<>();
                     columns.add(currentColumn);
@@ -222,21 +226,21 @@ public class EzDialog extends IcyFrame implements FoldListener {
             }
 
             for (int i = 0; i < columns.size(); i++) {
-                List<Object> column = columns.get(i);
+                final List<Object> column = columns.get(i);
 
                 if (i > 0 && column.size() > 0)
                     jPanelParameters.add(new JSeparator(JSeparator.VERTICAL));
 
-                JPanel columnContainer = new JPanel(new GridBagLayout());
+                final JPanel columnContainer = new JPanel(new GridBagLayout());
 
-                for (Object object : column) {
+                for (final Object object : column) {
                     if (object instanceof EzComponent) {
                         ((EzComponent) object).addToContainer(columnContainer);
                     }
                     else if (object instanceof Component) {
-                        Component component = (Component) object;
+                        final Component component = (Component) object;
 
-                        GridBagLayout gridbag = (GridBagLayout) columnContainer.getLayout();
+                        final GridBagLayout gridbag = (GridBagLayout) columnContainer.getLayout();
 
                         component.setFocusable(false);
 
@@ -305,7 +309,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
     @Override
     public void close() {
         // TIP: very bad idea to override 'close()' method here as EzDialog override IcyFrame class.
-        // Because of that the dialog remains referenced by the static IcyFrame.frames list !
+        // Because of that, the dialog remains referenced by the static IcyFrame.frames list !
         // use 'hideDialog()' to hide the dialog and 'close()' to release it
         // if (isDialog) hideDialog();
         // else super.close();
@@ -328,9 +332,10 @@ public class EzDialog extends IcyFrame implements FoldListener {
         ThreadUtil.invokeNow(() -> dialog.setVisible(false));
     }
 
+    @Override
     public void onClosed() {
         // dispose all components
-        for (Object object : components) {
+        for (final Object object : components) {
             if (object instanceof EzComponent) {
                 ((EzComponent) object).dispose();
             }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
 
 import icy.main.Icy;
@@ -5,22 +23,14 @@ import icy.swimmingPool.SwimmingObject;
 import icy.swimmingPool.SwimmingPoolEvent;
 import icy.swimmingPool.SwimmingPoolListener;
 import icy.system.thread.ThreadUtil;
+import plugins.adufour.vars.lang.Var;
 
-import java.awt.Component;
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.event.ListDataListener;
-
-import plugins.adufour.vars.lang.Var;
 
 public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implements SwimmingPoolListener {
     private JComboBoxListener jComboBoxListener;
@@ -35,11 +45,11 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
      */
     private final class JComboBoxModel extends DefaultComboBoxModel<SwimmingObject> {
         @Override
-        public void addListDataListener(ListDataListener l) {
+        public void addListDataListener(final ListDataListener l) {
         }
 
         @Override
-        public SwimmingObject getElementAt(int index) {
+        public SwimmingObject getElementAt(final int index) {
             // first is the "no" selection
             if (index == 0) return null;
 
@@ -55,18 +65,19 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
     }
 
     private static final class JComboBoxRenderer implements ListCellRenderer<SwimmingObject> {
-        public Component getListCellRendererComponent(JList<? extends SwimmingObject> list, SwimmingObject value, int index, boolean isSelected, boolean cellHasFocus) {
+        @Override
+        public Component getListCellRendererComponent(final JList<? extends SwimmingObject> list, final SwimmingObject value, final int index, final boolean isSelected, final boolean cellHasFocus) {
             if (value == null) return new JLabel("No selection");
 
-            String name = value.getName();
+            final String name = value.getName();
             return new JLabel(name);
         }
     }
 
     private final class JComboBoxListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-            SwimmingObject newValue = (SwimmingObject) getEditorComponent().getSelectedItem();
+        public void actionPerformed(final ActionEvent e) {
+            final SwimmingObject newValue = (SwimmingObject) getEditorComponent().getSelectedItem();
 
             if (newValue != null) getEditorComponent().setToolTipText(newValue.getName());
 
@@ -74,7 +85,7 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
         }
     }
 
-    public SwimmingObjectChooser(Var<SwimmingObject> variable) {
+    public SwimmingObjectChooser(final Var<SwimmingObject> variable) {
         super(variable);
     }
 
@@ -84,7 +95,7 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
 
         validObjects.clear();
 
-        JComboBox<SwimmingObject> jComboBox = getEditorComponent();
+        final JComboBox<SwimmingObject> jComboBox = getEditorComponent();
         // replace custom instances by new empty ones for garbage collection
         jComboBox.setRenderer(new DefaultListCellRenderer());
         jComboBox.setModel(new DefaultComboBoxModel<>());
@@ -94,12 +105,12 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
     public JComponent createEditorComponent() {
         validObjects = new ArrayList<>();
         jComboBoxListener = new JComboBoxListener();
-        JComboBoxModel jComboBoxModel = new JComboBoxModel();
-        JComboBoxRenderer jComboBoxRenderer = new JComboBoxRenderer();
+        final JComboBoxModel jComboBoxModel = new JComboBoxModel();
+        final JComboBoxRenderer jComboBoxRenderer = new JComboBoxRenderer();
 
-        JComboBox<SwimmingObject> jComboBox = new JComboBox<>(jComboBoxModel);
+        final JComboBox<SwimmingObject> jComboBox = new JComboBox<>(jComboBoxModel);
 
-        for (SwimmingObject swObj : Icy.getMainInterface().getSwimmingPool().getObjects())
+        for (final SwimmingObject swObj : Icy.getMainInterface().getSwimmingPool().getObjects())
             if (variable.getDefaultEditorModel().isValid(swObj)) {
                 validObjects.add(swObj);
             }
@@ -122,14 +133,14 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
             getEditorComponent().repaint();
         }
 
-        String valueAsString = variable.getValueAsString(true);
+        final String valueAsString = variable.getValueAsString(true);
 
         getEditorComponent().setToolTipText(valueAsString.length() == 0 ? null : "<html><pre><font size=3>" + valueAsString + "</font></pre></html>");
     }
 
     @Override
-    public void swimmingPoolChangeEvent(SwimmingPoolEvent event) {
-        SwimmingObject object = event.getResult();
+    public void swimmingPoolChangeEvent(final SwimmingPoolEvent event) {
+        final SwimmingObject object = event.getResult();
 
         if (!variable.getDefaultEditorModel().isValid(object)) return;
 

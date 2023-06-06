@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
 import icy.sequence.Sequence;
@@ -13,12 +31,12 @@ import plugins.adufour.vars.util.VarListener;
 public class EzVarChannel extends EzVar<Integer> {
     private final VarListener<Sequence> listener = new VarListener<Sequence>() {
         @Override
-        public void valueChanged(Var<Sequence> source, Sequence oldValue, Sequence newValue) {
+        public void valueChanged(final Var<Sequence> source, final Sequence oldValue, final Sequence newValue) {
             if (newValue == null) {
                 setVisible(false);
             }
             else {
-                int sizeC = newValue.getSizeC();
+                final int sizeC = newValue.getSizeC();
                 if (sizeC == 1) {
                     setVisible(false);
                     if (variable.getReference() == null) setValue(0);
@@ -30,14 +48,14 @@ public class EzVarChannel extends EzVar<Integer> {
         }
 
         @Override
-        public void referenceChanged(Var<Sequence> source, Var<? extends Sequence> oldReference, Var<? extends Sequence> newReference) {
-            // shoudn't happen
+        public void referenceChanged(final Var<Sequence> source, final Var<? extends Sequence> oldReference, final Var<? extends Sequence> newReference) {
+            // shouldn't happen
         }
     };
 
     private final Var<Sequence> sequence;
 
-    public EzVarChannel(String name, Var<Sequence> sequence, boolean allowAllChannels) {
+    public EzVarChannel(final String name, final Var<Sequence> sequence, final boolean allowAllChannels) {
         super(new VarChannel(name, sequence, allowAllChannels), null);
 
         this.sequence = sequence;

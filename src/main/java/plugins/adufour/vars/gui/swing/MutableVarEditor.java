@@ -1,29 +1,45 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Dimension;
-
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarMutable;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Special editor that changes type according to the underlying variable
  *
  * @author Alexandre Dufour
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings("unchecked")
 public class MutableVarEditor extends SwingVarEditor<Object> {
-    public MutableVarEditor(VarMutable variable) {
+    public MutableVarEditor(final VarMutable variable) {
         super(variable);
     }
 
     /**
      * Abstract pointer to the active editor
      */
-    private VarEditor varEditor;
+    private VarEditor<?> varEditor;
 
     @Override
     protected JComponent createEditorComponent() {
@@ -38,18 +54,19 @@ public class MutableVarEditor extends SwingVarEditor<Object> {
         super.dispose();
     }
 
+    @Override
     public JComponent getEditorComponent() {
         // deactivate the current editor (if any)
         if (varEditor != null) varEditor.setEnabled(false);
 
-        Var ref = variable.getReference();
+        final Var<?> ref = variable.getReference();
 
         if (ref != null) {
             varEditor = ref.createVarViewer();
         }
         else {
             varEditor = variable.createVarViewer();
-            if (varEditor instanceof Label) ((Label) varEditor).getEditorComponent().setHorizontalAlignment(JLabel.CENTER);
+            if (varEditor instanceof Label) ((Label<?>) varEditor).getEditorComponent().setHorizontalAlignment(JLabel.CENTER);
         }
 
         // activate the new listener
@@ -74,7 +91,7 @@ public class MutableVarEditor extends SwingVarEditor<Object> {
     }
 
     @Override
-    public void setComponentToolTipText(String s) {
+    public void setComponentToolTipText(final String s) {
         varEditor.setComponentToolTipText(s);
     }
 
@@ -88,21 +105,23 @@ public class MutableVarEditor extends SwingVarEditor<Object> {
 
     }
 
+    @Override
     public boolean isComponentResizeable() {
         return true;
     }
 
+    @Override
     public double getComponentVerticalResizeFactor() {
         return varEditor.getComponentVerticalResizeFactor();
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
 
     }
 
     @Override
-    protected void setEditorEnabled(boolean enabled) {
+    protected void setEditorEnabled(final boolean enabled) {
 
     }
 

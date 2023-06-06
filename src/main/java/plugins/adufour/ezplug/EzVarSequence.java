@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
 import icy.main.Icy;
@@ -17,7 +35,7 @@ public class EzVarSequence extends EzVar<Sequence> {
      *
      * @param varName the parameter name
      */
-    public EzVarSequence(String varName) {
+    public EzVarSequence(final String varName) {
         super(new VarSequence(varName, null), null);
 
         // use active sequence by default
@@ -29,7 +47,7 @@ public class EzVarSequence extends EzVar<Sequence> {
      */
     public void setNoSequenceSelection() {
         // set the variable to null
-        // NB: this line is in principle not necessary as the variable listens to the combo box
+        // NB: this line is in principle not necessary as the variable listens to the combo box,
         // but if the listener is not yet activated, the variable won't change
         getVariable().setValue(null);
 
@@ -37,6 +55,7 @@ public class EzVarSequence extends EzVar<Sequence> {
         ((SequenceChooser) getVarEditor()).getEditorComponent().setSelectedIndex(0);
     }
 
+    @Override
     public void setValue(final Sequence value) throws UnsupportedOperationException {
         // 1) adjust the graphical interface (will also change the variable value)
         ((SequenceChooser) getVarEditor()).getEditorComponent().setSelectedItem(value);

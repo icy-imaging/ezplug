@@ -1,15 +1,22 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 
 import icy.system.FileDrop;
 import icy.system.FileDrop.FileDropListener;
@@ -18,6 +25,13 @@ import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeListModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * File chooser component for the Vars library. This component is tailored to select a list of files
@@ -28,19 +42,19 @@ import plugins.adufour.vars.lang.Var;
 public class FilesChooser extends SwingVarEditor<File[]> {
     private ActionListener actionListener;
 
-    public FilesChooser(Var<File[]> variable) {
+    public FilesChooser(final Var<File[]> variable) {
         super(variable);
     }
 
     @Override
     public JComponent createEditorComponent() {
-        JButton jButton = new JButton();
+        final JButton jButton = new JButton();
 
         String path = null;
         FileMode fileMode = FileMode.ALL;
         boolean allowHidden = false;
 
-        VarEditorModel<File[]> model = variable.getDefaultEditorModel();
+        final VarEditorModel<File[]> model = variable.getDefaultEditorModel();
 
         if (model instanceof FileTypeListModel) {
             path = ((FileTypeListModel) model).getPath();
@@ -77,11 +91,11 @@ public class FilesChooser extends SwingVarEditor<File[]> {
                 return;
 
             variable.setValue(jFileChooser.getSelectedFiles());
-            File[] files = jFileChooser.getSelectedFiles();
+            final File[] files = jFileChooser.getSelectedFiles();
             setButtonText(files.length + " file" + (files.length > 1 ? "s" : "") + " (click to change)");
         };
 
-        FileDropListener fileDropListener = getFileDropListener(fileMode);
+        final FileDropListener fileDropListener = getFileDropListener(fileMode);
         new FileDrop(jButton, BorderFactory.createLineBorder(Color.blue.brighter(), 2), fileDropListener);
 
         return jButton;
@@ -91,9 +105,9 @@ public class FilesChooser extends SwingVarEditor<File[]> {
         return new FileDropListener() {
 
             @Override
-            public void filesDropped(File[] files) {
+            public void filesDropped(final File[] files) {
                 if (isActionListenerActive()) {
-                    File[] filteredFiles;
+                    final File[] filteredFiles;
                     switch (fileMode) {
                         case FILES:
                             filteredFiles = getFiles(files);
@@ -123,16 +137,16 @@ public class FilesChooser extends SwingVarEditor<File[]> {
             }
 
             private boolean isActionListenerActive() {
-                for (ActionListener l : getEditorComponent().getActionListeners()) {
+                for (final ActionListener l : getEditorComponent().getActionListeners()) {
                     if (l == actionListener)
                         return true;
                 }
                 return false;
             }
 
-            private File[] getFiles(File[] files) {
-                List<File> fileList = new ArrayList<>();
-                for (File f : files) {
+            private File[] getFiles(final File[] files) {
+                final List<File> fileList = new ArrayList<>();
+                for (final File f : files) {
                     if (f.isFile())
                         fileList.add(f);
                 }
@@ -140,9 +154,9 @@ public class FilesChooser extends SwingVarEditor<File[]> {
                 return fileList.toArray(new File[fileList.size()]);
             }
 
-            private File[] getFolders(File[] files) {
-                List<File> folderList = new ArrayList<>();
-                for (File f : files) {
+            private File[] getFolders(final File[] files) {
+                final List<File> folderList = new ArrayList<>();
+                for (final File f : files) {
                     if (f.isDirectory())
                         folderList.add(f);
                 }
@@ -164,12 +178,12 @@ public class FilesChooser extends SwingVarEditor<File[]> {
 
     @Override
     protected void updateInterfaceValue() {
-        File[] newValue = variable.getValue();
+        final File[] newValue = variable.getValue();
 
-        StringBuilder list = new StringBuilder("<html><pre><font size=3>");
+        final StringBuilder list = new StringBuilder("<html><pre><font size=3>");
 
         if (newValue != null) {
-            for (File f : newValue) {
+            for (final File f : newValue) {
                 list.append(f.getAbsolutePath());
                 if (f.isDirectory())
                     list.append("/");

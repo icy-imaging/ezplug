@@ -1,10 +1,27 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
 import icy.system.thread.ThreadUtil;
 
-import java.awt.Container;
-
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Abstract class defining a component of an EzPlug and its behavior in the graphical user
@@ -34,7 +51,7 @@ public abstract class EzComponent {
      */
     private EzPanel parent = null;
 
-    protected EzComponent(String name) {
+    protected EzComponent(final String name) {
         this.name = name;
     }
 
@@ -46,20 +63,11 @@ public abstract class EzComponent {
     }
 
     /**
-     * @return True if this component is visible on the user interface.
-     * @deprecated Use {@link #isVisible()} instead.
-     */
-    @Deprecated
-    public boolean getVisible() {
-        return isVisible();
-    }
-
-    /**
      * Sets the component's visibility
      *
      * @param state The new visibility state
      */
-    public void setVisible(boolean state) {
+    public void setVisible(final boolean state) {
         visible = state;
     }
 
@@ -75,7 +83,7 @@ public abstract class EzComponent {
     /**
      * Gets a reference to the graphical interface containing this variable
      *
-     * @return
+     * @return the GUI.
      */
     final EzDialog getUI() {
         return this.gui;
@@ -86,17 +94,8 @@ public abstract class EzComponent {
      *
      * @param ezDialog The parent frame of this component
      */
-    final void setUI(EzDialog ezDialog) {
+    final void setUI(final EzDialog ezDialog) {
         this.gui = ezDialog;
-    }
-
-    /**
-     * @return the group to which this variable belongs (or null if this variable is top-level)
-     * @deprecated use {@link #getParentPanel()} instead
-     */
-    @Deprecated
-    protected final EzGroup getGroup() {
-        return (EzGroup) parent;
     }
 
     /**
@@ -107,24 +106,12 @@ public abstract class EzComponent {
     }
 
     /**
-     * Sets the group to which this variable belongs
-     *
-     * @param group the parent group of this variable
-     * @throws IllegalArgumentException if this component already belongs to a group
-     * @deprecated use {@link #setParentPanel(EzPanel)} instead
-     */
-    @Deprecated
-    protected void setGroup(EzGroup group) throws IllegalArgumentException {
-        setParentPanel(group);
-    }
-
-    /**
      * Sets the parent panel of this component
      *
      * @param parent the parent of this component
      * @throws IllegalArgumentException if this component already belongs to another parent
      */
-    protected void setParentPanel(EzPanel parent) {
+    protected void setParentPanel(final EzPanel parent) {
         if (this.parent != null && parent != null)
             throw new IllegalArgumentException("component " + name + " already belongs to group " + parent.name);
         this.parent = parent;

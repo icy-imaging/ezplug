@@ -1,15 +1,29 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.*;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import icy.system.thread.ThreadUtil;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+import java.util.*;
 
 /**
  * Class defining a generic panel containing multiple {@link EzComponent} objects. For two concrete
@@ -19,52 +33,52 @@ import icy.system.thread.ThreadUtil;
  */
 public class EzPanel extends EzComponent implements Iterable<EzComponent> {
     private class EzComponentList extends ArrayList<EzComponent> {
-        public EzComponentList(int initialSize) {
+        public EzComponentList(final int initialSize) {
             super(initialSize);
         }
 
         @Override
-        public boolean add(EzComponent e) {
+        public boolean add(final EzComponent e) {
             e.setParentPanel(EzPanel.this);
             return super.add(e);
         }
 
         @Override
-        public void add(int index, EzComponent element) {
+        public void add(final int index, final EzComponent element) {
             element.setParentPanel(EzPanel.this);
             super.add(index, element);
         }
 
         @Override
-        public boolean addAll(Collection<? extends EzComponent> c) {
-            for (EzComponent comp : c)
+        public boolean addAll(final Collection<? extends EzComponent> c) {
+            for (final EzComponent comp : c)
                 comp.setParentPanel(EzPanel.this);
             return super.addAll(c);
         }
 
         @Override
-        public boolean addAll(int index, Collection<? extends EzComponent> c) {
-            for (EzComponent comp : c)
+        public boolean addAll(final int index, final Collection<? extends EzComponent> c) {
+            for (final EzComponent comp : c)
                 comp.setParentPanel(EzPanel.this);
             return super.addAll(index, c);
         }
 
         @Override
         public void clear() {
-            for (EzComponent comp : this)
+            for (final EzComponent comp : this)
                 comp.setParentPanel(null);
             super.clear();
         }
 
         @Override
-        public EzComponent remove(int index) {
-            EzComponent oldElement = super.remove(index);
+        public EzComponent remove(final int index) {
+            final EzComponent oldElement = super.remove(index);
             if (oldElement != null) oldElement.setParentPanel(null);
             return oldElement;
         }
 
         @Override
-        protected void removeRange(int fromIndex, int toIndex) {
+        protected void removeRange(final int fromIndex, final int toIndex) {
             for (int i = fromIndex; i < toIndex; i++) {
                 if (get(i) != null) get(i).setParentPanel(null);
             }
@@ -72,9 +86,9 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
         }
 
         @Override
-        public EzComponent set(int index, EzComponent element) {
+        public EzComponent set(final int index, final EzComponent element) {
             element.setParentPanel(EzPanel.this);
-            EzComponent oldElement = super.set(index, element);
+            final EzComponent oldElement = super.set(index, element);
             if (oldElement != null) oldElement.setParentPanel(null);
             return oldElement;
         }
@@ -86,7 +100,7 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
 
     protected String toolTipText = "";
 
-    public EzPanel(String name, EzComponent... ezComponents) {
+    public EzPanel(final String name, final EzComponent... ezComponents) {
         super(name);
 
         ThreadUtil.invoke(() -> container = createContainer(), !SwingUtilities.isEventDispatchThread());
@@ -105,7 +119,7 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
      *
      * @param ezComponents the components to add
      */
-    public void add(EzComponent... ezComponents) {
+    public void add(final EzComponent... ezComponents) {
         if (ezComponents == null || ezComponents.length == 0) return;
 
         components.addAll(Arrays.asList(ezComponents));
@@ -118,17 +132,17 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
 
     protected void buildPanel() {
         container.removeAll();
-        for (EzComponent ezComponent : components)
+        for (final EzComponent ezComponent : components)
             if (ezComponent.isVisible()) ezComponent.addTo(container);
     }
 
     @Override
-    protected void addTo(Container parentContainer) {
+    protected void addTo(final Container parentContainer) {
         buildPanel();
 
-        GridBagLayout gridbag = (GridBagLayout) parentContainer.getLayout();
+        final GridBagLayout gridbag = (GridBagLayout) parentContainer.getLayout();
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 1.0;
@@ -142,13 +156,13 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
     }
 
     @Override
-    public void setToolTipText(String text) {
+    public void setToolTipText(final String text) {
         this.toolTipText = text;
     }
 
     @Override
     protected void dispose() {
-        for (EzComponent ezComponent : components)
+        for (final EzComponent ezComponent : components)
             ezComponent.dispose();
         components.clear();
 

@@ -1,85 +1,99 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Dimension;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.text.NumberFormatter;
 
 import plugins.adufour.vars.gui.model.RangeModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 
 public class Spinner<N extends Number> extends SwingVarEditor<N> {
     private static final int MAX_SPINNER_WIDTH = 100;
 
     private NumberFormatter formatter;
 
-    public Spinner(Var<N> variable) {
+    public Spinner(final Var<N> variable) {
         super(variable);
     }
 
     @Override
     public JComponent createEditorComponent() {
-        VarEditorModel<N> model = variable.getDefaultEditorModel();
+        final VarEditorModel<N> model = variable.getDefaultEditorModel();
 
         if (!(model instanceof RangeModel)) {
             throw new UnsupportedOperationException(
                     "Incorrect model for variable " + variable.getName() + ": " + model);
         }
 
-        RangeModel<N> constraint = (RangeModel<N>) model;
+        final RangeModel<N> constraint = (RangeModel<N>) model;
 
         final JSpinner jSpinner = new JSpinner(new SpinnerNumberModel(constraint.getDefaultValue(), constraint.getMinimum(), constraint.getMaximum(), constraint.getStepSize()) {
             @SuppressWarnings("unchecked")
             @Override
-            public void setValue(Object value) {
+            public void setValue(final Object value) {
                 super.setValue(value);
                 variable.setValue((N) value);
             }
         });
 
-        JSpinner.NumberEditor editor = (JSpinner.NumberEditor) jSpinner.getEditor();
-        JFormattedTextField field = (JFormattedTextField) editor.getComponent(0);
+        final JSpinner.NumberEditor editor = (JSpinner.NumberEditor) jSpinner.getEditor();
+        final JFormattedTextField field = (JFormattedTextField) editor.getComponent(0);
         formatter = (NumberFormatter) field.getFormatter();
 
         // set the preferred size the maximum possible text length
         try {
-            String min = formatter.valueToString(constraint.getMinimum());
-            String max = formatter.valueToString(constraint.getMaximum());
-            String step = formatter.valueToString(constraint.getStepSize());
+            final String min = formatter.valueToString(constraint.getMinimum());
+            final String max = formatter.valueToString(constraint.getMaximum());
+            final String step = formatter.valueToString(constraint.getStepSize());
 
             field.setColumns(Math.max(min.length(), Math.max(max.length(), step.length())));
         }
-        catch (ParseException e) {
+        catch (final ParseException e) {
             throw new RuntimeException(e);
         }
 
         return jSpinner;
     }
 
-    public void setMaximum(Comparable<N> maxValue) {
+    public void setMaximum(final Comparable<N> maxValue) {
         ((SpinnerNumberModel) getEditorComponent().getModel()).setMaximum(maxValue);
         ((RangeModel<N>) variable.getDefaultEditorModel()).setMaximum(maxValue);
     }
 
-    public void setMinimum(Comparable<N> minValue) {
+    public void setMinimum(final Comparable<N> minValue) {
         ((SpinnerNumberModel) getEditorComponent().getModel()).setMinimum(minValue);
         ((RangeModel<N>) variable.getDefaultEditorModel()).setMinimum(minValue);
     }
 
-    public void setStepSize(N stepSize) {
+    public void setStepSize(final N stepSize) {
         ((SpinnerNumberModel) getEditorComponent().getModel()).setStepSize(stepSize);
         ((RangeModel<N>) variable.getDefaultEditorModel()).setStepSize(stepSize);
     }
 
     @Override
     protected void updateInterfaceValue() {
-        N value = variable.getValue();
+        final N value = variable.getValue();
 
         if (value == null)
             return;
@@ -102,7 +116,7 @@ public class Spinner<N extends Number> extends SwingVarEditor<N> {
 
     @Override
     public Dimension getPreferredSize() {
-        Dimension dim = super.getPreferredSize();
+        final Dimension dim = super.getPreferredSize();
         dim.width = Math.min(MAX_SPINNER_WIDTH, dim.width);
         return dim;
     }

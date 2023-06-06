@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.lang;
 
 import plugins.adufour.vars.gui.VarEditor;
@@ -15,45 +33,48 @@ import plugins.adufour.vars.util.VarListener;
  */
 public abstract class VarNumber<N extends Number> extends Var<N> implements Comparable<N> {
     /**
-     * Creates a new numeric {@link Var}iable with the specified name, and inner numeric value type and default value (may be null).
+     * Creates a new numeric {@link Var} variable with the specified name,
+     * and inner numeric value type and default value (can be null).
      *
      * @param name         The name of this variable.
      * @param type         The numeric type of this variable.
      * @param defaultValue The value assigned by default for this variable.
      */
-    public VarNumber(String name, Class<N> type, N defaultValue) {
+    public VarNumber(final String name, final Class<N> type, final N defaultValue) {
         this(name, type, defaultValue, null);
     }
 
     /**
-     * Creates a new numeric {@link Var}iable with the specified name, and inner numeric value type and default value (may be null). Optionally, a listener can
-     * be added to track events on the variable.
+     * Creates a new numeric {@link Var} variable with the specified name,
+     * and inner numeric value type and default value (can be null).
+     * Optionally, a listener can be added to track events on the variable.
      *
      * @param name            The name of this variable.
      * @param type            The numeric type of this variable.
      * @param defaultValue    The value assigned by default for this variable.
      * @param defaultListener A listener to add to this variable immediately after creation.
      */
-    public VarNumber(String name, Class<N> type, N defaultValue, VarListener<N> defaultListener) {
+    public VarNumber(final String name, final Class<N> type, final N defaultValue, final VarListener<N> defaultListener) {
         super(name, type, defaultValue, defaultListener);
     }
 
     /**
-     * Creates a new numeric {@link Var}iable with the specified name and editor model.
+     * Creates a new numeric {@link Var} variable with the specified name and editor model.
      *
      * @param name        The name of this variable.
-     * @param editorModel The default editor model of this numeric variable (can be changed later via the {@link #setDefaultEditorModel(VarEditorModel)} method.
+     * @param editorModel The default editor model of this numeric variable
+     *                    (can be changed later via the {@link #setDefaultEditorModel(VarEditorModel)} method).
      */
-    public VarNumber(String name, VarEditorModel<N> editorModel) {
+    public VarNumber(final String name, final VarEditorModel<N> editorModel) {
         super(name, editorModel);
     }
 
     @Override
-    public boolean isAssignableFrom(Var<?> source) {
+    public boolean isAssignableFrom(final Var<?> source) {
         if (source.getType() == null)
             return false;
 
-        Class<?> sourceType = source.getType();
+        final Class<?> sourceType = source.getType();
 
         return sourceType == Double.TYPE
                 || sourceType == Float.TYPE
@@ -63,10 +84,10 @@ public abstract class VarNumber<N extends Number> extends Var<N> implements Comp
 
     @Override
     public VarEditor<N> createVarEditor() {
-        VarEditorFactory factory = VarEditorFactory.getDefaultFactory();
+        final VarEditorFactory factory = VarEditorFactory.getDefaultFactory();
 
         if (getDefaultEditorModel() instanceof RangeModel) {
-            RangeEditorType editorType = ((RangeModel<N>) getDefaultEditorModel()).getEditorType();
+            final RangeEditorType editorType = ((RangeModel<N>) getDefaultEditorModel()).getEditorType();
             switch (editorType) {
                 case SLIDER:
                     return factory.createSlider(this);
@@ -84,7 +105,7 @@ public abstract class VarNumber<N extends Number> extends Var<N> implements Comp
     }
 
     @Override
-    protected boolean areValuesEqual(Number a, Object b) {
+    protected boolean areValuesEqual(final Number a, final Object b) {
         if (b instanceof Number) {
             return Double.compare(a.doubleValue(), ((Number) b).doubleValue()) == 0;
         }

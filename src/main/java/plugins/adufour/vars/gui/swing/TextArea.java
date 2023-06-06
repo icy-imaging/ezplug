@@ -1,25 +1,36 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
 
-import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXTextArea;
-
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class TextArea<T> extends SwingVarEditor<T> {
     private FocusListener focusListener;
 
     private KeyListener keyListener;
 
-    public TextArea(Var<T> variable, int rows) {
+    public TextArea(final Var<T> variable, final int rows) {
         super(variable);
         getTextArea().setRows(rows);
     }
@@ -31,46 +42,46 @@ public class TextArea<T> extends SwingVarEditor<T> {
 
         focusListener = new FocusAdapter() {
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(final FocusEvent e) {
                 setVariableValue(jTextArea);
             }
         };
 
         keyListener = new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(final KeyEvent e) {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(final KeyEvent e) {
                 try {
                     variable.parse(jTextArea.getText());
                     jTextArea.setForeground(Color.black);
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     jTextArea.setForeground(Color.red);
                 }
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(final KeyEvent e) {
             }
         };
 
-        JScrollPane scroll = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        final JScrollPane scroll = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setAutoscrolls(true);
 
         // return jTextArea;
         return scroll;
     }
 
-    private void setVariableValue(JXTextArea jTextArea) {
+    private void setVariableValue(final JXTextArea jTextArea) {
         try {
             if (variable.getReference() == null) variable.setValue(variable.parse(jTextArea.getText()));
             jTextArea.setForeground(Color.black);
             jTextArea.setToolTipText(null);
         }
-        catch (RuntimeException e) {
+        catch (final RuntimeException e) {
             jTextArea.setForeground(Color.red);
             jTextArea.setToolTipText("Cannot convert input into a " + getVariable().getTypeAsString());
         }

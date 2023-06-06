@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.lang;
 
 import icy.plugin.PluginDescriptor;
@@ -18,23 +36,24 @@ public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
     public final Class<P> pluginType;
 
     /**
-     * Creates a new {@link Var}iable with the specified name and plugin type.
+     * Creates a new {@link Var} variable with the specified name and plugin type.
      *
      * @param name       The name of this variable.
      * @param pluginType The type of plugins accepted by this variable.
      */
-    public VarPlugin(String name, Class<P> pluginType) {
+    public VarPlugin(final String name, final Class<P> pluginType) {
         this(name, pluginType, null);
     }
 
     /**
-     * Creates a new plugin {@link Var}iable with the specified name and plugin type. Optionally, a listener can be added to track events on the variable.
+     * Creates a new plugin {@link Var} variable with the specified name and plugin type.
+     * Optionally, a listener can be added to track events on the variable.
      *
      * @param name            The name of this variable.
      * @param pluginType      The type of plugins accepted by this variable.
      * @param defaultListener A listener to add to this variable immediately after creation.
      */
-    public VarPlugin(String name, Class<P> pluginType, VarListener<PluginDescriptor> defaultListener) {
+    public VarPlugin(final String name, final Class<P> pluginType, final VarListener<PluginDescriptor> defaultListener) {
         super(name, PluginDescriptor.class, null, defaultListener);
         this.pluginType = pluginType;
     }
@@ -49,7 +68,7 @@ public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
         try {
             return ((Class<P>) getValue(true).getPluginClass()).getDeclaredConstructor().newInstance();
         }
-        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
 
@@ -62,7 +81,7 @@ public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
     }
 
     @Override
-    public PluginDescriptor parse(String text) {
+    public PluginDescriptor parse(final String text) {
         return PluginLoader.getPlugin(text);
     }
 }

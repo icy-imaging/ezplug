@@ -1,19 +1,34 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.text.ParseException;
-
-import javax.swing.JFormattedTextField;
-import javax.swing.JFormattedTextField.AbstractFormatter;
-import javax.swing.JFormattedTextField.AbstractFormatterFactory;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.text.DefaultFormatter;
-import javax.swing.text.DefaultFormatterFactory;
 
 import icy.sequence.DimensionId;
 import icy.sequence.Sequence;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.util.VarListener;
+
+import javax.swing.*;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JFormattedTextField.AbstractFormatterFactory;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import java.text.ParseException;
 
 public abstract class SequenceDimensionSelector extends Spinner<Integer> {
     protected Var<Sequence> sequence;
@@ -24,17 +39,17 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
 
     private final VarListener<Sequence> sequenceListener = new VarListener<Sequence>() {
         @Override
-        public void valueChanged(Var<Sequence> source, Sequence oldValue, Sequence newValue) {
+        public void valueChanged(final Var<Sequence> source, final Sequence oldValue, final Sequence newValue) {
             updateInterfaceValue();
         }
 
         @Override
-        public void referenceChanged(Var<Sequence> source, Var<? extends Sequence> oldReference, Var<? extends Sequence> newReference) {
+        public void referenceChanged(final Var<Sequence> source, final Var<? extends Sequence> oldReference, final Var<? extends Sequence> newReference) {
             updateInterfaceValue();
         }
     };
 
-    public SequenceDimensionSelector(Var<Integer> variable, Var<Sequence> sequence, DimensionId dim, boolean allowAll) {
+    public SequenceDimensionSelector(final Var<Integer> variable, final Var<Sequence> sequence, final DimensionId dim, final boolean allowAll) {
         super(variable);
         this.sequence = sequence;
         this.dimension = dim;
@@ -48,9 +63,9 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
      */
     @Override
     public JSpinner createEditorComponent() {
-        JSpinner jSpinner = new JSpinner(new SpinnerNumberModel() {
+        final JSpinner jSpinner = new JSpinner(new SpinnerNumberModel() {
             @Override
-            public void setValue(Object channel) {
+            public void setValue(final Object channel) {
                 variable.setValue((Integer) channel);
             }
 
@@ -61,7 +76,7 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
 
             @Override
             public Integer getPreviousValue() {
-                int minValue = allowAll ? -1 : 0;
+                final int minValue = allowAll ? -1 : 0;
 
                 return Math.max(minValue, variable.getValue() - 1);
             }
@@ -76,7 +91,7 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
             }
         });
 
-        JFormattedTextField ftf = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
+        final JFormattedTextField ftf = ((JSpinner.DefaultEditor) jSpinner.getEditor()).getTextField();
         ftf.setFormatterFactory(getFormatterFactory());
 
         return jSpinner;
@@ -85,7 +100,7 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
     protected AbstractFormatterFactory getFormatterFactory() {
         final DefaultFormatter editFormatter = new DefaultFormatter() {
             @Override
-            public String valueToString(Object value) {
+            public String valueToString(final Object value) {
                 if (value == null) return "";
 
                 if (value.equals(-1)) return "ALL";
@@ -96,20 +111,20 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
             }
 
             @Override
-            public Object stringToValue(String text) throws ParseException {
+            public Object stringToValue(final String text) throws ParseException {
                 if (text.equalsIgnoreCase("ALL")) return -1;
 
                 if (sequence == null || sequence.getValue() == null) return Integer.parseInt(text);
 
                 try {
-                    int value = toInteger(text);
+                    final int value = toInteger(text);
                     if (value < -1) throw new ParseException(text, 0);
                     if (value == -1 && !allowAll) throw new ParseException(text, 0);
                     if (value >= sequence.getValue().getSize(dimension)) throw new ParseException(text, 0);
 
                     return value;
                 }
-                catch (NumberFormatException e) {
+                catch (final NumberFormatException e) {
                     throw new ParseException(text, 0);
                 }
             }
@@ -123,17 +138,17 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
         };
     }
 
-    protected String toUserFriendlyString(Integer value) {
+    protected String toUserFriendlyString(final Integer value) {
         return value.toString();
     }
 
-    protected Integer toInteger(String text) throws ParseException {
+    protected Integer toInteger(final String text) throws ParseException {
         return Integer.parseInt(text);
     }
 
     @Override
     protected void updateInterfaceValue() {
-        JFormattedTextField ftf = ((JSpinner.DefaultEditor) getEditorComponent().getEditor()).getTextField();
+        final JFormattedTextField ftf = ((JSpinner.DefaultEditor) getEditorComponent().getEditor()).getTextField();
 
         ftf.setValue(variable.getValue());
     }

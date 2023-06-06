@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
 import plugins.adufour.vars.gui.VarEditor;
@@ -14,11 +32,11 @@ import plugins.adufour.vars.lang.Var;
  * @author Alexandre Dufour
  */
 public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
-    protected EzVarNumeric(Var<N> variable, VarEditorModel<N> model) {
+    protected EzVarNumeric(final Var<N> variable, final VarEditorModel<N> model) {
         super(variable, model);
     }
 
-    protected EzVarNumeric(Var<N> variable, N[] defaultValues, int defaultValueIndex, boolean allowUserInput) {
+    protected EzVarNumeric(final Var<N> variable, final N[] defaultValues, final int defaultValueIndex, final boolean allowUserInput) {
         super(variable, defaultValues, defaultValueIndex, allowUserInput);
     }
 
@@ -30,7 +48,7 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      */
     @SuppressWarnings("unchecked")
     public N getMinValue() {
-        VarEditorModel<N> cons = variable.getDefaultEditorModel();
+        final VarEditorModel<N> cons = variable.getDefaultEditorModel();
 
         if (cons instanceof RangeModel) {
             return (N) ((RangeModel<N>) cons).getMinimum();
@@ -45,8 +63,8 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      * @param minValue The minimum value to set.
      * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setMinValue(Comparable<N> minValue) throws UnsupportedOperationException {
-        VarEditor<N> editor = getVarEditor();
+    public void setMinValue(final Comparable<N> minValue) throws UnsupportedOperationException {
+        final VarEditor<N> editor = getVarEditor();
         if (editor instanceof Spinner)
             ((Spinner<N>) editor).setMinimum(minValue);
 
@@ -61,7 +79,7 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
     public N getStep() throws UnsupportedOperationException {
-        VarEditorModel<N> cons = variable.getDefaultEditorModel();
+        final VarEditorModel<N> cons = variable.getDefaultEditorModel();
 
         if (cons instanceof RangeModel)
             return ((RangeModel<N>) cons).getStepSize();
@@ -75,8 +93,8 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      * @param step The step between consecutive values.
      * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setStep(N step) throws UnsupportedOperationException {
-        VarEditor<N> editor = getVarEditor();
+    public void setStep(final N step) throws UnsupportedOperationException {
+        final VarEditor<N> editor = getVarEditor();
         if (editor instanceof Spinner) {
             ((Spinner<N>) editor).setStepSize(step);
         }
@@ -92,7 +110,7 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      */
     @SuppressWarnings("unchecked")
     public N getMaxValue() {
-        VarEditorModel<N> cons = variable.getDefaultEditorModel();
+        final VarEditorModel<N> cons = variable.getDefaultEditorModel();
 
         if (cons instanceof RangeModel)
             return (N) ((RangeModel<N>) cons).getMaximum();
@@ -106,8 +124,8 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      * @param maxValue The maximum value to set.
      * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setMaxValue(Comparable<N> maxValue) {
-        VarEditor<N> editor = getVarEditor();
+    public void setMaxValue(final Comparable<N> maxValue) {
+        final VarEditor<N> editor = getVarEditor();
         if (editor instanceof Spinner) {
             ((Spinner<N>) editor).setMaximum(maxValue);
         }
@@ -125,8 +143,8 @@ public abstract class EzVarNumeric<N extends Number> extends EzVar<N> {
      * @param step  The new step.
      * @throws UnsupportedOperationException If the graphical component of this variable is not a JSpinner object.
      */
-    public void setValues(N value, Comparable<N> min, Comparable<N> max, N step) {
-        VarEditor<N> editor = getVarEditor();
+    public void setValues(final N value, final Comparable<N> min, final Comparable<N> max, final N step) {
+        final VarEditor<N> editor = getVarEditor();
         if (editor instanceof Spinner) {
             ((Spinner<N>) editor).setMinimum(min);
             ((Spinner<N>) editor).setMaximum(max);

@@ -1,26 +1,33 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
 
 import icy.system.thread.ThreadUtil;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
-import java.util.List;
-
-import javax.swing.ComboBoxEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.List;
 
 public class ComboBox<T> extends SwingVarEditor<T> {
     private ActionListener actionListener;
@@ -33,22 +40,23 @@ public class ComboBox<T> extends SwingVarEditor<T> {
      * @throws IllegalArgumentException if the variable has no constraint, or if the constraint is not a
      *                                  {@link ValueSelectionModel}
      */
-    public ComboBox(Var<T> variable) throws IllegalArgumentException {
+    public ComboBox(final Var<T> variable) throws IllegalArgumentException {
         super(variable);
     }
 
-    private static String arrayToString(Object array) {
-        StringBuilder s = new StringBuilder();
-        int length = Array.getLength(array);
+    private static String arrayToString(final Object array) {
+        final StringBuilder s = new StringBuilder();
+        final int length = Array.getLength(array);
         s.append((length == 0) ? "" : Array.get(array, 0).toString());
         for (int i = 1; i < length; i++)
             s.append(" ").append(Array.get(array, i).toString());
         return s.toString();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public JComponent createEditorComponent() throws IllegalArgumentException {
-        VarEditorModel<T> cons = variable.getDefaultEditorModel();
+        final VarEditorModel<T> cons = variable.getDefaultEditorModel();
 
         List<T> defaultValues = null;
         boolean freeInput = true;
@@ -56,7 +64,7 @@ public class ComboBox<T> extends SwingVarEditor<T> {
 
         if (cons != null) {
             if (cons instanceof ValueSelectionModel) {
-                ValueSelectionModel<T> constraint = (ValueSelectionModel<T>) cons;
+                final ValueSelectionModel<T> constraint = (ValueSelectionModel<T>) cons;
                 defaultValues = constraint.getValidValues();
                 freeInput = constraint.isFreeInput();
                 defaultValue = constraint.getDefaultValue();
@@ -110,14 +118,14 @@ public class ComboBox<T> extends SwingVarEditor<T> {
             final Color errorColor = Color.red;
 
             @Override
-            public void addActionListener(ActionListener l) {
+            public void addActionListener(final ActionListener l) {
 
             }
 
             @Override
             public Component getEditorComponent() {
                 jTextField.setFocusable(true);
-                Dimension dim = jTextField.getPreferredSize();
+                final Dimension dim = jTextField.getPreferredSize();
                 dim.height = 20;
                 jTextField.setPreferredSize(dim);
                 return jTextField;
@@ -132,7 +140,7 @@ public class ComboBox<T> extends SwingVarEditor<T> {
                     jTextField.setForeground(defaultColor);
                     jTextField.setToolTipText(null);
                 }
-                catch (NumberFormatException nfE) {
+                catch (final NumberFormatException nfE) {
                     item = null;
                     jTextField.setForeground(errorColor);
                     jTextField.setToolTipText("Cannot parse input into a " + getVariable().getClass().getSimpleName());
@@ -142,7 +150,7 @@ public class ComboBox<T> extends SwingVarEditor<T> {
             }
 
             @Override
-            public void removeActionListener(ActionListener l) {
+            public void removeActionListener(final ActionListener l) {
 
             }
 
@@ -152,7 +160,7 @@ public class ComboBox<T> extends SwingVarEditor<T> {
             }
 
             @Override
-            public void setItem(Object item) {
+            public void setItem(final Object item) {
                 if (item == null) {
                     jTextField.setText("");
                 }
@@ -169,14 +177,14 @@ public class ComboBox<T> extends SwingVarEditor<T> {
      *
      * @param values            Values to be set as default.
      * @param defaultValueIndex Index of the value to be set as default.
-     * @param allowUserInput    If true the user can change the value.
+     * @param allowUserInput    If true, the user can change the value.
      */
     public void setDefaultValues(final T[] values, final int defaultValueIndex, final boolean allowUserInput) {
         ThreadUtil.invokeLater(() -> {
             final JComboBox<T> jComboBox = getEditorComponent();
 
             jComboBox.removeAllItems();
-            for (T value : values)
+            for (final T value : values)
                 jComboBox.addItem(value);
             variable.setDefaultEditorModel(new ValueSelectionModel<>(values, defaultValueIndex, allowUserInput));
             // jComboBox.setSelectedIndex(defaultValueIndex);

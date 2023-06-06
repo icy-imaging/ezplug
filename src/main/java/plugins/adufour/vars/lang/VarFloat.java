@@ -1,48 +1,58 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.lang;
 
 import plugins.adufour.vars.util.VarListener;
 
+import javax.annotation.Nonnull;
+
 public class VarFloat extends VarNumber<Float> {
 
     /**
-     * Creates a new float {@link Var}iable with the specified name and default value.
-     *
-     * @param name         The name of this variable
-     * @param defaultValue The value assigned by default for this variable. If null, the default value is set to 0f
-     */
-    @Deprecated
-    public VarFloat(String name, Float defaultValue) {
-        this(name, defaultValue == null ? 0f : defaultValue.floatValue());
-    }
-
-    /**
-     * Creates a new float {@link Var}iable with the specified name and default value.
+     * Creates a new float {@link Var} variable with the specified name and default value.
      *
      * @param name         The name of this variable
      * @param defaultValue The value assigned by default for this variable
      */
-    public VarFloat(String name, float defaultValue) {
+    public VarFloat(final String name, final float defaultValue) {
         this(name, defaultValue, null);
     }
 
     /**
-     * Creates a new float {@link Var}iable with the specified name and default value. Optionally, a listener can be added to track events on the variable.
+     * Creates a new float {@link Var} variable with the specified name and default value.
+     * Optionally, a listener can be added to track events on the variable.
      *
      * @param name            The name of this variable
      * @param defaultValue    The value assigned by default for this variable
      * @param defaultListener A listener to add to this variable immediately after creation
      */
-    public VarFloat(String name, float defaultValue, VarListener<Float> defaultListener) {
+    public VarFloat(final String name, final float defaultValue, final VarListener<Float> defaultListener) {
         super(name, Float.TYPE, defaultValue, defaultListener);
     }
 
     @Override
-    public Float parse(String s) {
+    public Float parse(final String s) {
         return Float.parseFloat(s);
     }
 
     @Override
-    public int compareTo(Float f) {
+    public int compareTo(@Nonnull final Float f) {
         return getValue().compareTo(f);
     }
 
@@ -58,8 +68,8 @@ public class VarFloat extends VarNumber<Float> {
      * will occur.
      */
     @Override
-    public Float getValue(boolean forbidNull) {
-        Number number = super.getValue(forbidNull);
+    public Float getValue(final boolean forbidNull) {
+        final Number number = super.getValue(forbidNull);
 
         return number == null ? null : number.floatValue();
     }

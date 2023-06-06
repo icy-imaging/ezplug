@@ -1,17 +1,32 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.util.List;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.event.ListSelectionListener;
 
 import icy.gui.main.GlobalSequenceListener;
 import icy.main.Icy;
 import icy.sequence.Sequence;
 import icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import java.util.List;
 
 /**
  * Graphical component representing the list of opened sequence, allowing multiple selected items
@@ -23,7 +38,7 @@ public class SequenceList extends SwingVarEditor<Sequence[]> {
 
     private GlobalSequenceListener mainListener;
 
-    public SequenceList(Var<Sequence[]> variable) {
+    public SequenceList(final Var<Sequence[]> variable) {
         super(variable);
     }
 
@@ -34,7 +49,7 @@ public class SequenceList extends SwingVarEditor<Sequence[]> {
         }
 
         @Override
-        public Sequence getElementAt(int index) {
+        public Sequence getElementAt(final int index) {
             return Icy.getMainInterface().getSequences().get(index);
         }
     }
@@ -48,9 +63,9 @@ public class SequenceList extends SwingVarEditor<Sequence[]> {
         listener = e -> {
             if (e.getValueIsAdjusting()) return;
 
-            List<Sequence> selection = list.getSelectedValuesList();
+            final List<Sequence> selection = list.getSelectedValuesList();
 
-            Sequence[] sequences = new Sequence[selection.size()];
+            final Sequence[] sequences = new Sequence[selection.size()];
 
             for (int i = 0; i < sequences.length; i++) {
                 sequences[i] = selection.get(i);
@@ -61,13 +76,13 @@ public class SequenceList extends SwingVarEditor<Sequence[]> {
 
         mainListener = new GlobalSequenceListener() {
             @Override
-            public void sequenceClosed(Sequence sequence) {
+            public void sequenceClosed(final Sequence sequence) {
                 list.updateUI();
                 list.repaint();
             }
 
             @Override
-            public void sequenceOpened(Sequence sequence) {
+            public void sequenceOpened(final Sequence sequence) {
                 list.updateUI();
                 list.repaint();
             }
@@ -110,8 +125,8 @@ public class SequenceList extends SwingVarEditor<Sequence[]> {
             // if (Arrays.equals(variable.getValue(), getEditorComponent().getSelectedValues()))
             // return;
 
-            Sequence[] seqs = variable.getValue();
-            int[] indices = new int[seqs.length];
+            final Sequence[] seqs = variable.getValue();
+            final int[] indices = new int[seqs.length];
 
             for (int i = 0; i < seqs.length; i++)
                 indices[i] = Icy.getMainInterface().getSequences().indexOf(seqs[i]);

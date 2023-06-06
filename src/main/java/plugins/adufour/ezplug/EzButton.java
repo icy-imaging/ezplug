@@ -1,14 +1,28 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
 import icy.system.thread.ThreadUtil;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 
 /**
  * Class defining a button for use with EzPlugs. An EzButton adopts the same layout as other EzComponents, and fires an action listener whenever it is clicked
@@ -20,7 +34,7 @@ public class EzButton extends EzComponent {
     private JButton jButton;
 
     /**
-     * Creates a new EzButton with given title and action listener (i.e. the method which will be called when the button is clicked)
+     * Creates a new EzButton with given title and action listener (i.e., the method which will be called when the button is clicked)
      *
      * @param title    The button title.
      * @param listener The listener which will be called when the button is clicked.
@@ -35,8 +49,8 @@ public class EzButton extends EzComponent {
     }
 
     @Override
-    public void addTo(Container container) {
-        GridBagConstraints gbc = new GridBagConstraints();
+    public void addTo(final Container container) {
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(2, 5, 2, 5);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -50,7 +64,7 @@ public class EzButton extends EzComponent {
      *
      * @param listener Listener to add.
      */
-    public void addAction(ActionListener listener) {
+    public void addAction(final ActionListener listener) {
         jButton.addActionListener(listener);
     }
 
@@ -60,7 +74,7 @@ public class EzButton extends EzComponent {
      *
      * @param listener Listener to add.
      */
-    public void removeAction(ActionListener listener) {
+    public void removeAction(final ActionListener listener) {
         jButton.removeActionListener(listener);
     }
 

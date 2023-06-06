@@ -1,13 +1,31 @@
-package plugins.adufour.vars.lang;
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+package plugins.adufour.vars.lang;
 
 import icy.roi.ROIDescriptor;
 import icy.util.StringUtil;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * EzVar representing {@link ROIDescriptor} selector
@@ -20,7 +38,7 @@ public class VarROIDescriptor extends VarString {
     /**
      * @param name Variable name
      */
-    public VarROIDescriptor(String name) {
+    public VarROIDescriptor(final String name) {
         super(name, "");
 
         roiDescriptors = new ArrayList<>(ROIDescriptor.getDescriptors().keySet());
@@ -28,7 +46,7 @@ public class VarROIDescriptor extends VarString {
         final List<String> descriptorsId = new ArrayList<>();
         String sizeDescriptorId = null;
 
-        for (ROIDescriptor descriptor : roiDescriptors) {
+        for (final ROIDescriptor descriptor : roiDescriptors) {
             final String id = descriptor.getId();
 
             // keep trace of size descriptor

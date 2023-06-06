@@ -1,15 +1,29 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
 
-import java.awt.Color;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JComponent;
-
 import icy.gui.component.button.ColorChooserButton;
-
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * A color chooser component that appear as a button (filled with the current color value), and
@@ -20,7 +34,7 @@ import plugins.adufour.vars.lang.Var;
 public class ColorChooser extends SwingVarEditor<Color> {
     private ActionListener listener;
 
-    public ColorChooser(Var<Color> variable) {
+    public ColorChooser(final Var<Color> variable) {
         super(variable);
     }
 
@@ -29,14 +43,15 @@ public class ColorChooser extends SwingVarEditor<Color> {
         if (getEditorComponent() != null) deactivateListeners();
 
         listener = arg0 -> {
-            Color defaultColor = variable.getDefaultValue();
-            Color newColor = JColorChooser.showDialog(getEditorComponent(), variable.getName(), defaultColor);
+            final Color defaultColor = variable.getDefaultValue();
+            final Color newColor = JColorChooser.showDialog(getEditorComponent(), variable.getName(), defaultColor);
             if (newColor == null) return;
             variable.setValue(newColor);
         };
 
-        ColorChooserButton button = new ColorChooserButton(variable.getValue());
+        final ColorChooserButton button = new ColorChooserButton(variable.getValue());
 
+        // TODO: 05/06/2023 Remove this old implementation of color chooser button
         /*IcyButton button = new IcyButton(new EmptyIcon(16, 16)) {
             @Override
             protected void paintComponent(Graphics g) {

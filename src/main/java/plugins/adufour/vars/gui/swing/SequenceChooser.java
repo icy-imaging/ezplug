@@ -1,15 +1,22 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.event.ListDataListener;
 
 import icy.file.FileUtil;
 import icy.gui.main.ActiveSequenceListener;
@@ -21,6 +28,12 @@ import icy.util.StringUtil;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarSequence;
 
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class SequenceChooser extends SwingVarEditor<Sequence> {
     private interface SequenceListener extends GlobalSequenceListener, ActiveSequenceListener {
     }
@@ -29,16 +42,16 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
 
     private JComboSequenceBoxListener jComboSequenceBoxListener;
 
-    public SequenceChooser(Var<Sequence> variable) {
+    public SequenceChooser(final Var<Sequence> variable) {
         super(variable);
     }
 
     private final class JComboSequenceBoxListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(final ActionEvent e) {
             final JComboBox<Object> jComboSequences = getEditorComponent();
 
-            Object o = jComboSequences.getSelectedItem();
+            final Object o = jComboSequences.getSelectedItem();
 
             // null or String special value ?
             if ((o == null) || o.equals(VarSequence.NO_SEQUENCE) || o.equals(VarSequence.ACTIVE_SEQUENCE))
@@ -66,7 +79,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
         }
 
         @Override
-        public Object getElementAt(int index) {
+        public Object getElementAt(final int index) {
             if (index <= 0)
                 return VarSequence.NO_SEQUENCE;
             if (index == 1)
@@ -76,7 +89,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
         }
 
         @Override
-        public void addListDataListener(ListDataListener l) {
+        public void addListDataListener(final ListDataListener l) {
             // don't register anything
         }
     }
@@ -100,7 +113,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
                 return new JLabel(VarSequence.ACTIVE_SEQUENCE);
 
             if (value instanceof Sequence) {
-                String s = FileUtil.getFileName(((Sequence) value).getName());
+                final String s = FileUtil.getFileName(((Sequence) value).getName());
                 return new JLabel(StringUtil.limit(s, 24));
             }
 
@@ -109,7 +122,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
 
         listener = new SequenceListener() {
             @Override
-            public void sequenceClosed(Sequence sequence) {
+            public void sequenceClosed(final Sequence sequence) {
                 if (variable.getReference() != null)
                     return;
 
@@ -125,13 +138,13 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
             }
 
             @Override
-            public void sequenceOpened(Sequence sequence) {
+            public void sequenceOpened(final Sequence sequence) {
                 jComboSequences.repaint();
                 jComboSequences.updateUI();
             }
 
             @Override
-            public void sequenceActivated(Sequence sequence) {
+            public void sequenceActivated(final Sequence sequence) {
                 // variable cannot be changed (linked)
                 if (variable.getReference() != null)
                     return;
@@ -145,12 +158,12 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
             }
 
             @Override
-            public void sequenceDeactivated(Sequence sequence) {
+            public void sequenceDeactivated(final Sequence sequence) {
                 //
             }
 
             @Override
-            public void activeSequenceChanged(SequenceEvent event) {
+            public void activeSequenceChanged(final SequenceEvent event) {
                 //
             }
         };
@@ -163,7 +176,7 @@ public class SequenceChooser extends SwingVarEditor<Sequence> {
 
     @Override
     public Dimension getPreferredSize() {
-        Dimension dim = super.getPreferredSize();
+        final Dimension dim = super.getPreferredSize();
         dim.height = 20;
         return dim;
     }

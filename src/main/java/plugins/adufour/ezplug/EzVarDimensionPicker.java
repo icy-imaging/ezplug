@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
 import icy.sequence.DimensionId;
@@ -10,17 +28,17 @@ public class EzVarDimensionPicker extends EzVarInteger {
 
     private final class SequenceChangedListener implements VarListener<Sequence> {
         @Override
-        public void valueChanged(Var<Sequence> source, Sequence oldValue, Sequence newValue) {
+        public void valueChanged(final Var<Sequence> source, final Sequence oldValue, final Sequence newValue) {
 
             if (newValue == null) {
                 setVisible(false);
                 setValue(0);
             }
             else {
-                int currentValue = getValue();
+                final int currentValue = getValue();
                 // set an invalid value
                 setValue(-1);
-                int size = getSize(newValue, dim);
+                final int size = getSize(newValue, dim);
                 setVisible(size > 1);
                 setMaxValue(size - 1);
                 // (re)set the current value to force an interface refresh
@@ -29,8 +47,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
         }
 
         @Override
-        public void referenceChanged(Var<Sequence> source, Var<? extends Sequence> oldReference,
-                                     Var<? extends Sequence> newReference) {
+        public void referenceChanged(final Var<Sequence> source, final Var<? extends Sequence> oldReference, final Var<? extends Sequence> newReference) {
         }
     }
 
@@ -46,7 +63,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
      * @param dim      the dimension to create a selector for
      * @param sequence the sequence variable to listen to
      */
-    public EzVarDimensionPicker(String varName, DimensionId dim, EzVarSequence sequence) {
+    public EzVarDimensionPicker(final String varName, final DimensionId dim, final EzVarSequence sequence) {
         this(varName, dim, sequence.variable);
     }
 
@@ -57,7 +74,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
      * @param dim      the dimension to create a selector for
      * @param sequence the sequence variable to listen to
      */
-    public EzVarDimensionPicker(String varName, DimensionId dim, Var<Sequence> sequence) {
+    public EzVarDimensionPicker(final String varName, final DimensionId dim, final Var<Sequence> sequence) {
         this(varName, dim, sequence, false);
     }
 
@@ -71,7 +88,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
      *                 for dimension C indicates that all channels should be processed). If false, the
      *                 minimum selector value will be <code>0</code>
      */
-    public EzVarDimensionPicker(String varName, DimensionId dim, Var<Sequence> sequence, boolean allowAll) {
+    public EzVarDimensionPicker(final String varName, final DimensionId dim, final Var<Sequence> sequence, final boolean allowAll) {
         super(varName, allowAll ? -1 : 0, allowAll ? -1 : 0, 0, 1);
         if (allowAll)
             setToolTipText("Choose -1 to select all values");
@@ -82,7 +99,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
         this.active = true;
     }
 
-    private static int getSize(Sequence s, DimensionId dim) {
+    private static int getSize(final Sequence s, final DimensionId dim) {
         switch (dim) {
             case X:
                 return s.getSizeX();
@@ -107,12 +124,12 @@ public class EzVarDimensionPicker extends EzVarInteger {
 
     /**
      * Sets the active state of the picker (true by default). If the picker is not active, the
-     * bounds will no longer depend on the attached sequence and may be modified, e.g. via the
+     * bounds will no longer depend on the attached sequence and may be modified, e.g., via the
      * {@link EzVarNumeric#setValues(Number, Comparable, Comparable, Number)} method.
      *
      * @param active The active state of the picker.
      */
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         if (this.active == active)
             return;
 

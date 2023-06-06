@@ -1,19 +1,33 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.vars.gui.swing;
-
-import java.awt.Dimension;
-import java.awt.Font;
-import java.util.HashMap;
-import java.util.Hashtable;
-
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicSliderUI;
 
 import plugins.adufour.vars.gui.model.RangeModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
+
+import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicSliderUI;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Class defining a slider to select a ranged-value. Not usable yet (package protected until it is
@@ -25,13 +39,13 @@ import plugins.adufour.vars.lang.Var;
 class Slider<N extends Number> extends SwingVarEditor<N> {
     private ChangeListener changeListener;
 
-    public Slider(Var<N> variable) {
+    public Slider(final Var<N> variable) {
         super(variable);
     }
 
     @Override
     public JComponent createEditorComponent() {
-        VarEditorModel<N> model = variable.getDefaultEditorModel();
+        final VarEditorModel<N> model = variable.getDefaultEditorModel();
 
         if (!(model instanceof RangeModel)) {
             throw new UnsupportedOperationException("Incorrect model for variable " + variable.getName() + ": " + model);
@@ -41,8 +55,8 @@ class Slider<N extends Number> extends SwingVarEditor<N> {
 
         // the model range must be converted into integer ticks for the slider component
 
-        int nbTicks = constraint.getRangeSize();
-        int currentTick = constraint.indexOf(constraint.getDefaultValue());
+        final int nbTicks = constraint.getRangeSize();
+        final int currentTick = constraint.indexOf(constraint.getDefaultValue());
 
         final JSlider jSlider = new JSlider(JSlider.HORIZONTAL, 0, nbTicks, currentTick);
         jSlider.setUI(new BasicSliderUI(jSlider) {
@@ -62,16 +76,16 @@ class Slider<N extends Number> extends SwingVarEditor<N> {
         jSlider.setPaintTicks(true);
         jSlider.setSnapToTicks(true);
 
-        HashMap<N, String> labels = constraint.getLabels();
+        final HashMap<N, String> labels = constraint.getLabels();
 
-        Hashtable<Integer, JLabel> table = new Hashtable<>();
-        Font font = new Font("Serif", Font.PLAIN, 11);
+        final Hashtable<Integer, JLabel> table = new Hashtable<>();
+        final Font font = new Font("Serif", Font.PLAIN, 11);
 
         // compute the sum of label widths
         int maxWidth = 0;
 
-        for (N n : labels.keySet()) {
-            JLabel label = new JLabel(labels.get(n));
+        for (final N n : labels.keySet()) {
+            final JLabel label = new JLabel(labels.get(n));
             label.setOpaque(true);
             label.setFont(font);
             table.put(constraint.indexOf(n), label);
@@ -85,8 +99,8 @@ class Slider<N extends Number> extends SwingVarEditor<N> {
             if (variable.getReference() == null) variable.setValue(constraint.getValueForIndex(jSlider.getValue()));
         };
 
-        // Assign a maximum size to the spinner to avoid huge-ass interfaces
-        Dimension dim = jSlider.getPreferredSize();
+        // Assign a maximum size to the spinner to avoid huge interfaces
+        final Dimension dim = jSlider.getPreferredSize();
         // dim.setSize(Math.min(dim.width, MAX_SPINNER_WIDTH), dim.height);
         dim.width = Math.min(dim.width, maxWidth);
         jSlider.setPreferredSize(dim);
@@ -99,7 +113,7 @@ class Slider<N extends Number> extends SwingVarEditor<N> {
         N value = variable.getValue();
         if (value == null) value = variable.getDefaultValue();
 
-        int tick = ((RangeModel<N>) variable.getDefaultEditorModel()).indexOf(value);
+        final int tick = ((RangeModel<N>) variable.getDefaultEditorModel()).indexOf(value);
         getEditorComponent().setValue(tick);
     }
 
@@ -110,13 +124,13 @@ class Slider<N extends Number> extends SwingVarEditor<N> {
 
     @Override
     protected void activateListeners() {
-        JSlider jSlider = getEditorComponent();
+        final JSlider jSlider = getEditorComponent();
         jSlider.addChangeListener(changeListener);
     }
 
     @Override
     protected void deactivateListeners() {
-        JSlider jSlider = getEditorComponent();
+        final JSlider jSlider = getEditorComponent();
         jSlider.removeChangeListener(changeListener);
     }
 }

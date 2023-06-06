@@ -1,11 +1,28 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.adufour.ezplug;
 
-import java.awt.FontMetrics;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
-import javax.swing.border.TitledBorder;
 
 /**
  * Class defining a group of EzComponents, which will appear in the interface within a titled box.
@@ -29,25 +46,14 @@ public class EzGroup extends EzPanel {
      * @param ezComponents the components to add (must be non-empty)
      * @throws IllegalArgumentException if ezComponents is empty
      */
-    public EzGroup(String groupTitle, EzComponent... ezComponents) {
+    public EzGroup(final String groupTitle, final EzComponent... ezComponents) {
         super(groupTitle, ezComponents);
 
         container.addMouseListener(foldHandler);
     }
 
-    public void addFoldListener(FoldListener listener) {
+    public void addFoldListener(final FoldListener listener) {
         listeners.add(listener);
-    }
-
-    /**
-     * Adds the specified EzComponents to this group
-     *
-     * @param ezComponents the components to add
-     * @deprecated use {@link #add(EzComponent...)}
-     */
-    @Deprecated
-    public void addEzComponent(EzComponent... ezComponents) {
-        super.add(ezComponents);
     }
 
     @Override
@@ -62,6 +68,7 @@ public class EzGroup extends EzPanel {
         }
     }
 
+    @Override
     public void dispose() {
         listeners.clear();
 
@@ -70,14 +77,14 @@ public class EzGroup extends EzPanel {
         super.dispose();
     }
 
-    private void fireFoldStateChanged(boolean state) {
+    private void fireFoldStateChanged(final boolean state) {
         final ArrayList<FoldListener> listenersCopy;
 
         synchronized (listeners) {
             listenersCopy = new ArrayList<>(listeners);
         }
 
-        for (FoldListener listener : listenersCopy)
+        for (final FoldListener listener : listenersCopy)
             listener.foldStateChanged(state);
     }
 
@@ -92,7 +99,7 @@ public class EzGroup extends EzPanel {
     /**
      * Sets the folded state of this group
      *
-     * @param folded If true the group will be folded and its components will be hidden.
+     * @param folded If true, the group will be folded and its components will be hidden.
      */
     public void setFoldedState(final boolean folded) {
         if (folded == foldHandler.isFolded)
@@ -106,21 +113,21 @@ public class EzGroup extends EzPanel {
     private final class FoldHandler implements MouseListener {
         private boolean isFolded = false;
 
-        private final static char FOLDED_SYMBOL = '\u25B6';
+        private final static char FOLDED_SYMBOL = '▶'; //u25B6
 
-        private final static char UNFOLDED_SYMBOL = '\u25BC';
+        private final static char UNFOLDED_SYMBOL = '▼'; //u25BC
 
         private final TitledBorder foldedBorder = new TitledBorder(FoldHandler.FOLDED_SYMBOL + " " + name);
 
         private final TitledBorder unfoldedBorder = new TitledBorder(FoldHandler.UNFOLDED_SYMBOL + " " + name);
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-            FontMetrics fm = container.getGraphics().getFontMetrics();
-            int w = fm.charWidth(FOLDED_SYMBOL);
-            int h = fm.getHeight();
-            int xBorder = 10;
-            int yBorder = 4;
+        public void mouseClicked(final MouseEvent e) {
+            final FontMetrics fm = container.getGraphics().getFontMetrics();
+            final int w = fm.charWidth(FOLDED_SYMBOL);
+            final int h = fm.getHeight();
+            final int xBorder = 10;
+            final int yBorder = 4;
             if (e.getX() < xBorder || e.getY() < yBorder || e.getX() > (xBorder + w) || e.getY() > (yBorder + h)) {
                 e.consume();
                 return;
@@ -132,20 +139,20 @@ public class EzGroup extends EzPanel {
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(final MouseEvent e) {
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(final MouseEvent e) {
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(final MouseEvent e) {
             adjustToolTip();
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(final MouseEvent e) {
         }
 
         private void adjustToolTip() {
