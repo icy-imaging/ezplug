@@ -61,8 +61,8 @@ public class EzStatus {
      * therefore resets the completion and message)
      */
     public void done() {
-        setCompletion(0.0);
-        setMessage("");
+        setCompletion(1d);
+        setMessage("Done");
     }
 
     /**

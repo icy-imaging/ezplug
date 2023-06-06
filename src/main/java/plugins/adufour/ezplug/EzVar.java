@@ -170,6 +170,9 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
         container.add(bHelp, gbc);
+
+        if (bHelp.getToolTipText() == null)
+            bHelp.setEnabled(false);
     }
 
     @Override

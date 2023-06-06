@@ -51,6 +51,7 @@ public class EzPlugTutorial extends EzPlug implements EzStoppable {
         // 1) variables must be initialized
 
         varBoolean = new EzVarBoolean("boolean var.", false);
+        varBoolean.setToolTipText("Boolean input, with default value to false");
         varDouble = new EzVarDouble("double with free input");
         varDoubleA = new EzVarDoubleArrayNative("double array without input", new double[][]{new double[]{2.2, 4.4, 6.6}, new double[]{1.1, 3.3, 5.5}}, false);
         varEnum = new EzVarEnum<>("enumeration", SomeEnumeration.values(), SomeEnumeration.SOME_other_CHOICE);
@@ -91,23 +92,42 @@ public class EzPlugTutorial extends EzPlug implements EzStoppable {
         // the main plugin code goes here, and runs in a separate thread
 
         System.out.println(varBoolean.name + " = " + varBoolean.getValue());
+        super.getUI().setProgressBarValue(.1d);
         System.out.println(varDouble.name + " = " + varDouble.getValue());
+        super.getUI().setProgressBarValue(.3d);
         System.out.println(varDoubleA.name + " = " + Arrays.toString(varDoubleA.getValue()));
+        super.getUI().setProgressBarValue(.5d);
         System.out.println(varEnum.name + " = " + varEnum.getValue().name());
+        super.getUI().setProgressBarValue(.6d);
         System.out.println(varFile.name + " = " + varFile.getValue());
+        super.getUI().setProgressBarValue(.8d);
         System.out.println(varSequence.name + " = " + varSequence.getValue());
+        super.getUI().setProgressBarValue(1d);
         new AnnounceFrame(varText.getValue());
 
         stopFlag = false;
 
         super.getUI().setProgressBarMessage("Waiting...");
 
-        int cpt = 0;
-        while (!stopFlag) {
-            cpt++;
-            if (cpt % 10 == 0) super.getUI().setProgressBarValue((cpt % 5000000) / 5000000.0);
-            Thread.yield();
+        // Some code example to simulate a long process
+        for (double cpt = 0d; cpt <= 1d; cpt += .01d) {
+            // To prevent NullPointerException with setProgressBarValue() if EzPlug window is closed during its process
+            if (super.getUI() == null)
+                break;
+            super.getUI().setProgressBarValue(cpt);
+            if (stopFlag) {
+                new AnnounceFrame("Process interrupted");
+                break;
+            }
+            try {
+                Thread.sleep(100);
+            }
+            catch (final InterruptedException e) {
+                new AnnounceFrame("Process interrupted");
+            }
         }
+
+        getStatus().done();
     }
 
     @Override

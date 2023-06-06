@@ -39,7 +39,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-// TODO: 05/06/2023 Replace interaction in the frame icon
 public class EzGUI extends EzDialog implements ActionListener {
     private EzPlug ezPlug;
 
@@ -63,16 +62,19 @@ public class EzGUI extends EzDialog implements ActionListener {
 
     private final JProgressBar jProgressBar;
 
-    private final VarListener<Double> statusProgressListener = new VarListener<Double>() {
+    private final VarListener<Double> statusProgressListener = new VarListener<>() {
         @Override
         public void valueChanged(final Var<Double> source, final Double oldValue, final Double newValue) {
             ThreadUtil.invokeLater(() -> {
-                jButtonRun.setEnabled(newValue == 0);
+                //jButtonRun.setEnabled(newValue == 0);
+                jButtonRun.setEnabled(newValue.equals(0d) || newValue.equals(1d));
                 if (ezPlug instanceof EzStoppable)
-                    jButtonStop.setEnabled(newValue != 0);
+                    //jButtonStop.setEnabled(newValue != 0);
+                    jButtonStop.setEnabled(!newValue.equals(0d) && !newValue.equals(1d));
 
                 if (!Double.isNaN(newValue))
                     jProgressBar.setValue((int) (Math.max(0, Math.min(1.0, newValue)) * 100));
+
                 jProgressBar.setIndeterminate(Double.isNaN(newValue));
             });
         }
@@ -83,7 +85,7 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
     };
 
-    private final VarListener<String> statusMessageListener = new VarListener<String>() {
+    private final VarListener<String> statusMessageListener = new VarListener<>() {
         @Override
         public void valueChanged(final Var<String> source, final String oldValue, final String newValue) {
             ThreadUtil.invokeLater(() -> {
@@ -138,6 +140,7 @@ public class EzGUI extends EzDialog implements ActionListener {
 
         jProgressBar = new JProgressBar();
         jProgressBar.setString("Running...");
+        jProgressBar.setFont(new Font("default", Font.BOLD, 14));
         jPanelBottom.add(jProgressBar);
 
         ezPlug.getStatus().addProgressListener(statusProgressListener);
@@ -277,7 +280,9 @@ public class EzGUI extends EzDialog implements ActionListener {
             ezPlug.saveParameters(jfc.getSelectedFile());
         }
         else if (e.getSource().equals(jButtonHelp)) {
-            NetworkUtil.openBrowser(getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation");
+            final String s = getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation";
+            System.out.println(s);
+            //NetworkUtil.openBrowser(s);
         }
         else {
             throw new UnsupportedOperationException("Action event not recognized for source " + e.getSource());
