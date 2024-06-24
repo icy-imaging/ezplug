@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.swimmingPool.SwimmingObject;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;

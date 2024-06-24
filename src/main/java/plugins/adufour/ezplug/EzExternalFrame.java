@@ -18,7 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import icy.gui.frame.IcyExternalFrame;
+import org.bioimageanalysis.icy.gui.frame.IcyExternalFrame;
 
 import javax.swing.*;
 import java.awt.*;

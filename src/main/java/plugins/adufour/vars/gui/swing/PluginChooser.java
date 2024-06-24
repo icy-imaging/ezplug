@@ -18,9 +18,9 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.plugin.PluginDescriptor;
-import icy.plugin.PluginLoader;
-import icy.plugin.abstract_.Plugin;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.extension.plugin.PluginLoader;
+import org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarPlugin;
 
@@ -36,7 +36,7 @@ public class PluginChooser<P extends Plugin> extends SwingVarEditor<PluginDescri
     protected JComponent createEditorComponent() {
         final JComboBox<PluginDescriptor> combo = new JComboBox<>();
 
-        combo.setModel(new ComboBoxModel<PluginDescriptor>() {
+        combo.setModel(new ComboBoxModel<>() {
             @Override
             public void removeListDataListener(final ListDataListener l) {
             }

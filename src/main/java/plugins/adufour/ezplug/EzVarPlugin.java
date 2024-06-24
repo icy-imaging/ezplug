@@ -18,8 +18,8 @@
 
 package plugins.adufour.ezplug;
 
-import icy.plugin.PluginDescriptor;
-import icy.plugin.abstract_.Plugin;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin;
 import plugins.adufour.vars.lang.VarPlugin;
 
 /**

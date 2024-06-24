@@ -18,7 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import icy.util.StringUtil;
+import org.bioimageanalysis.icy.common.string.StringUtil;
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeModel;
 import plugins.adufour.vars.gui.swing.FileChooser;

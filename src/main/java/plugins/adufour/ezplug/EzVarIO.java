@@ -18,7 +18,8 @@
 
 package plugins.adufour.ezplug;
 
-import icy.util.XMLUtil;
+import org.bioimageanalysis.icy.io.xml.XMLUtil;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import plugins.adufour.vars.lang.Var;
@@ -52,7 +53,7 @@ class EzVarIO {
                 var.getVariable().saveToXML(parameterNode);
             }
             catch (final UnsupportedOperationException e) {
-                System.err.println("Warning: variable " + id + " has not been saved (unsupported variable type)");
+                IcyLogger.warn(EzVarIO.class, "Variable " + id + " has not been saved (unsupported variable type)");
             }
         }
 

@@ -18,7 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import icy.swimmingPool.SwimmingObject;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
 import plugins.adufour.vars.gui.model.SwimmingObjectTypeModel;
 import plugins.adufour.vars.lang.VarSwimmingObject;
 

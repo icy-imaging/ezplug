@@ -18,12 +18,12 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.gui.component.sequence.SequencePreviewPanel;
-import icy.main.Icy;
-import icy.sequence.Sequence;
-import icy.sequence.SequenceEvent;
-import icy.sequence.SequenceListener;
-import icy.util.GraphicsUtil;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.gui.GraphicsUtil;
+import org.bioimageanalysis.icy.gui.sequence.SequencePreviewPanel;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.bioimageanalysis.icy.model.sequence.SequenceEvent;
+import org.bioimageanalysis.icy.model.sequence.SequenceListener;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarMutable;
 

@@ -18,8 +18,8 @@
 
 package plugins.adufour.ezplug;
 
-import icy.sequence.DimensionId;
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.model.sequence.DimensionId;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.util.VarListener;
 
@@ -100,20 +100,14 @@ public class EzVarDimensionPicker extends EzVarInteger {
     }
 
     private static int getSize(final Sequence s, final DimensionId dim) {
-        switch (dim) {
-            case X:
-                return s.getSizeX();
-            case Y:
-                return s.getSizeY();
-            case Z:
-                return s.getSizeZ();
-            case T:
-                return s.getSizeT();
-            case C:
-                return s.getSizeC();
-            default:
-                throw new IllegalArgumentException("Unknown sequence dimension: " + dim);
-        }
+        return switch (dim) {
+            case X -> s.getSizeX();
+            case Y -> s.getSizeY();
+            case Z -> s.getSizeZ();
+            case T -> s.getSizeT();
+            case C -> s.getSizeC();
+            default -> throw new IllegalArgumentException("Unknown sequence dimension: " + dim);
+        };
     }
 
     @Override

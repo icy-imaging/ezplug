@@ -18,11 +18,15 @@
 
 package plugins.adufour.tutorial;
 
-import icy.gui.frame.progress.AnnounceFrame;
+import org.bioimageanalysis.icy.extension.plugin.annotation_.IcyPluginIcon;
+import org.bioimageanalysis.icy.extension.plugin.annotation_.IcyPluginName;
+import org.bioimageanalysis.icy.gui.frame.progress.AnnounceFrame;
 import plugins.adufour.ezplug.*;
 
 import java.util.Arrays;
 
+@IcyPluginName("EzPlug tutorial")
+@IcyPluginIcon(path = "/ezplug.svg")
 public class EzPlugTutorial extends EzPlug implements EzStoppable {
     private enum SomeEnumeration {
         CHOICE_1, CHOICE_2, CHOICE_3, SOME_other_CHOICE,

@@ -18,9 +18,9 @@
 
 package plugins.adufour.vars.gui;
 
-import icy.plugin.PluginDescriptor;
-import icy.sequence.Sequence;
-import icy.swimmingPool.SwimmingObject;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
 import plugins.adufour.vars.gui.swing.SwingFactory;
 import plugins.adufour.vars.lang.*;
 
@@ -51,13 +51,10 @@ public abstract class VarEditorFactory {
     }
 
     public static VarEditorFactory setDefaultFactory(final VarEditorFactoryType factoryType) {
-        switch (factoryType) {
-            case SWING:
-                return defaultFactory = new SwingFactory();
-
-            default:
-                throw new IllegalArgumentException("Cannot load the \"" + factoryType + "\" factory");
-        }
+        return switch (factoryType) {
+            case SWING -> defaultFactory = new SwingFactory();
+            default -> throw new IllegalArgumentException("Cannot load the \"" + factoryType + "\" factory");
+        };
     }
 
     public abstract VarEditor<Integer> createButton(VarTrigger variable);

@@ -43,7 +43,7 @@ public class VarLong extends VarNumber<Long> {
      * @param defaultListener A listener to add to this variable immediately after creation.
      */
     public VarLong(final String name, final long defaultValue, final VarListener<Long> defaultListener) {
-        super(name, Long.TYPE, Long.valueOf(defaultValue), defaultListener);
+        super(name, Long.TYPE, defaultValue, defaultListener);
     }
 
     @Override

@@ -18,9 +18,8 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.system.FileDrop;
-import icy.system.FileDrop.FileDropListener;
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.system.FileDrop;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeListModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -95,14 +94,14 @@ public class FilesChooser extends SwingVarEditor<File[]> {
             setButtonText(files.length + " file" + (files.length > 1 ? "s" : "") + " (click to change)");
         };
 
-        final FileDropListener fileDropListener = getFileDropListener(fileMode);
+        final FileDrop.FileDropListener fileDropListener = getFileDropListener(fileMode);
         new FileDrop(jButton, BorderFactory.createLineBorder(Color.blue.brighter(), 2), fileDropListener);
 
         return jButton;
     }
 
-    private FileDropListener getFileDropListener(final FileMode fileMode) {
-        return new FileDropListener() {
+    private FileDrop.FileDropListener getFileDropListener(final FileMode fileMode) {
+        return new FileDrop.FileDropListener() {
 
             @Override
             public void filesDropped(final File[] files) {
@@ -151,7 +150,7 @@ public class FilesChooser extends SwingVarEditor<File[]> {
                         fileList.add(f);
                 }
 
-                return fileList.toArray(new File[fileList.size()]);
+                return fileList.toArray(new File[0]);
             }
 
             private File[] getFolders(final File[] files) {
@@ -161,7 +160,7 @@ public class FilesChooser extends SwingVarEditor<File[]> {
                         folderList.add(f);
                 }
 
-                return folderList.toArray(new File[folderList.size()]);
+                return folderList.toArray(new File[0]);
             }
         };
     }
@@ -172,7 +171,6 @@ public class FilesChooser extends SwingVarEditor<File[]> {
      * @param text The button text.
      */
     public void setButtonText(final String text) {
-
         ThreadUtil.invokeLater(() -> getEditorComponent().setText(text));
     }
 

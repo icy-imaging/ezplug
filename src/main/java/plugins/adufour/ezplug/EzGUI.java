@@ -18,16 +18,17 @@
 
 package plugins.adufour.ezplug;
 
-import icy.gui.component.button.IcyButton;
-import icy.network.NetworkUtil;
-import icy.plugin.PluginDescriptor;
-import icy.plugin.PluginLauncher;
-import icy.plugin.PluginLoader;
-import icy.plugin.interface_.PluginBundled;
-import icy.system.thread.ThreadUtil;
-import icy.util.ClassUtil;
-import icy.util.StringUtil;
-import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import org.bioimageanalysis.icy.common.reflect.ClassUtil;
+import org.bioimageanalysis.icy.common.string.StringUtil;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.extension.plugin.PluginLauncher;
+import org.bioimageanalysis.icy.extension.plugin.PluginLoader;
+import org.bioimageanalysis.icy.extension.plugin.interface_.PluginBundled;
+import org.bioimageanalysis.icy.gui.component.button.IcyButton;
+import org.bioimageanalysis.icy.gui.component.icon.SVGIcon;
+import org.bioimageanalysis.icy.network.NetworkUtil;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarDouble;
 import plugins.adufour.vars.util.VarListener;
@@ -110,30 +111,30 @@ public class EzGUI extends EzDialog implements ActionListener {
         jPanelButtons = new JPanel(new GridLayout(1, 5));
         jPanelBottom.add(jPanelButtons);
 
-        jButtonRun = new IcyButton(GoogleMaterialDesignIcons.PLAY_ARROW);
+        jButtonRun = new IcyButton(SVGIcon.PLAY_CIRCLE);
         jButtonRun.setToolTipText("Start the plug-in...");
         jButtonRun.addActionListener(this);
         jPanelButtons.add(jButtonRun);
 
         if (ezPlug instanceof EzStoppable) {
-            jButtonStop = new IcyButton(GoogleMaterialDesignIcons.STOP);
+            jButtonStop = new IcyButton(SVGIcon.STOP_CIRCLE);
             jButtonStop.setToolTipText("Stop the plug-in...");
             jButtonStop.setEnabled(false);
             jButtonStop.addActionListener(this);
             jPanelButtons.add(jButtonStop);
         }
 
-        jButtonSaveParameters = new IcyButton(GoogleMaterialDesignIcons.SAVE);
+        jButtonSaveParameters = new IcyButton(SVGIcon.SAVE);
         jButtonSaveParameters.setToolTipText("Save the parameters to a file...");
         jButtonSaveParameters.addActionListener(this);
         jPanelButtons.add(jButtonSaveParameters);
 
-        jButtonLoadParameters = new IcyButton(GoogleMaterialDesignIcons.FOLDER);
+        jButtonLoadParameters = new IcyButton(SVGIcon.FOLDER);
         jButtonLoadParameters.setToolTipText("Load the parameters from a file...");
         jButtonLoadParameters.addActionListener(this);
         jPanelButtons.add(jButtonLoadParameters);
 
-        jButtonHelp = new IcyButton(GoogleMaterialDesignIcons.HELP);
+        jButtonHelp = new IcyButton(SVGIcon.HELP);
         jButtonHelp.setToolTipText("Access the online help for this plug-in...");
         jButtonHelp.addActionListener(this);
         jPanelButtons.add(jButtonHelp);
@@ -280,9 +281,12 @@ public class EzGUI extends EzDialog implements ActionListener {
             ezPlug.saveParameters(jfc.getSelectedFile());
         }
         else if (e.getSource().equals(jButtonHelp)) {
-            final String s = getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation";
-            System.out.println(s);
-            //NetworkUtil.openBrowser(s);
+            final String web = getMainPlugin(ezPlug.getDescriptor()).getWeb();
+            if (!web.isBlank()) {
+                final String s = getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation";
+                IcyLogger.debug(EzGUI.class, "Open EzPlug help: " + s);
+                NetworkUtil.openBrowser(s);
+            }
         }
         else {
             throw new UnsupportedOperationException("Action event not recognized for source " + e.getSource());
@@ -323,9 +327,10 @@ public class EzGUI extends EzDialog implements ActionListener {
         ezPlug = null;
     }
 
+    @SuppressWarnings("resource")
     private static PluginDescriptor getMainPlugin(final PluginDescriptor bundledPlugin) {
-        if (!bundledPlugin.isBundled())
-            return bundledPlugin;
+        /*if (!bundledPlugin.isBundled())
+            return bundledPlugin;*/
 
         try {
             // get the main plugin
@@ -333,7 +338,7 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
         catch (final Throwable t) {
             // try alternate method
-            final List<PluginDescriptor> allPlugins = PluginLoader.getPlugins(false);
+            final List<PluginDescriptor> allPlugins = PluginLoader.getPlugins();
 
             String packageName = bundledPlugin.getPackageName();
 

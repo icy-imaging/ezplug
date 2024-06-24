@@ -18,11 +18,11 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.main.Icy;
-import icy.swimmingPool.SwimmingObject;
-import icy.swimmingPool.SwimmingPoolEvent;
-import icy.swimmingPool.SwimmingPoolListener;
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingPoolEvent;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingPoolListener;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;
@@ -115,7 +115,7 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
                 validObjects.add(swObj);
             }
 
-        if (validObjects.size() > 0) jComboBox.setSelectedIndex(1);
+        if (!validObjects.isEmpty()) jComboBox.setSelectedIndex(1);
 
         jComboBox.setRenderer(jComboBoxRenderer);
 
@@ -135,7 +135,7 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
 
         final String valueAsString = variable.getValueAsString(true);
 
-        getEditorComponent().setToolTipText(valueAsString.length() == 0 ? null : "<html><pre><font size=3>" + valueAsString + "</font></pre></html>");
+        getEditorComponent().setToolTipText(valueAsString.isEmpty() ? null : "<html><pre><font size=3>" + valueAsString + "</font></pre></html>");
     }
 
     @Override

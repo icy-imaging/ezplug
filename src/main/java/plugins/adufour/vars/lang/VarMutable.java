@@ -18,10 +18,10 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.sequence.Sequence;
-import icy.type.DataType;
-import icy.type.collection.array.Array1DUtil;
-import icy.type.collection.array.ArrayUtil;
+import org.bioimageanalysis.icy.common.collection.array.Array1DUtil;
+import org.bioimageanalysis.icy.common.collection.array.ArrayUtil;
+import org.bioimageanalysis.icy.common.type.DataType;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.gui.model.TypeSelectionModel;

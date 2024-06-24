@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarException;
 import plugins.adufour.vars.util.VarListener;
 
@@ -120,7 +121,7 @@ public class VarMutableArray extends VarMutable implements Iterable<Object> {
     }
 
     @Override
-    public Iterator<Object> iterator() {
+    public @NotNull Iterator<Object> iterator() {
         if (getValue() == null)
             return Collections.emptyIterator();
 

@@ -18,8 +18,8 @@
 
 package plugins.adufour.ezplug;
 
-import icy.plugin.PluginDescriptor;
-import icy.system.IcyExceptionHandler;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.system.IcyExceptionHandler;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 

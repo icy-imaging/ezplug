@@ -117,9 +117,8 @@ public class VarGenericArray<A> extends Var<A> implements ArrayType {
         if (componentType == null)
             return false;
 
-        if (source instanceof VarGenericArray) {
+        if (source instanceof final VarGenericArray<?> varNativeArray) {
             // check if the inner type is compatible
-            final VarGenericArray<?> varNativeArray = (VarGenericArray<?>) source;
             final Class<?> sourceComponentType = varNativeArray.getInnerType();
             if (sourceComponentType == null)
                 return false;

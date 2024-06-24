@@ -88,14 +88,11 @@ public abstract class VarNumber<N extends Number> extends Var<N> implements Comp
 
         if (getDefaultEditorModel() instanceof RangeModel) {
             final RangeEditorType editorType = ((RangeModel<N>) getDefaultEditorModel()).getEditorType();
-            switch (editorType) {
-                case SLIDER:
-                    return factory.createSlider(this);
-                case SPINNER:
-                    return factory.createSpinner(this);
-                default:
-                    throw new UnsupportedOperationException("Editor not yet implemented: " + editorType);
-            }
+            return switch (editorType) {
+                case SLIDER -> factory.createSlider(this);
+                case SPINNER -> factory.createSpinner(this);
+                default -> throw new UnsupportedOperationException("Editor not yet implemented: " + editorType);
+            };
         }
 
         if (getDefaultEditorModel() == null)

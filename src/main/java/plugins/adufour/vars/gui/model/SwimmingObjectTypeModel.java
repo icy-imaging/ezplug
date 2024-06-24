@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.gui.model;
 
-import icy.swimmingPool.SwimmingObject;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
 
 public class SwimmingObjectTypeModel<T> implements VarEditorModel<SwimmingObject> {
     @Override

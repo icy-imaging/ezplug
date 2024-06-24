@@ -18,7 +18,8 @@
 
 package plugins.adufour.ezplug;
 
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -126,7 +127,7 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
     }
 
     @Override
-    public Iterator<EzComponent> iterator() {
+    public @NotNull Iterator<EzComponent> iterator() {
         return components.iterator();
     }
 

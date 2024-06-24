@@ -18,8 +18,8 @@
 
 package plugins.adufour.vars.gui.model;
 
-import icy.roi.ROI;
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.model.roi.ROI;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 
 import java.io.File;
 

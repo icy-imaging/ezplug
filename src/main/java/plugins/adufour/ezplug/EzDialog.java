@@ -18,12 +18,12 @@
 
 package plugins.adufour.ezplug;
 
-import icy.gui.frame.IcyExternalFrame;
-import icy.gui.frame.IcyFrame;
-import icy.gui.frame.IcyInternalFrame;
-import icy.main.Icy;
-import icy.system.IcyHandledException;
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.gui.frame.IcyExternalFrame;
+import org.bioimageanalysis.icy.gui.frame.IcyFrame;
+import org.bioimageanalysis.icy.gui.frame.IcyInternalFrame;
+import org.bioimageanalysis.icy.system.IcyHandledException;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.ezplug.EzGroup.FoldListener;
 
 import javax.swing.*;
@@ -161,9 +161,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
     @SuppressWarnings("unchecked")
     protected void addEzComponent(final EzComponent component, final boolean isSingle) {
         // if the component is a group, add its internal components recursively
-        if (component instanceof EzPanel) {
-            final EzPanel panel = (EzPanel) component;
-
+        if (component instanceof final EzPanel panel) {
             if (panel instanceof EzGroup)
                 ((EzGroup) panel).addFoldListener(this);
 
@@ -176,8 +174,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
 
         // if the component is an EzVar, activate the internal listener
         // => this will cause the UI to refresh if a var gets shown/hidden
-        if (component instanceof EzVar) {
-            @SuppressWarnings("rawtypes") final EzVar var = (EzVar) component;
+        if (component instanceof @SuppressWarnings("rawtypes") final EzVar var) {
             var.variable.addListener(var);
         }
 
@@ -228,7 +225,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
             for (int i = 0; i < columns.size(); i++) {
                 final List<Object> column = columns.get(i);
 
-                if (i > 0 && column.size() > 0)
+                if (i > 0 && !column.isEmpty())
                     jPanelParameters.add(new JSeparator(JSeparator.VERTICAL));
 
                 final JPanel columnContainer = new JPanel(new GridBagLayout());
@@ -237,9 +234,7 @@ public class EzDialog extends IcyFrame implements FoldListener {
                     if (object instanceof EzComponent) {
                         ((EzComponent) object).addToContainer(columnContainer);
                     }
-                    else if (object instanceof Component) {
-                        final Component component = (Component) object;
-
+                    else if (object instanceof final Component component) {
                         final GridBagLayout gridbag = (GridBagLayout) columnContainer.getLayout();
 
                         component.setFocusable(false);

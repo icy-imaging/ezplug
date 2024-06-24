@@ -18,8 +18,8 @@
 
 package plugins.adufour.ezplug;
 
-import icy.main.Icy;
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.gui.swing.SequenceChooser;
 import plugins.adufour.vars.lang.VarSequence;
 

@@ -18,12 +18,13 @@
 
 package plugins.adufour.ezplug;
 
-import icy.main.Icy;
-import icy.plugin.abstract_.Plugin;
-import icy.plugin.abstract_.PluginActionable;
-import icy.plugin.interface_.PluginLibrary;
-import icy.system.IcyHandledException;
-import icy.type.value.IntegerValue;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.common.type.value.IntegerValue;
+import org.bioimageanalysis.icy.extension.plugin.abstract_.PluginActionable;
+import org.bioimageanalysis.icy.extension.plugin.interface_.PluginLibrary;
+import org.bioimageanalysis.icy.system.IcyHandledException;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarException;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 
 /**
  * Main component of the EzPlug framework. EzPlug provides numerous additional features to the
- * {@link Plugin} class to simplify the development of plug-ins for ICY. In a nutshell, it allows
+ * {@link org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin} class to simplify the development of plug-ins for ICY. In a nutshell, it allows
  * to:
  * <ul>
  * <li>a) design intuitive and homogeneous graphical interfaces;</li>
@@ -43,7 +44,7 @@ import java.util.HashMap;
  * disk in a standardized way (e.g. XML).
  * <p>
  * To create an EzPlug and benefit from these features, simply create a class that extends EzPlug
- * instead of {@link Plugin}. EzPlug is abstract and requires to implement the following methods:
+ * instead of {@link org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin}. EzPlug is abstract and requires to implement the following methods:
  * <ul>
  * <li>The {@link #initialize()} method should be used to declare the parameters, buttons, groups
  * etc.. This is done via the {@link #addEzComponent(EzComponent) addEzComponent} method. EzPlug
@@ -72,9 +73,7 @@ import java.util.HashMap;
  * @author Alexandre Dufour
  * @see plugins.adufour.ezplug.EzInternalFrame
  */
-//public abstract class EzPlug extends PluginActionable implements PluginLibrary {
 public abstract class EzPlug extends PluginActionable implements PluginLibrary {
-
     /**
      * Number of active instances of this plugin
      */
@@ -105,7 +104,7 @@ public abstract class EzPlug extends PluginActionable implements PluginLibrary {
                 execute();
 
                 if (timeTrial)
-                    System.out.println(getName() + " executed in " + (System.nanoTime() - startTime) / 1000000 + " ms");
+                    IcyLogger.trace(EzPlug.class, getName() + " executed in " + (System.nanoTime() - startTime) / 1000000 + " ms");
             }
             catch (final VarException e) {
                 if (isHeadLess())
@@ -315,7 +314,7 @@ public abstract class EzPlug extends PluginActionable implements PluginLibrary {
      * @return The name of this EzPlug.
      */
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return getDescriptor().getName();
     }
 
@@ -403,12 +402,7 @@ public abstract class EzPlug extends PluginActionable implements PluginLibrary {
             EzVarIO.load(this, file, ezVars);
         }
         catch (final EzException e) {
-            if (!Icy.getMainInterface().isHeadLess()) {
-                JOptionPane.showMessageDialog(ezgui.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                System.err.println("EzVarIO: " + e.getMessage());
-            }
+            IcyLogger.error(EzPlug.class, e, e.getLocalizedMessage());
 
             if (!e.catchException)
                 throw e;

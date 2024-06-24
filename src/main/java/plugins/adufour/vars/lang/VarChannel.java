@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;

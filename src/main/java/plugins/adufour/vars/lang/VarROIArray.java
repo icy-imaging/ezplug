@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.roi.ROI;
+import org.bioimageanalysis.icy.model.roi.ROI;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.util.VarListener;
 

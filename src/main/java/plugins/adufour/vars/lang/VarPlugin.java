@@ -18,9 +18,10 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.plugin.PluginDescriptor;
-import icy.plugin.PluginLoader;
-import icy.plugin.abstract_.Plugin;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.extension.plugin.PluginLoader;
+import org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;
@@ -69,7 +70,7 @@ public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
             return ((Class<P>) getValue(true).getPluginClass()).getDeclaredConstructor().newInstance();
         }
         catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
+            IcyLogger.error(VarPlugin.class, e, e.getLocalizedMessage());
         }
 
         return null;

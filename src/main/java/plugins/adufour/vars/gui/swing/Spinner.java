@@ -41,12 +41,10 @@ public class Spinner<N extends Number> extends SwingVarEditor<N> {
     public JComponent createEditorComponent() {
         final VarEditorModel<N> model = variable.getDefaultEditorModel();
 
-        if (!(model instanceof RangeModel)) {
+        if (!(model instanceof final RangeModel<N> constraint)) {
             throw new UnsupportedOperationException(
                     "Incorrect model for variable " + variable.getName() + ": " + model);
         }
-
-        final RangeModel<N> constraint = (RangeModel<N>) model;
 
         final JSpinner jSpinner = new JSpinner(new SpinnerNumberModel(constraint.getDefaultValue(), constraint.getMinimum(), constraint.getMaximum(), constraint.getStepSize()) {
             @SuppressWarnings("unchecked")

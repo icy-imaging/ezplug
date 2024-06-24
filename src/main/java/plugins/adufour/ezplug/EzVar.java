@@ -18,9 +18,9 @@
 
 package plugins.adufour.ezplug;
 
-import icy.gui.component.button.IcyButton;
-import icy.system.thread.ThreadUtil;
-import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import org.bioimageanalysis.icy.gui.component.button.IcyButton;
+import org.bioimageanalysis.icy.gui.component.icon.SVGIcon;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -64,7 +64,7 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
 
     private final ArrayList<EzVarListener<T>> listeners = new ArrayList<>();
 
-    private final IcyButton bHelp = new IcyButton(GoogleMaterialDesignIcons.HELP_OUTLINE);
+    private final IcyButton bHelp = new IcyButton(SVGIcon.HELP);
 
     /**
      * Constructs a new variable
@@ -238,16 +238,16 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
      * @return a String identifier that is unique within the owner plug
      */
     String getID() {
-        String id = variable.getName();
+        final StringBuilder id = new StringBuilder(variable.getName());
 
         EzPanel panel = getParentPanel();
 
         while (panel != null) {
-            id = panel.name + "." + id;
+            id.insert(0, panel.name + ".");
             panel = panel.getParentPanel();
         }
 
-        return id;
+        return id.toString();
     }
 
     /**

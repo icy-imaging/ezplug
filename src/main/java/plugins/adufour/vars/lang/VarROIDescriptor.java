@@ -18,10 +18,10 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.roi.ROIDescriptor;
-import icy.util.StringUtil;
+import org.bioimageanalysis.extension.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
+import org.bioimageanalysis.icy.common.string.StringUtil;
+import org.bioimageanalysis.icy.model.roi.ROIDescriptor;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
-import plugins.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,8 +60,7 @@ public class VarROIDescriptor extends VarString {
         Collections.sort(descriptorsId);
 
         // initialize descriptors field
-        setDefaultEditorModel(new ValueSelectionModel<>(descriptorsId.toArray(new String[descriptorsId.size()]),
-                sizeDescriptorId, false));
+        setDefaultEditorModel(new ValueSelectionModel<>(descriptorsId.toArray(new String[0]), sizeDescriptorId, false));
     }
 
     public VarROIDescriptor() {

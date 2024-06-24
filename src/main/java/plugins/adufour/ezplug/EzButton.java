@@ -18,7 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 
 import javax.swing.*;
 import java.awt.*;

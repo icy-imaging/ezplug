@@ -18,7 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarSlice;
 import plugins.adufour.vars.util.VarListener;
@@ -29,7 +29,7 @@ import plugins.adufour.vars.util.VarListener;
  * @author Alexandre Dufour
  */
 public class EzVarSlice extends EzVar<Integer> {
-    private final VarListener<Sequence> listener = new VarListener<Sequence>() {
+    private final VarListener<Sequence> listener = new VarListener<>() {
         @Override
         public void valueChanged(final Var<Sequence> source, final Sequence oldValue, final Sequence newValue) {
             if (newValue == null) {

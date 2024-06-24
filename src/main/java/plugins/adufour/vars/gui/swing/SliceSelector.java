@@ -18,8 +18,8 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.sequence.DimensionId;
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.model.sequence.DimensionId;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarSlice;
 

@@ -18,8 +18,8 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.sequence.DimensionId;
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.model.sequence.DimensionId;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.util.VarListener;
 
@@ -37,7 +37,7 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
 
     protected boolean allowAll;
 
-    private final VarListener<Sequence> sequenceListener = new VarListener<Sequence>() {
+    private final VarListener<Sequence> sequenceListener = new VarListener<>() {
         @Override
         public void valueChanged(final Var<Sequence> source, final Sequence oldValue, final Sequence newValue) {
             updateInterfaceValue();

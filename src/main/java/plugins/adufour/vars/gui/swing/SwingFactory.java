@@ -18,9 +18,9 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.plugin.PluginDescriptor;
-import icy.sequence.Sequence;
-import icy.swimmingPool.SwimmingObject;
+import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.lang.*;

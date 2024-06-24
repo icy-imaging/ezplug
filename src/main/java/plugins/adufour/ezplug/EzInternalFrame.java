@@ -18,7 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import icy.gui.frame.IcyInternalFrame;
+import org.bioimageanalysis.icy.gui.frame.IcyInternalFrame;
 
 public class EzInternalFrame extends IcyInternalFrame {
     EzInternalFrame(final String title, final boolean resizable, final boolean closable, final boolean maximizable, final boolean iconifiable) {

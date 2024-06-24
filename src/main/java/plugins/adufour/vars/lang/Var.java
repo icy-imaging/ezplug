@@ -18,9 +18,9 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.file.xml.XMLPersistent;
-import icy.system.IcyHandledException;
-import icy.util.XMLUtil;
+import org.bioimageanalysis.icy.io.xml.XMLPersistent;
+import org.bioimageanalysis.icy.io.xml.XMLUtil;
+import org.bioimageanalysis.icy.system.IcyHandledException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import plugins.adufour.vars.gui.VarEditor;
@@ -375,7 +375,7 @@ public class Var<T> implements XMLPersistent, VarListener<T> {
      * variable, <code>false</code> otherwise
      */
     public boolean isReferenced() {
-        return referrers.size() > 0;
+        return !referrers.isEmpty();
     }
 
     /**

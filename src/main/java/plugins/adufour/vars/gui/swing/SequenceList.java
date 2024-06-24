@@ -18,10 +18,10 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.gui.main.GlobalSequenceListener;
-import icy.main.Icy;
-import icy.sequence.Sequence;
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.gui.listener.GlobalSequenceListener;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;

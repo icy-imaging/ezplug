@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.lang.VarMutable;
 import plugins.adufour.vars.util.TypeChangeListener;
 import plugins.adufour.vars.util.TypeUtil;

@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.system.thread.ThreadUtil;
+import org.bioimageanalysis.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
@@ -63,8 +63,7 @@ public class ComboBox<T> extends SwingVarEditor<T> {
         T defaultValue = variable.getDefaultValue();
 
         if (cons != null) {
-            if (cons instanceof ValueSelectionModel) {
-                final ValueSelectionModel<T> constraint = (ValueSelectionModel<T>) cons;
+            if (cons instanceof final ValueSelectionModel<T> constraint) {
                 defaultValues = constraint.getValidValues();
                 freeInput = constraint.isFreeInput();
                 defaultValue = constraint.getDefaultValue();

@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.gui.component.button.ColorChooserButton;
+import org.bioimageanalysis.icy.gui.component.button.ColorChooserButton;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;
@@ -51,14 +51,6 @@ public class ColorChooser extends SwingVarEditor<Color> {
 
         final ColorChooserButton button = new ColorChooserButton(variable.getValue());
 
-        // TODO: 05/06/2023 Remove this old implementation of color chooser button
-        /*IcyButton button = new IcyButton(new EmptyIcon(16, 16)) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                g.setColor(variable.getValue());
-                g.fill3DRect(0, 0, getWidth(), getHeight(), true);
-            }
-        };*/
         button.setFocusable(false);
         button.setContentAreaFilled(false);
         return button;
@@ -83,5 +75,4 @@ public class ColorChooser extends SwingVarEditor<Color> {
     protected void updateInterfaceValue() {
         // nothing to do (the button will repaint itself automatically)
     }
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2024. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,9 +18,10 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import icy.gui.component.button.IcyButton;
+import org.bioimageanalysis.icy.gui.component.button.IcyButton;
 import plugins.adufour.vars.lang.VarTrigger;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class Button extends SwingVarEditor<Integer> {
@@ -33,12 +34,12 @@ public class Button extends SwingVarEditor<Integer> {
     }
 
     @Override
-    protected IcyButton createEditorComponent() {
+    protected JButton createEditorComponent() {
         if (getEditorComponent() != null) deactivateListeners();
 
         listener = e -> ((VarTrigger) variable).trigger();
 
-        return new IcyButton(variable.getName());
+        return new JButton(variable.getName());
     }
 
     @Override

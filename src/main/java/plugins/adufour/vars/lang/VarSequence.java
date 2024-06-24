@@ -18,10 +18,10 @@
 
 package plugins.adufour.vars.lang;
 
-import icy.main.Icy;
-import icy.sequence.Sequence;
-import icy.util.StringUtil;
-import icy.util.XMLUtil;
+import org.bioimageanalysis.icy.Icy;
+import org.bioimageanalysis.icy.common.string.StringUtil;
+import org.bioimageanalysis.icy.io.xml.XMLUtil;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import plugins.adufour.vars.gui.VarEditor;

@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarListener;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class VarArray<T> extends VarGenericArray<T[]> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public @NotNull Iterator<T> iterator() {
         return Arrays.asList(getValue()).iterator();
     }
 }
