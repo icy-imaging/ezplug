@@ -18,4 +18,11 @@
 		The swiss army knife of plugin developers.
 		Automatically generates elegant graphical interfaces with rich and intuitive user interaction based on your algorithm’s parameters.
 	</description>
+
+	<repositories>
+		<repository>
+			<id>icy</id>
+			<url>https://nexus-icy.pasteur.cloud/repository/icy/</url>
+		</repository>
+	</repositories>
 </project>
