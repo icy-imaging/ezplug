@@ -7,22 +7,15 @@
 	<parent>
         <groupId>org.bioimageanalysis.icy</groupId>
         <artifactId>pom-icy</artifactId>
-        <version>3.0.0-a.1</version>
+        <version>3.0.0-a.4</version>
 	</parent>
 
 	<artifactId>ezplug</artifactId>
-	<version>4.0.0-a.1</version>
+	<version>4.0.0-a.2</version>
 
 	<name>EzPlug</name>
 	<description>
 		The swiss army knife of plugin developers.
 		Automatically generates elegant graphical interfaces with rich and intuitive user interaction based on your algorithm’s parameters.
 	</description>
-
-	<repositories>
-		<repository>
-			<id>icy</id>
-			<url>https://nexus-icy.pasteur.cloud/repository/icy/</url>
-		</repository>
-	</repositories>
 </project>
