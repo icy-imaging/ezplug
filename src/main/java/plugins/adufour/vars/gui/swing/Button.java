@@ -18,7 +18,6 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import org.bioimageanalysis.icy.gui.component.button.IcyButton;
 import plugins.adufour.vars.lang.VarTrigger;
 
 import javax.swing.*;
@@ -43,8 +42,8 @@ public class Button extends SwingVarEditor<Integer> {
     }
 
     @Override
-    public IcyButton getEditorComponent() {
-        return (IcyButton) super.getEditorComponent();
+    public JButton getEditorComponent() {
+        return (JButton) super.getEditorComponent();
     }
 
     @Override
