@@ -7,15 +7,20 @@
 	<parent>
         <groupId>org.bioimageanalysis.icy</groupId>
         <artifactId>pom-icy</artifactId>
-        <version>3.0.0-a.4</version>
+        <version>3.0.0-a.5</version>
 	</parent>
 
 	<artifactId>ezplug</artifactId>
-	<version>4.0.0-a.3</version>
+	<version>4.0.0-a.5</version>
 
 	<name>EzPlug</name>
 	<description>
 		The swiss army knife of plugin developers.
 		Automatically generates elegant graphical interfaces with rich and intuitive user interaction based on your algorithm’s parameters.
 	</description>
+	<url></url>
+
+	<scm>
+		<url></url>
+	</scm>
 </project>

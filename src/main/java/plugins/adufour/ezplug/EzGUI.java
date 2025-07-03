@@ -18,12 +18,7 @@
 
 package plugins.adufour.ezplug;
 
-import org.bioimageanalysis.icy.common.reflect.ClassUtil;
-import org.bioimageanalysis.icy.common.string.StringUtil;
 import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
-import org.bioimageanalysis.icy.extension.plugin.PluginLauncher;
-import org.bioimageanalysis.icy.extension.plugin.PluginLoader;
-import org.bioimageanalysis.icy.extension.plugin.interface_.PluginBundled;
 import org.bioimageanalysis.icy.gui.component.button.IcyButton;
 import org.bioimageanalysis.icy.gui.component.icon.SVGIcon;
 import org.bioimageanalysis.icy.network.NetworkUtil;
@@ -38,7 +33,6 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class EzGUI extends EzDialog implements ActionListener {
     private EzPlug ezPlug;
@@ -208,10 +202,10 @@ public class EzGUI extends EzDialog implements ActionListener {
      * Sets the progress indicator for this plug-in
      *
      * @param value <ul>
-     *                     <li>0: no animation (default)</li>
-     *                     <li>NaN: started (infinitely running)</li>
-     *                     <li>from 0 to 1: a progress percentage indicator</li>
-     *                     </ul>
+     *              <li>0: no animation (default)</li>
+     *              <li>NaN: started (infinitely running)</li>
+     *              <li>from 0 to 1: a progress percentage indicator</li>
+     *              </ul>
      */
     public void setProgressBarValue(final double value) {
         ezPlug.getStatus().setCompletion(value);
@@ -331,10 +325,11 @@ public class EzGUI extends EzDialog implements ActionListener {
     private static PluginDescriptor getMainPlugin(final PluginDescriptor bundledPlugin) {
         /*if (!bundledPlugin.isBundled())
             return bundledPlugin;*/
+        return bundledPlugin;
 
-        try {
+        /*try {
             // get the main plugin
-            return PluginLoader.getPlugin(((PluginBundled) PluginLauncher.create(bundledPlugin)).getMainPluginClassName());
+            return ExtensionLoader.getPlugin(((PluginBundled) PluginLauncher.create(bundledPlugin)).getMainPluginClassName());
         }
         catch (final Throwable t) {
             // try alternate method
@@ -376,6 +371,6 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
 
         // not found
-        return bundledPlugin;
+        return bundledPlugin;*/
     }
 }

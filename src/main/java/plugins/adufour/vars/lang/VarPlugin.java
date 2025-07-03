@@ -18,8 +18,8 @@
 
 package plugins.adufour.vars.lang;
 
+import org.bioimageanalysis.icy.extension.ExtensionLoader;
 import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
-import org.bioimageanalysis.icy.extension.plugin.PluginLoader;
 import org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin;
 import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import plugins.adufour.vars.gui.VarEditor;
@@ -83,6 +83,6 @@ public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
 
     @Override
     public PluginDescriptor parse(final String text) {
-        return PluginLoader.getPlugin(text);
+        return ExtensionLoader.getPlugin(text);
     }
 }
