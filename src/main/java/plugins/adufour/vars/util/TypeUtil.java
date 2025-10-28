@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,13 +18,15 @@
 
 package plugins.adufour.vars.util;
 
+import org.jetbrains.annotations.NotNull;
+
 public class TypeUtil {
     /**
      * @param primitiveType Primitive type to box into a class.
      * @return The Boxed type corresponding to the specified primitive type (or the original type if
      * not a primitive)
      */
-    public static Class<?> toBoxedType(final Class<?> primitiveType) {
+    public static Class<?> toBoxedType(final @NotNull Class<?> primitiveType) {
         if (!primitiveType.isPrimitive())
             return primitiveType;
 

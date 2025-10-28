@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package plugins.adufour.vars.lang;
 import org.bioimageanalysis.icy.io.xml.XMLPersistent;
 import org.bioimageanalysis.icy.io.xml.XMLUtil;
 import org.bioimageanalysis.icy.system.IcyHandledException;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import plugins.adufour.vars.gui.VarEditor;
@@ -204,7 +205,7 @@ public class Var<T> implements XMLPersistent, VarListener<T> {
      *                    (can be changed later via the {@link #setDefaultEditorModel(VarEditorModel)} method).
      */
     @SuppressWarnings("unchecked")
-    public Var(final String name, final VarEditorModel<T> editorModel) {
+    public Var(final String name, final @NotNull VarEditorModel<T> editorModel) {
         this(name, (Class<T>) editorModel.getDefaultValue().getClass(), editorModel.getDefaultValue(), null);
         this.defaultEditorModel = editorModel;
     }
@@ -482,7 +483,7 @@ public class Var<T> implements XMLPersistent, VarListener<T> {
      * @return true if the source type is equal or wider than this variable's type,
      * false otherwise (including if the source has a null type)
      */
-    public boolean isAssignableFrom(final Var<?> source) {
+    public boolean isAssignableFrom(final @NotNull Var<?> source) {
         if (source.getType() == null)
             return false;
 
@@ -760,7 +761,7 @@ public class Var<T> implements XMLPersistent, VarListener<T> {
         fireVariableChanged(oldValue, newValue);
     }
 
-    protected boolean areValuesEqual(final T a, final Object b) {
+    protected boolean areValuesEqual(final @NotNull T a, final Object b) {
         return a.equals(b);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -23,6 +23,9 @@ import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
 import org.bioimageanalysis.icy.model.swimmingPool.SwimmingPoolEvent;
 import org.bioimageanalysis.icy.model.swimmingPool.SwimmingPoolListener;
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;
@@ -48,8 +51,9 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
         public void addListDataListener(final ListDataListener l) {
         }
 
+        @Contract(pure = true)
         @Override
-        public SwimmingObject getElementAt(final int index) {
+        public @Nullable SwimmingObject getElementAt(final int index) {
             // first is the "no" selection
             if (index == 0) return null;
 
@@ -65,8 +69,9 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
     }
 
     private static final class JComboBoxRenderer implements ListCellRenderer<SwimmingObject> {
+        @Contract("_, _, _, _, _ -> new")
         @Override
-        public Component getListCellRendererComponent(final JList<? extends SwimmingObject> list, final SwimmingObject value, final int index, final boolean isSelected, final boolean cellHasFocus) {
+        public @NotNull Component getListCellRendererComponent(final JList<? extends SwimmingObject> list, final SwimmingObject value, final int index, final boolean isSelected, final boolean cellHasFocus) {
             if (value == null) return new JLabel("No selection");
 
             final String name = value.getName();
@@ -139,7 +144,7 @@ public class SwimmingObjectChooser extends SwingVarEditor<SwimmingObject> implem
     }
 
     @Override
-    public void swimmingPoolChangeEvent(final SwimmingPoolEvent event) {
+    public void swimmingPoolChangeEvent(final @NotNull SwimmingPoolEvent event) {
         final SwimmingObject object = event.getResult();
 
         if (!variable.getDefaultEditorModel().isValid(object)) return;

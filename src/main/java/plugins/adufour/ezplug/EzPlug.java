@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -21,7 +21,6 @@ package plugins.adufour.ezplug;
 import org.bioimageanalysis.icy.Icy;
 import org.bioimageanalysis.icy.common.type.value.IntegerValue;
 import org.bioimageanalysis.icy.extension.plugin.abstract_.PluginActionable;
-import org.bioimageanalysis.icy.extension.plugin.interface_.PluginLibrary;
 import org.bioimageanalysis.icy.system.IcyHandledException;
 import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +72,7 @@ import java.util.HashMap;
  * @author Alexandre Dufour
  * @see plugins.adufour.ezplug.EzInternalFrame
  */
-public abstract class EzPlug extends PluginActionable implements PluginLibrary {
+public abstract class EzPlug extends PluginActionable {
     /**
      * Number of active instances of this plugin
      */
@@ -409,7 +408,7 @@ public abstract class EzPlug extends PluginActionable implements PluginLibrary {
         }
     }
 
-    <T> void registerVariable(final EzVar<T> var) {
+    <T> void registerVariable(final @NotNull EzVar<T> var) {
         final String varID = var.getID();
 
         if (ezVars.containsKey(varID))
@@ -418,7 +417,7 @@ public abstract class EzPlug extends PluginActionable implements PluginLibrary {
         ezVars.put(varID, var);
     }
 
-    void registerVariables(final EzPanel ezPanel) {
+    void registerVariables(final @NotNull EzPanel ezPanel) {
         for (final EzComponent panelComponent : ezPanel) {
             if (panelComponent instanceof EzVar<?>) {
                 registerVariable((EzVar<?>) panelComponent);

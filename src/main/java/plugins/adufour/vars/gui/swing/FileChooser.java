@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@ package plugins.adufour.vars.gui.swing;
 
 import org.bioimageanalysis.icy.system.FileDrop;
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -120,7 +122,8 @@ public class FileChooser extends SwingVarEditor<File> {
         return jButton;
     }
 
-    private FileDrop.FileDropListener getFileDropListener(final FileMode fileMode) {
+    @Contract(value = "_ -> new", pure = true)
+    private FileDrop.@NotNull FileDropListener getFileDropListener(final FileMode fileMode) {
         return new FileDrop.FileDropListener() {
 
             @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -76,7 +76,7 @@ public class VarArray<T> extends VarGenericArray<T[]> implements Iterable<T> {
      * @param elements the elements to add
      */
     @SafeVarargs
-    public final void add(final T... elements) {
+    public final void add(final T @NotNull ... elements) {
         final T[] oldArray = getValue();
         final ArrayList<T> newArray = new ArrayList<>(size() + elements.length);
 

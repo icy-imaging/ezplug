@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.ArrayType;
@@ -111,7 +112,7 @@ public class VarGenericArray<A> extends Var<A> implements ArrayType {
     }
 
     @Override
-    public boolean isAssignableFrom(final Var<?> source) {
+    public boolean isAssignableFrom(final @NotNull Var<?> source) {
         final Class<?> componentType = getInnerType();
 
         if (componentType == null)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -20,10 +20,11 @@ package plugins.adufour.ezplug;
 
 import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
 import org.bioimageanalysis.icy.gui.component.button.IcyButton;
-import org.bioimageanalysis.icy.gui.component.icon.SVGIcon;
+import org.bioimageanalysis.icy.gui.component.icon.SVGResource;
 import org.bioimageanalysis.icy.network.NetworkUtil;
 import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarDouble;
 import plugins.adufour.vars.util.VarListener;
@@ -95,7 +96,7 @@ public class EzGUI extends EzDialog implements ActionListener {
         }
     };
 
-    public EzGUI(final EzPlug ezPlug) {
+    public EzGUI(final @NotNull EzPlug ezPlug) {
         super(ezPlug.getName(), false);
 
         this.ezPlug = ezPlug;
@@ -105,30 +106,30 @@ public class EzGUI extends EzDialog implements ActionListener {
         jPanelButtons = new JPanel(new GridLayout(1, 5));
         jPanelBottom.add(jPanelButtons);
 
-        jButtonRun = new IcyButton(SVGIcon.PLAY_CIRCLE);
+        jButtonRun = new IcyButton(SVGResource.PLAY_CIRCLE);
         jButtonRun.setToolTipText("Start the plug-in...");
         jButtonRun.addActionListener(this);
         jPanelButtons.add(jButtonRun);
 
         if (ezPlug instanceof EzStoppable) {
-            jButtonStop = new IcyButton(SVGIcon.STOP_CIRCLE);
+            jButtonStop = new IcyButton(SVGResource.STOP_CIRCLE);
             jButtonStop.setToolTipText("Stop the plug-in...");
             jButtonStop.setEnabled(false);
             jButtonStop.addActionListener(this);
             jPanelButtons.add(jButtonStop);
         }
 
-        jButtonSaveParameters = new IcyButton(SVGIcon.SAVE);
+        jButtonSaveParameters = new IcyButton(SVGResource.SAVE);
         jButtonSaveParameters.setToolTipText("Save the parameters to a file...");
         jButtonSaveParameters.addActionListener(this);
         jPanelButtons.add(jButtonSaveParameters);
 
-        jButtonLoadParameters = new IcyButton(SVGIcon.FOLDER);
+        jButtonLoadParameters = new IcyButton(SVGResource.FOLDER);
         jButtonLoadParameters.setToolTipText("Load the parameters from a file...");
         jButtonLoadParameters.addActionListener(this);
         jPanelButtons.add(jButtonLoadParameters);
 
-        jButtonHelp = new IcyButton(SVGIcon.HELP);
+        jButtonHelp = new IcyButton(SVGResource.HELP);
         jButtonHelp.setToolTipText("Access the online help for this plug-in...");
         jButtonHelp.addActionListener(this);
         jPanelButtons.add(jButtonHelp);
@@ -321,7 +322,7 @@ public class EzGUI extends EzDialog implements ActionListener {
         ezPlug = null;
     }
 
-    @SuppressWarnings("resource")
+    @Deprecated
     private static PluginDescriptor getMainPlugin(final PluginDescriptor bundledPlugin) {
         /*if (!bundledPlugin.isBundled())
             return bundledPlugin;*/

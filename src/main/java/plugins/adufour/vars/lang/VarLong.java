@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarListener;
 
 import javax.annotation.Nonnull;
@@ -72,7 +73,7 @@ public class VarLong extends VarNumber<Long> {
     }
 
     @Override
-    protected boolean areValuesEqual(final Long a, final Object b) {
+    protected boolean areValuesEqual(final @NotNull Long a, final Object b) {
         if (b instanceof Number) {
             return super.areValuesEqual(a, ((Number) b).longValue());
         }

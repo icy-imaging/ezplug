@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -19,8 +19,9 @@
 package plugins.adufour.ezplug;
 
 import org.bioimageanalysis.icy.gui.component.button.IcyButton;
-import org.bioimageanalysis.icy.gui.component.icon.SVGIcon;
+import org.bioimageanalysis.icy.gui.component.icon.SVGResource;
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -64,7 +65,7 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
 
     private final ArrayList<EzVarListener<T>> listeners = new ArrayList<>();
 
-    private final IcyButton bHelp = new IcyButton(SVGIcon.HELP);
+    private final IcyButton bHelp = new IcyButton(SVGResource.HELP);
 
     /**
      * Constructs a new variable
@@ -73,7 +74,7 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
      * @param constraint the constraint to apply on the variable when receiving input, or null if a default
      *                   constraint should be applied
      */
-    protected EzVar(final Var<T> variable, final VarEditorModel<T> constraint) {
+    protected EzVar(final @NotNull Var<T> variable, final VarEditorModel<T> constraint) {
         super(variable.getName());
         this.variable = variable;
         variable.setDefaultEditorModel(constraint);

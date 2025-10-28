@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import java.util.List;
  * @author Stephane.D
  */
 public class VarROIDescriptor extends VarString {
-    final List<ROIDescriptor> roiDescriptors;
+    final List<ROIDescriptor<?>> roiDescriptors;
 
     /**
      * @param name Variable name
@@ -46,7 +46,7 @@ public class VarROIDescriptor extends VarString {
         final List<String> descriptorsId = new ArrayList<>();
         String sizeDescriptorId = null;
 
-        for (final ROIDescriptor descriptor : roiDescriptors) {
+        for (final ROIDescriptor<?> descriptor : roiDescriptors) {
             final String id = descriptor.getId();
 
             // keep trace of size descriptor
@@ -67,7 +67,7 @@ public class VarROIDescriptor extends VarString {
         this("Descriptor");
     }
 
-    public List<ROIDescriptor> getAllDescriptors() {
+    public List<ROIDescriptor<?>> getAllDescriptors() {
         return roiDescriptors;
     }
 }

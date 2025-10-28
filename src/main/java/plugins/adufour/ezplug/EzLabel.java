@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 package plugins.adufour.ezplug;
 
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -130,7 +131,7 @@ public class EzLabel extends EzComponent {
     }
 
     @Override
-    protected void addTo(final Container container) {
+    protected void addTo(final @NotNull Container container) {
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(2, 10, 2, 10);
 
@@ -145,7 +146,7 @@ public class EzLabel extends EzComponent {
         label.setToolTipText(text);
     }
 
-    private static String convertToHTML(final String text, final Color textColor, final int labelWidth) {
+    private static @NotNull String convertToHTML(final @NotNull String text, final Color textColor, final int labelWidth) {
         if (text.trim().toLowerCase().startsWith("<html>") && text.toLowerCase().contains("<body")) {
             // A "body" tag already exists => let's assume the developer knows what he's doing
             return text;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,15 +18,14 @@
 
 package plugins.adufour.tutorial;
 
-import org.bioimageanalysis.icy.extension.plugin.annotation_.IcyPluginIcon;
 import org.bioimageanalysis.icy.extension.plugin.annotation_.IcyPluginName;
 import org.bioimageanalysis.icy.gui.frame.progress.AnnounceFrame;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import plugins.adufour.ezplug.*;
 
 import java.util.Arrays;
 
 @IcyPluginName("EzPlug tutorial")
-@IcyPluginIcon(path = "/ezplug.svg")
 public class EzPlugTutorial extends EzPlug implements EzStoppable {
     private enum SomeEnumeration {
         CHOICE_1, CHOICE_2, CHOICE_3, SOME_other_CHOICE,
@@ -95,17 +94,17 @@ public class EzPlugTutorial extends EzPlug implements EzStoppable {
     protected void execute() {
         // the main plugin code goes here, and runs in a separate thread
 
-        System.out.println(varBoolean.name + " = " + varBoolean.getValue());
+        IcyLogger.info(this.getClass(), varBoolean.name + " = " + varBoolean.getValue());
         super.getUI().setProgressBarValue(.1d);
-        System.out.println(varDouble.name + " = " + varDouble.getValue());
+        IcyLogger.info(this.getClass(), varDouble.name + " = " + varDouble.getValue());
         super.getUI().setProgressBarValue(.3d);
-        System.out.println(varDoubleA.name + " = " + Arrays.toString(varDoubleA.getValue()));
+        IcyLogger.info(this.getClass(), varDoubleA.name + " = " + Arrays.toString(varDoubleA.getValue()));
         super.getUI().setProgressBarValue(.5d);
-        System.out.println(varEnum.name + " = " + varEnum.getValue().name());
+        IcyLogger.info(this.getClass(), varEnum.name + " = " + varEnum.getValue().name());
         super.getUI().setProgressBarValue(.6d);
-        System.out.println(varFile.name + " = " + varFile.getValue());
+        IcyLogger.info(this.getClass(), varFile.name + " = " + varFile.getValue());
         super.getUI().setProgressBarValue(.8d);
-        System.out.println(varSequence.name + " = " + varSequence.getValue());
+        IcyLogger.info(this.getClass(), varSequence.name + " = " + varSequence.getValue());
         super.getUI().setProgressBarValue(1d);
         new AnnounceFrame(varText.getValue());
 

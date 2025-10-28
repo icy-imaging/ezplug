@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.gui.swing;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class TextField<T> extends SwingVarEditor<T> {
         return jTextField;
     }
 
-    protected void initializeComponent(final JTextField jTextField) {
+    protected void initializeComponent(final @NotNull JTextField jTextField) {
         jTextField.setText(getVariable().getValueAsString());
         actionListener = e -> setVariableValue(jTextField);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ import org.bioimageanalysis.icy.gui.sequence.SequencePreviewPanel;
 import org.bioimageanalysis.icy.model.sequence.Sequence;
 import org.bioimageanalysis.icy.model.sequence.SequenceEvent;
 import org.bioimageanalysis.icy.model.sequence.SequenceListener;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarMutable;
 
@@ -78,7 +79,7 @@ public class SequenceViewer extends SwingVarEditor<Sequence> implements Sequence
 
     private final MouseAdapter mouseAdapter = new MouseAdapter() {
         @Override
-        public void mouseClicked(final MouseEvent e) {
+        public void mouseClicked(final @NotNull MouseEvent e) {
             if (e.getClickCount() == 2) {
                 final Sequence s = getVariable().getValue();
                 if (s != null) Icy.getMainInterface().addSequence(s);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 package plugins.adufour.vars.gui.swing;
 
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
 import plugins.adufour.vars.lang.Var;
@@ -44,7 +45,7 @@ public class ComboBox<T> extends SwingVarEditor<T> {
         super(variable);
     }
 
-    private static String arrayToString(final Object array) {
+    private static @NotNull String arrayToString(final Object array) {
         final StringBuilder s = new StringBuilder();
         final int length = Array.getLength(array);
         s.append((length == 0) ? "" : Array.get(array, 0).toString());

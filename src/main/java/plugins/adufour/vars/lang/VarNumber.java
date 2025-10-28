@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.gui.model.RangeModel;
@@ -70,7 +71,7 @@ public abstract class VarNumber<N extends Number> extends Var<N> implements Comp
     }
 
     @Override
-    public boolean isAssignableFrom(final Var<?> source) {
+    public boolean isAssignableFrom(final @NotNull Var<?> source) {
         if (source.getType() == null)
             return false;
 
@@ -102,7 +103,7 @@ public abstract class VarNumber<N extends Number> extends Var<N> implements Comp
     }
 
     @Override
-    protected boolean areValuesEqual(final Number a, final Object b) {
+    protected boolean areValuesEqual(final @NotNull Number a, final Object b) {
         if (b instanceof Number) {
             return Double.compare(a.doubleValue(), ((Number) b).doubleValue()) == 0;
         }

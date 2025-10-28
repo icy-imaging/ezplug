@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
  */
 
 package plugins.adufour.ezplug;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +48,7 @@ public class EzTabs extends EzPanel {
      *                     to store and load user parameters.
      * @param tabPlacement The placement for the tabs relative to the content.
      */
-    public EzTabs(final String uniqueID, final TabPlacement tabPlacement) {
+    public EzTabs(final String uniqueID, final @NotNull TabPlacement tabPlacement) {
         super(uniqueID);
 
         ((JTabbedPane) container).setTabPlacement(tabPlacement.tabPlacement);

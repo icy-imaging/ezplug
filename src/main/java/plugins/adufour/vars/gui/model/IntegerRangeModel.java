@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
  */
 
 package plugins.adufour.vars.gui.model;
+
+import org.jetbrains.annotations.NotNull;
 
 public class IntegerRangeModel extends RangeModel<Integer> {
     public IntegerRangeModel(final Integer defaultValue, final Integer min, final Integer max, final Integer step) {
@@ -43,7 +45,7 @@ public class IntegerRangeModel extends RangeModel<Integer> {
     }
 
     @Override
-    public int indexOf(final Integer value) {
+    public int indexOf(final @NotNull Integer value) {
         return Math.round((value.floatValue() - (Integer) min) / step);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarListener;
 
 public class VarObject extends Var<Object> {
@@ -45,7 +46,7 @@ public class VarObject extends Var<Object> {
     }
 
     @Override
-    public boolean isAssignableFrom(final Var<?> source) {
+    public boolean isAssignableFrom(final @NotNull Var<?> source) {
         // an Object type variable may always point to any DEFINED type
 
         return getType() != null;

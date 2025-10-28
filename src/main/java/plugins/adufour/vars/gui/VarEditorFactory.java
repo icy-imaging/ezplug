@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package plugins.adufour.vars.gui;
 import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
 import org.bioimageanalysis.icy.model.sequence.Sequence;
 import org.bioimageanalysis.icy.model.swimmingPool.SwimmingObject;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.swing.SwingFactory;
 import plugins.adufour.vars.lang.*;
 
@@ -50,10 +51,10 @@ public abstract class VarEditorFactory {
         return defaultFactory;
     }
 
-    public static VarEditorFactory setDefaultFactory(final VarEditorFactoryType factoryType) {
+    public static VarEditorFactory setDefaultFactory(final @NotNull VarEditorFactoryType factoryType) {
         return switch (factoryType) {
             case SWING -> defaultFactory = new SwingFactory();
-            default -> throw new IllegalArgumentException("Cannot load the \"" + factoryType + "\" factory");
+            //default -> throw new IllegalArgumentException("Cannot load the \"" + factoryType + "\" factory");
         };
     }
 

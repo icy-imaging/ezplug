@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@ import org.bioimageanalysis.icy.common.collection.array.Array1DUtil;
 import org.bioimageanalysis.icy.common.collection.array.ArrayUtil;
 import org.bioimageanalysis.icy.common.type.DataType;
 import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.gui.model.TypeSelectionModel;
@@ -106,7 +107,7 @@ public class VarMutable extends Var implements MutableType {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isAssignableFrom(final Var source) {
+    public boolean isAssignableFrom(final @NotNull Var source) {
         final Class<?> sourceType = source.getType();
 
         // cannot point to null

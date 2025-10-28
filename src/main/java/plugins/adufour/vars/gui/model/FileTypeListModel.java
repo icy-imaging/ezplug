@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 package plugins.adufour.vars.gui.model;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.FileMode;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class FileTypeListModel implements VarEditorModel<File[]> {
     }
 
     @Override
-    public boolean isValid(final File[] values) {
+    public boolean isValid(final File @NotNull [] values) {
         for (final File value : values) {
             if (filter != null && !filter.accept(value)) return false;
 

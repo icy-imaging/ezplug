@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -39,26 +39,26 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
         }
 
         @Override
-        public boolean add(final EzComponent e) {
+        public boolean add(final @NotNull EzComponent e) {
             e.setParentPanel(EzPanel.this);
             return super.add(e);
         }
 
         @Override
-        public void add(final int index, final EzComponent element) {
+        public void add(final int index, final @NotNull EzComponent element) {
             element.setParentPanel(EzPanel.this);
             super.add(index, element);
         }
 
         @Override
-        public boolean addAll(final Collection<? extends EzComponent> c) {
+        public boolean addAll(final @NotNull Collection<? extends EzComponent> c) {
             for (final EzComponent comp : c)
                 comp.setParentPanel(EzPanel.this);
             return super.addAll(c);
         }
 
         @Override
-        public boolean addAll(final int index, final Collection<? extends EzComponent> c) {
+        public boolean addAll(final int index, final @NotNull Collection<? extends EzComponent> c) {
             for (final EzComponent comp : c)
                 comp.setParentPanel(EzPanel.this);
             return super.addAll(index, c);
@@ -87,7 +87,7 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
         }
 
         @Override
-        public EzComponent set(final int index, final EzComponent element) {
+        public EzComponent set(final int index, final @NotNull EzComponent element) {
             element.setParentPanel(EzPanel.this);
             final EzComponent oldElement = super.set(index, element);
             if (oldElement != null) oldElement.setParentPanel(null);
@@ -101,7 +101,7 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
 
     protected String toolTipText = "";
 
-    public EzPanel(final String name, final EzComponent... ezComponents) {
+    public EzPanel(final String name, final EzComponent @NotNull ... ezComponents) {
         super(name);
 
         ThreadUtil.invoke(() -> container = createContainer(), !SwingUtilities.isEventDispatchThread());
@@ -138,7 +138,7 @@ public class EzPanel extends EzComponent implements Iterable<EzComponent> {
     }
 
     @Override
-    protected void addTo(final Container parentContainer) {
+    protected void addTo(final @NotNull Container parentContainer) {
         buildPanel();
 
         final GridBagLayout gridbag = (GridBagLayout) parentContainer.getLayout();

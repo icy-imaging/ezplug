@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
 
 package plugins.adufour.vars.gui.swing;
 
+import org.bioimageanalysis.icy.extension.ExtensionLoader;
 import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
-import org.bioimageanalysis.icy.extension.plugin.PluginLoader;
 import org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.lang.VarPlugin;
@@ -44,13 +44,14 @@ public class PluginChooser<P extends Plugin> extends SwingVarEditor<PluginDescri
             @Override
             public int getSize() {
                 final Class<P> pluginType = ((VarPlugin<P>) variable).pluginType;
-                return PluginLoader.getPlugins(pluginType).size();
+                return ExtensionLoader.getPlugins(pluginType).size();
             }
 
             @Override
             public PluginDescriptor getElementAt(final int index) {
                 final Class<P> pluginType = ((VarPlugin<P>) variable).pluginType;
-                return PluginLoader.getPlugins(pluginType).get(index);
+                //return ExtensionLoader.getPlugins(pluginType).get(index);
+                return ExtensionLoader.getPlugins(pluginType).toArray(new PluginDescriptor[0])[index];
             }
 
             @Override

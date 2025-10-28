@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
  */
 
 package plugins.adufour.ezplug;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -122,7 +124,7 @@ public class EzGroup extends EzPanel {
         private final TitledBorder unfoldedBorder = new TitledBorder(FoldHandler.UNFOLDED_SYMBOL + " " + name);
 
         @Override
-        public void mouseClicked(final MouseEvent e) {
+        public void mouseClicked(final @NotNull MouseEvent e) {
             final FontMetrics fm = container.getGraphics().getFontMetrics();
             final int w = fm.charWidth(FOLDED_SYMBOL);
             final int h = fm.getHeight();

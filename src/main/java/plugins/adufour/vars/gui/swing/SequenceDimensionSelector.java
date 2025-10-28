@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@ package plugins.adufour.vars.gui.swing;
 
 import org.bioimageanalysis.icy.model.sequence.DimensionId;
 import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.util.VarListener;
 
@@ -111,7 +112,7 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
             }
 
             @Override
-            public Object stringToValue(final String text) throws ParseException {
+            public Object stringToValue(final @NotNull String text) throws ParseException {
                 if (text.equalsIgnoreCase("ALL")) return -1;
 
                 if (sequence == null || sequence.getValue() == null) return Integer.parseInt(text);
@@ -138,7 +139,7 @@ public abstract class SequenceDimensionSelector extends Spinner<Integer> {
         };
     }
 
-    protected String toUserFriendlyString(final Integer value) {
+    protected String toUserFriendlyString(final @NotNull Integer value) {
         return value.toString();
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@ package plugins.adufour.ezplug;
 
 import org.bioimageanalysis.icy.model.sequence.DimensionId;
 import org.bioimageanalysis.icy.model.sequence.Sequence;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.lang.Var;
 import plugins.adufour.vars.util.VarListener;
 
@@ -63,7 +64,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
      * @param dim      the dimension to create a selector for
      * @param sequence the sequence variable to listen to
      */
-    public EzVarDimensionPicker(final String varName, final DimensionId dim, final EzVarSequence sequence) {
+    public EzVarDimensionPicker(final String varName, final DimensionId dim, final @NotNull EzVarSequence sequence) {
         this(varName, dim, sequence.variable);
     }
 
@@ -99,7 +100,7 @@ public class EzVarDimensionPicker extends EzVarInteger {
         this.active = true;
     }
 
-    private static int getSize(final Sequence s, final DimensionId dim) {
+    private static int getSize(final Sequence s, final @NotNull DimensionId dim) {
         return switch (dim) {
             case X -> s.getSizeX();
             case Y -> s.getSizeY();

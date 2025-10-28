@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@ package plugins.adufour.ezplug;
 
 import org.bioimageanalysis.icy.extension.plugin.PluginDescriptor;
 import org.bioimageanalysis.icy.system.IcyExceptionHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -44,7 +45,7 @@ public interface EzStoppable {
         }
 
         @Override
-        public void uncaughtException(final Thread t, final Throwable e) {
+        public void uncaughtException(final @NotNull Thread t, final Throwable e) {
             // this method is only called when the EzPlug process has been killed
             final String message = "Plug-in " + source.getName() + " has requested to kill thread " + t.getName() + " while it was still running.\n"
                     + "Implement the EzStoppable interface to handle clean exit calls and avoid this message.";

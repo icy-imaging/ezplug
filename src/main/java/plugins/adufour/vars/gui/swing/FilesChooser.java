@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2025. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@ package plugins.adufour.vars.gui.swing;
 
 import org.bioimageanalysis.icy.system.FileDrop;
 import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.FileMode;
 import plugins.adufour.vars.gui.model.FileTypeListModel;
 import plugins.adufour.vars.gui.model.VarEditorModel;
@@ -100,7 +102,8 @@ public class FilesChooser extends SwingVarEditor<File[]> {
         return jButton;
     }
 
-    private FileDrop.FileDropListener getFileDropListener(final FileMode fileMode) {
+    @Contract(value = "_ -> new", pure = true)
+    private FileDrop.@NotNull FileDropListener getFileDropListener(final FileMode fileMode) {
         return new FileDrop.FileDropListener() {
 
             @Override
@@ -143,7 +146,7 @@ public class FilesChooser extends SwingVarEditor<File[]> {
                 return false;
             }
 
-            private File[] getFiles(final File[] files) {
+            private File @NotNull [] getFiles(final File @NotNull [] files) {
                 final List<File> fileList = new ArrayList<>();
                 for (final File f : files) {
                     if (f.isFile())
@@ -153,7 +156,7 @@ public class FilesChooser extends SwingVarEditor<File[]> {
                 return fileList.toArray(new File[0]);
             }
 
-            private File[] getFolders(final File[] files) {
+            private File @NotNull [] getFolders(final File @NotNull [] files) {
                 final List<File> folderList = new ArrayList<>();
                 for (final File f : files) {
                     if (f.isDirectory())
