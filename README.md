@@ -48,13 +48,11 @@ Add this dependency block in your `pom.xml`
 
 ## Citation
 
-Please cite this plugins as follows:          
+Please cite this extension as follows:          
 
 Please also cite the Icy software and mention the version of Icy you used (bottom right corner of the GUI or first lines of the Output tab):     
 de Chaumont, F. et al. (2012) Icy: an open bioimage informatics platform for extended reproducible research, [Nature Methods](https://www.nature.com/articles/nmeth.2075), 9, pp. 690-696       
 https://icy.bioimageanalysis.org    
-
-
 
 ## Author(s)      
 
