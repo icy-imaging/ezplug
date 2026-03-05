@@ -18,10 +18,9 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarException;
 import plugins.adufour.vars.util.VarListener;
-
-import javax.annotation.Nonnull;
 
 public class VarDouble extends VarNumber<Double> {
 
@@ -48,7 +47,7 @@ public class VarDouble extends VarNumber<Double> {
     }
 
     @Override
-    public int compareTo(@Nonnull final Double d) {
+    public int compareTo(@NotNull final Double d) {
         return getValue().compareTo(d);
     }
 

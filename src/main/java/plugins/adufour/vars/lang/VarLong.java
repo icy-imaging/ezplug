@@ -21,8 +21,6 @@ package plugins.adufour.vars.lang;
 import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarListener;
 
-import javax.annotation.Nonnull;
-
 public class VarLong extends VarNumber<Long> {
 
     /**
@@ -53,7 +51,7 @@ public class VarLong extends VarNumber<Long> {
     }
 
     @Override
-    public int compareTo(@Nonnull final Long value) {
+    public int compareTo(@NotNull final Long value) {
         return getValue().compareTo(value);
     }
 

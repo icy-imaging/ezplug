@@ -18,9 +18,8 @@
 
 package plugins.adufour.vars.lang;
 
+import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarListener;
-
-import javax.annotation.Nonnull;
 
 public class VarInteger extends VarNumber<Integer> {
 
@@ -52,7 +51,7 @@ public class VarInteger extends VarNumber<Integer> {
     }
 
     @Override
-    public int compareTo(@Nonnull final Integer integer) {
+    public int compareTo(@NotNull final Integer integer) {
         return getValue().compareTo(integer);
     }
 
