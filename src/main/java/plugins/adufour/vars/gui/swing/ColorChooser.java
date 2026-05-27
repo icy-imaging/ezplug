@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2025. Institut Pasteur.
+ * Copyright (c) 2010-2026. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import org.bioimageanalysis.icy.gui.component.button.ColorChooserButton;
+import fr.icy.gui.component.button.ColorChooserButton;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;

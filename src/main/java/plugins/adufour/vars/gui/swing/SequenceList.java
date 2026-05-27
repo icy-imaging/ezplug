@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2025. Institut Pasteur.
+ * Copyright (c) 2010-2026. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,10 +18,10 @@
 
 package plugins.adufour.vars.gui.swing;
 
-import org.bioimageanalysis.icy.Icy;
-import org.bioimageanalysis.icy.gui.listener.GlobalSequenceListener;
-import org.bioimageanalysis.icy.model.sequence.Sequence;
-import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import fr.icy.Icy;
+import fr.icy.gui.listener.GlobalSequenceListener;
+import fr.icy.model.sequence.Sequence;
+import fr.icy.system.thread.ThreadUtil;
 import plugins.adufour.vars.lang.Var;
 
 import javax.swing.*;

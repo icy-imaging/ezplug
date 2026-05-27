@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2025. Institut Pasteur.
+ * Copyright (c) 2010-2026. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
 
 package plugins.adufour.vars.lang;
 
-import org.bioimageanalysis.extension.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
-import org.bioimageanalysis.icy.common.string.StringUtil;
-import org.bioimageanalysis.icy.model.roi.ROIDescriptor;
+import fr.icy.extension.kernel.roi.descriptor.measure.ROIInteriorDescriptor;
+import fr.icy.common.string.StringUtil;
+import fr.icy.model.roi.ROIDescriptor;
 import plugins.adufour.vars.gui.model.ValueSelectionModel;
 
 import java.util.ArrayList;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2025. Institut Pasteur.
+ * Copyright (c) 2010-2026. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,12 +18,12 @@
 
 package plugins.adufour.ezplug;
 
-import org.bioimageanalysis.icy.Icy;
-import org.bioimageanalysis.icy.gui.frame.IcyExternalFrame;
-import org.bioimageanalysis.icy.gui.frame.IcyFrame;
-import org.bioimageanalysis.icy.gui.frame.IcyInternalFrame;
-import org.bioimageanalysis.icy.system.IcyHandledException;
-import org.bioimageanalysis.icy.system.thread.ThreadUtil;
+import fr.icy.Icy;
+import fr.icy.gui.frame.IcyExternalFrame;
+import fr.icy.gui.frame.IcyFrame;
+import fr.icy.gui.frame.IcyInternalFrame;
+import fr.icy.system.IcyHandledException;
+import fr.icy.system.thread.ThreadUtil;
 import plugins.adufour.ezplug.EzGroup.FoldListener;
 
 import javax.swing.*;

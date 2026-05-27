@@ -5,13 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-        <groupId>org.bioimageanalysis.icy</groupId>
+        <groupId>fr.icy</groupId>
         <artifactId>pom-icy</artifactId>
-        <version>3.0.0-a.6</version>
+        <version>3.0.0-a.7</version>
 	</parent>
 
+    <groupId>fr.icy.extensions</groupId>
 	<artifactId>ezplug</artifactId>
-	<version>4.0.0-a.6</version>
+	<version>4.0.0-a.7</version>
 
 	<name>EzPlug</name>
 	<description>
