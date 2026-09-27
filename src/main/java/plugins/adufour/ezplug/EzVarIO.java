@@ -19,7 +19,7 @@
 package plugins.adufour.ezplug;
 
 import fr.icy.io.xml.XMLUtil;
-import fr.icy.system.logging.IcyLogger;
+import fr.icy.shared.logging.CustomLevel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import plugins.adufour.vars.lang.Var;
@@ -27,6 +27,8 @@ import plugins.adufour.vars.lang.Var;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class allowing EzPlug to load/save parameters from/to disk in XML format
@@ -34,6 +36,8 @@ import java.util.HashMap;
  * @author Alexandre Dufour
  */
 class EzVarIO {
+    private static final Logger LOGGER = Logger.getLogger(EzVarIO.class.getName());
+
     /**
      * Legacy method that saves a set of parameters to XML file
      *
@@ -53,7 +57,8 @@ class EzVarIO {
                 var.getVariable().saveToXML(parameterNode);
             }
             catch (final UnsupportedOperationException e) {
-                IcyLogger.warn(EzVarIO.class, "Variable " + id + " has not been saved (unsupported variable type)");
+                if (LOGGER.isLoggable(Level.WARNING))
+                    LOGGER.log(CustomLevel.WARNING, "Variable " + id + " has not been saved (unsupported variable type).");
             }
         }
 

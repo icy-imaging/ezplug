@@ -20,9 +20,7 @@ package plugins.adufour.ezplug;
 
 import fr.icy.extension.plugin.PluginDescriptor;
 import fr.icy.gui.component.button.IcyButton;
-import fr.icy.gui.component.icon.SVGResource;
-import fr.icy.network.NetworkUtil;
-import fr.icy.system.logging.IcyLogger;
+import fr.icy.gui.component.icon.IcySVG;
 import fr.icy.system.thread.ThreadUtil;
 import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.lang.Var;
@@ -106,30 +104,30 @@ public class EzGUI extends EzDialog implements ActionListener {
         jPanelButtons = new JPanel(new GridLayout(1, 5));
         jPanelBottom.add(jPanelButtons);
 
-        jButtonRun = new IcyButton(SVGResource.PLAY_CIRCLE);
+        jButtonRun = new IcyButton(IcySVG.PLAY_CIRCLE);
         jButtonRun.setToolTipText("Start the plug-in...");
         jButtonRun.addActionListener(this);
         jPanelButtons.add(jButtonRun);
 
         if (ezPlug instanceof EzStoppable) {
-            jButtonStop = new IcyButton(SVGResource.STOP_CIRCLE);
+            jButtonStop = new IcyButton(IcySVG.STOP_CIRCLE);
             jButtonStop.setToolTipText("Stop the plug-in...");
             jButtonStop.setEnabled(false);
             jButtonStop.addActionListener(this);
             jPanelButtons.add(jButtonStop);
         }
 
-        jButtonSaveParameters = new IcyButton(SVGResource.SAVE);
+        jButtonSaveParameters = new IcyButton(IcySVG.SAVE);
         jButtonSaveParameters.setToolTipText("Save the parameters to a file...");
         jButtonSaveParameters.addActionListener(this);
         jPanelButtons.add(jButtonSaveParameters);
 
-        jButtonLoadParameters = new IcyButton(SVGResource.FOLDER);
+        jButtonLoadParameters = new IcyButton(IcySVG.FOLDER);
         jButtonLoadParameters.setToolTipText("Load the parameters from a file...");
         jButtonLoadParameters.addActionListener(this);
         jPanelButtons.add(jButtonLoadParameters);
 
-        jButtonHelp = new IcyButton(SVGResource.HELP);
+        jButtonHelp = new IcyButton(IcySVG.HELP);
         jButtonHelp.setToolTipText("Access the online help for this plug-in...");
         jButtonHelp.addActionListener(this);
         jPanelButtons.add(jButtonHelp);
@@ -276,12 +274,12 @@ public class EzGUI extends EzDialog implements ActionListener {
             ezPlug.saveParameters(jfc.getSelectedFile());
         }
         else if (e.getSource().equals(jButtonHelp)) {
-            final String web = getMainPlugin(ezPlug.getDescriptor()).getWeb();
-            if (!web.isBlank()) {
-                final String s = getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation";
-                IcyLogger.debug(EzGUI.class, "Open EzPlug help: " + s);
-                NetworkUtil.openBrowser(s);
-            }
+            //final String web = getMainPlugin(ezPlug.getDescriptor()).getWeb();
+            //if (!web.isBlank()) {
+            //final String s = getMainPlugin(ezPlug.getDescriptor()).getWeb() + "#documentation";
+            //IcyLogger.debug(EzGUI.class, "Open EzPlug help: " + s);
+            //NetworkUtil.openBrowser(s);
+            //}
         }
         else {
             throw new UnsupportedOperationException("Action event not recognized for source " + e.getSource());

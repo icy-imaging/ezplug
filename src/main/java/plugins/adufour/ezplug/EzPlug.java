@@ -21,8 +21,8 @@ package plugins.adufour.ezplug;
 import fr.icy.Icy;
 import fr.icy.common.type.value.IntegerValue;
 import fr.icy.extension.plugin.abstract_.PluginActionable;
+import fr.icy.shared.logging.CustomLevel;
 import fr.icy.system.IcyHandledException;
-import fr.icy.system.logging.IcyLogger;
 import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.util.VarException;
 
@@ -31,10 +31,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main component of the EzPlug framework. EzPlug provides numerous additional features to the
- * {@link org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin} class to simplify the development of plug-ins for ICY. In a nutshell, it allows
+ * {@link fr.icy.extension.plugin.abstract_.Plugin} class to simplify the development of plug-ins for ICY. In a nutshell, it allows
  * to:
  * <ul>
  * <li>a) design intuitive and homogeneous graphical interfaces;</li>
@@ -43,7 +45,7 @@ import java.util.HashMap;
  * disk in a standardized way (e.g. XML).
  * <p>
  * To create an EzPlug and benefit from these features, simply create a class that extends EzPlug
- * instead of {@link org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin}. EzPlug is abstract and requires to implement the following methods:
+ * instead of {@link fr.icy.extension.plugin.abstract_.Plugin}. EzPlug is abstract and requires to implement the following methods:
  * <ul>
  * <li>The {@link #initialize()} method should be used to declare the parameters, buttons, groups
  * etc.. This is done via the {@link #addEzComponent(EzComponent) addEzComponent} method. EzPlug
@@ -73,6 +75,8 @@ import java.util.HashMap;
  * @see plugins.adufour.ezplug.EzInternalFrame
  */
 public abstract class EzPlug extends PluginActionable {
+    private static final Logger LOGGER = Logger.getLogger(EzPlug.class.getName());
+
     /**
      * Number of active instances of this plugin
      */
@@ -102,8 +106,8 @@ public abstract class EzPlug extends PluginActionable {
 
                 execute();
 
-                if (timeTrial)
-                    IcyLogger.trace(EzPlug.class, getName() + " executed in " + (System.nanoTime() - startTime) / 1000000 + " ms");
+                if (timeTrial && LOGGER.isLoggable(CustomLevel.TRACE))
+                    LOGGER.log(CustomLevel.TRACE, getName() + " executed in " + (System.nanoTime() - startTime) / 1000000 + " ms");
             }
             catch (final VarException e) {
                 if (isHeadLess())
@@ -401,7 +405,8 @@ public abstract class EzPlug extends PluginActionable {
             EzVarIO.load(this, file, ezVars);
         }
         catch (final EzException e) {
-            IcyLogger.error(EzPlug.class, e, e.getLocalizedMessage());
+            if (LOGGER.isLoggable(Level.SEVERE))
+                LOGGER.log(Level.SEVERE, "Unable to load parameters from XML.", e);
 
             if (!e.catchException)
                 throw e;

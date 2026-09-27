@@ -19,7 +19,7 @@
 package plugins.adufour.ezplug;
 
 import fr.icy.gui.component.button.IcyButton;
-import fr.icy.gui.component.icon.SVGResource;
+import fr.icy.gui.component.icon.IcySVG;
 import fr.icy.system.thread.ThreadUtil;
 import org.jetbrains.annotations.NotNull;
 import plugins.adufour.vars.gui.VarEditor;
@@ -65,7 +65,7 @@ public abstract class EzVar<T> extends EzComponent implements VarListener<T> {
 
     private final ArrayList<EzVarListener<T>> listeners = new ArrayList<>();
 
-    private final IcyButton bHelp = new IcyButton(SVGResource.HELP);
+    private final IcyButton bHelp = new IcyButton(IcySVG.HELP);
 
     /**
      * Constructs a new variable

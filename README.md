@@ -1,5 +1,5 @@
 <!-- badges: start -->
-![Version 4.0.0 alpha 7](https://img.shields.io/badge/v4.0.0-alpha_7-royalblue)
+![Version 4.0.0 alpha 8](https://img.shields.io/badge/v4.0.0-alpha_8-royalblue)
 ![Java 17+](https://img.shields.io/badge/OpenJDK-17+-5382A1?labelColor=E76F00)
 [![License: LGPL v3](https://img.shields.io/badge/LGPLv3-008033?logo=GPLv3&logoSize=auto)](https://www.gnu.org/licenses/lgpl-3.0)
 [![Twitter](https://img.shields.io/twitter/follow/Icy_BioImaging)](https://x.com/Icy_BioImaging)
@@ -39,9 +39,9 @@ More detailed user documentation can be found on the EzPlug documentation page o
 Add this dependency block in your `pom.xml`
 ```xml
 <dependency>
-    <groupId>fr.icy.extensions</groupId>
+    <groupId>fr.icy.extension</groupId>
     <artifactId>ezplug</artifactId>
-    <version>${fr.icy.extensions.ezplug.version}</version>
+    <version>${fr.icy.extension.ezplug.version}</version>
 </dependency>
 ```
 
@@ -56,4 +56,5 @@ https://icy.bioimageanalysis.org
 ## Author(s)      
 
 Alexandre Dufour
+Stéphane Dallongeville
 Thomas Musset

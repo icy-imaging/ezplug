@@ -21,12 +21,13 @@ package plugins.adufour.vars.lang;
 import fr.icy.extension.ExtensionLoader;
 import fr.icy.extension.plugin.PluginDescriptor;
 import fr.icy.extension.plugin.abstract_.Plugin;
-import fr.icy.system.logging.IcyLogger;
 import plugins.adufour.vars.gui.VarEditor;
 import plugins.adufour.vars.gui.VarEditorFactory;
 import plugins.adufour.vars.util.VarListener;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Variable that manipulates a plug-in definition
@@ -34,6 +35,8 @@ import java.lang.reflect.InvocationTargetException;
  * @author Alexandre Dufour
  */
 public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
+    private static final Logger LOGGER = Logger.getLogger(VarPlugin.class.getName());
+
     public final Class<P> pluginType;
 
     /**
@@ -70,7 +73,8 @@ public class VarPlugin<P extends Plugin> extends Var<PluginDescriptor> {
             return ((Class<P>) getValue(true).getPluginClass()).getDeclaredConstructor().newInstance();
         }
         catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            IcyLogger.error(VarPlugin.class, e, e.getLocalizedMessage());
+            if (LOGGER.isLoggable(Level.SEVERE))
+                LOGGER.log(Level.SEVERE, "Unable to instantiate plugin.", e);
         }
 
         return null;

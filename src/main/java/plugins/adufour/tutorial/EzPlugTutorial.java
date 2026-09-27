@@ -20,13 +20,16 @@ package plugins.adufour.tutorial;
 
 import fr.icy.extension.plugin.annotation_.IcyPluginName;
 import fr.icy.gui.frame.progress.AnnounceFrame;
-import fr.icy.system.logging.IcyLogger;
+import fr.icy.shared.logging.CustomLevel;
 import plugins.adufour.ezplug.*;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 @IcyPluginName("EzPlug tutorial")
 public class EzPlugTutorial extends EzPlug implements EzStoppable {
+    private static final Logger LOGGER = Logger.getLogger(EzPlugTutorial.class.getName());
+
     private enum SomeEnumeration {
         CHOICE_1, CHOICE_2, CHOICE_3, SOME_other_CHOICE,
     }
@@ -94,17 +97,17 @@ public class EzPlugTutorial extends EzPlug implements EzStoppable {
     protected void execute() {
         // the main plugin code goes here, and runs in a separate thread
 
-        IcyLogger.info(this.getClass(), varBoolean.name + " = " + varBoolean.getValue());
+        LOGGER.log(CustomLevel.INFO, varBoolean.name + " = " + varBoolean.getValue());
         super.getUI().setProgressBarValue(.1d);
-        IcyLogger.info(this.getClass(), varDouble.name + " = " + varDouble.getValue());
+        LOGGER.log(CustomLevel.INFO, varDouble.name + " = " + varDouble.getValue());
         super.getUI().setProgressBarValue(.3d);
-        IcyLogger.info(this.getClass(), varDoubleA.name + " = " + Arrays.toString(varDoubleA.getValue()));
+        LOGGER.log(CustomLevel.INFO, varDoubleA.name + " = " + Arrays.toString(varDoubleA.getValue()));
         super.getUI().setProgressBarValue(.5d);
-        IcyLogger.info(this.getClass(), varEnum.name + " = " + varEnum.getValue().name());
+        LOGGER.log(CustomLevel.INFO, varEnum.name + " = " + varEnum.getValue().name());
         super.getUI().setProgressBarValue(.6d);
-        IcyLogger.info(this.getClass(), varFile.name + " = " + varFile.getValue());
+        LOGGER.log(CustomLevel.INFO, varFile.name + " = " + varFile.getValue());
         super.getUI().setProgressBarValue(.8d);
-        IcyLogger.info(this.getClass(), varSequence.name + " = " + varSequence.getValue());
+        LOGGER.log(CustomLevel.INFO, varSequence.name + " = " + varSequence.getValue());
         super.getUI().setProgressBarValue(1d);
         new AnnounceFrame(varText.getValue());
 
