@@ -21,6 +21,7 @@ package plugins.adufour.ezplug;
 import fr.icy.Icy;
 import fr.icy.common.type.value.IntegerValue;
 import fr.icy.extension.plugin.abstract_.PluginActionable;
+import fr.icy.extension.plugin.annotation_.IcyPluginTags;
 import fr.icy.shared.logging.CustomLevel;
 import fr.icy.system.IcyHandledException;
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +75,7 @@ import java.util.logging.Logger;
  * @author Alexandre Dufour
  * @see plugins.adufour.ezplug.EzInternalFrame
  */
+@IcyPluginTags("EzPlug")
 public abstract class EzPlug extends PluginActionable {
     private static final Logger LOGGER = Logger.getLogger(EzPlug.class.getName());
 

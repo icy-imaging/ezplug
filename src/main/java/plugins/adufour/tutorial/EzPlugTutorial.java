@@ -18,7 +18,9 @@
 
 package plugins.adufour.tutorial;
 
+import fr.icy.extension.plugin.annotation_.IcyPluginCategory;
 import fr.icy.extension.plugin.annotation_.IcyPluginName;
+import fr.icy.extension.plugin.annotation_.IcyPluginTags;
 import fr.icy.gui.frame.progress.AnnounceFrame;
 import fr.icy.shared.logging.CustomLevel;
 import plugins.adufour.ezplug.*;
@@ -27,6 +29,8 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 @IcyPluginName("EzPlug tutorial")
+@IcyPluginCategory("Tutorial")
+@IcyPluginTags({"EzPlug", "Tutorial"})
 public class EzPlugTutorial extends EzPlug implements EzStoppable {
     private static final Logger LOGGER = Logger.getLogger(EzPlugTutorial.class.getName());
 
